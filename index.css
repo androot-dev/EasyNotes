@@ -1,0 +1,38 @@
+#toolbar{
+	height: 50px;
+	width: 150px;
+	background: #EEEE;
+}
+#toolbar ul{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+#toolbar ul li{
+	width: 50px;
+	height: 50px;
+	list-style: none;
+}
+#toolbar ul li button{
+	width: 50px;
+	height: 50px;
+	border: none;
+	background-repeat: no-repeat;
+	background-size: 35px;
+    background-position: center;
+    background-attachment: scroll;
+}
+#pencil{	
+	background-image: url('src/img/pencil.png');
+}
+#brush{
+	background-image: url('src/img/brush.png');
+}
+#image{
+	background-image: url('src/img/image.png');
+}
+#toolbar ul li button:hover{
+	transition: all .2s ease-in-out;
+	background-size: 40px;
+	cursor: pointer;
+}
