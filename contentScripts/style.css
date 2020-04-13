@@ -25,13 +25,7 @@
   width: 180px !important;
   height: 180px !important;
   background: transparent;
-  width: 90%;
-  height: 90%;
-  background: #EEEEEE;
   resize: none !important;
-  outline:none !important;
-  outline-width: 0 !important;
-  box-shadow: none !important;
   color: black !important;
   cursor: pointer;
 }
