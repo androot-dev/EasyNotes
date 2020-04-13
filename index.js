@@ -11,5 +11,5 @@ function SendBackgroundMessage(msj){
 		'<div id="note" >'+
 			'<div class="accessory" id="tack"></div>'+
 			'<textarea id="paper" ></textarea>'+
-        '</div>'}); 
+		'</div>'});
 }

@@ -1,5 +1,6 @@
 #toolbar{
 	padding: 5px;
+	height: 50px;
 	background: #EEEE;
 }
 #toolbar ul{
@@ -24,7 +25,6 @@
     outline-width: 0 !important;
     box-shadow: none;
  }
-
 #pencil{	
 	background-image: url('src/img/pencil.png');
 }
@@ -35,7 +35,7 @@
 	background-image: url('src/img/image.png');
 }
 #toolbar ul li button:hover{
-	transition: all .3s ease-in-out;
+	transition: all .2s ease-in-out;
 	background-size: 40px;
 	cursor: pointer;
 }

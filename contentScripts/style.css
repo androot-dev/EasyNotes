@@ -12,8 +12,8 @@
   box-shadow: 3px 6px 9px -5px rgba(0,0,0,0.75);
   pointer-events: all;
  background: linear-gradient(135deg, rgba(255,221,0,1) 0%, rgba(255,221,0,1) 50%, rgba(255,221,0,1) 51%, rgba(252,206,20,1) 92%, rgba(240,195,17,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffdd00', endColorstr='#f0c311', GradientType=1 );
-cursor:url(http://www.cristalab.com/images/cursor_personalizado.cur);
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffdd00', endColorstr='#f0c311', GradientType=1 );
+ cursor:url(http://www.cristalab.com/images/cursor_personalizado.cur);
 }
 
 #paper{
@@ -25,6 +25,9 @@ cursor:url(http://www.cristalab.com/images/cursor_personalizado.cur);
   width: 180px !important;
   height: 180px !important;
   background: transparent;
+  width: 90%;
+  height: 90%;
+  background: #EEEEEE;
   resize: none !important;
   outline:none !important;
   outline-width: 0 !important;
