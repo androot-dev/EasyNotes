@@ -1,9 +1,45 @@
-class recivedMessageBackground{
+class note {
+  constructor(){
+
+    
+  }
+  createNote(request){
+    if(request == 'newnote'){
+      let note = document.createElement('div');
+      let textarea = document.createElement('textarea');
+      let tack = document.createElement('div');
+      let x = document.createElement('span');
+      let capa = document.createElement('div');
+      capa.id = "capa";
+      note.id = 'note';
+      textarea.id = 'paper';
+      tack.id='tack';
+      x.id = 'delete';
+      tack.appendChild(x);
+      note.appendChild(tack);
+      note.appendChild(textarea);
+      capa.appendChild(note);
+      if(document.body.tagName == 'FRAMESET'){
+
+        document.body.insertAdjacentHtml('beforeend', capa.outerHTML);
+      
+      }else{
+        document.body.insertBefore(capa, document.body.children[2]);
+        
+      }
+    }
+    
+  }
+  
+}
+class recivedMessageBackground extends note{
   constructor(callback){
+    super();
     chrome.runtime.onMessage.addListener ( (request, _, sendResponse) =>  {
      
-      this.setNoteDom(request);
+      this.createNote(request);
       this.setLink("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
+
       callback();
 
       return true;
@@ -15,11 +51,8 @@ class recivedMessageBackground{
     tag.rel ="stylesheet";
     document.head.appendChild(tag);
   }
-
-  setNoteDom(html){
-    document.body.insertAdjacentHTML('afterend', html);
-  }
 }
+
 class dragAndDrop{
   constructor(arg){
     this.arg = arg;

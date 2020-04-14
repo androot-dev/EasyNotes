@@ -1,26 +1,33 @@
 #note{
   display: flex;
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  position: relative;
   color: black !important;
   padding: 5px 15px 15px 15px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 1000 !important;
   box-shadow: 3px 6px 9px -5px rgba(0,0,0,0.75);
   pointer-events: all;
- background: linear-gradient(135deg, rgba(255,221,0,1) 0%, rgba(255,221,0,1) 50%, rgba(255,221,0,1) 51%, rgba(252,206,20,1) 92%, rgba(240,195,17,1) 100%);
- filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffdd00', endColorstr='#f0c311', GradientType=1 );
- cursor:url(http://www.cristalab.com/images/cursor_personalizado.cur);
-}
+  background: linear-gradient(135deg, rgba(255,221,0,1) 0%, rgba(255,221,0,1) 50%, rgba(255,221,0,1) 51%, rgba(252,206,20,1) 92%, rgba(240,195,17,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffdd00', endColorstr='#f0c311', GradientType=1 );
 
+}
+#capa{
+  width: 100vw;
+  height: 100vh;
+  background: rgba(23,233,233,0.2);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 8000;
+
+}
 #paper{
   position: relative;
   border: none;
-  font-family: "Comic Neue" !important;
-  font-size: 15px !important;
+  font-size: 30px;
+  font-family: "Comic Neue", "Comic Sans", "Segoue UI" !important;
   font-weight: 600 !important;
   width: 180px !important;
   height: 180px !important;
@@ -28,13 +35,9 @@
   resize: none !important;
   color: black !important;
   cursor: pointer;
-}
-#paper:focus {
   outline:none !important;
   outline-width: 0 !important;
   box-shadow: none;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
 }
 #paper::-webkit-scrollbar {
     width: 2px;     /* Tamaño del scroll en vertical */
@@ -51,12 +54,11 @@
 #paper::-webkit-scrollbar-thumb:hover {
     background: #b3b333;
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
-
 }
 
 /* Cambiamos el fondo cuando esté en active */
 #paper::-webkit-scrollbar-thumb:active {
-    background-color: #992999;
+    background-color: #e31e0c;
 }
 #tack{
   margin-bottom: 1px;
@@ -69,6 +71,23 @@
   justify-content: center;
   align-items: center;
   box-shadow: 0px 5px 8px -5px black;
-  background: radial-gradient(ellipse at center, rgba(217,70,70,1) 0%, rgba(240,26,26,1) 46%, rgba(209,25,25,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d94646', endColorstr='#d11919', GradientType=1 );
-}  
+  background: radial-gradient(ellipse at center, rgba(241,111,92,1) 0%, rgba(241,111,92,1) 11%, rgba(232,72,54,1) 35%, rgba(240,24,24,1) 65%, rgba(227,30,12,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f16f5c', endColorstr='#e31e0c', GradientType=1 );
+} 
+#delete{
+  width: 40px;
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#delete:hover::after{
+  width: 40px;
+  height: 30px;
+  cursor: pointer;
+  content: "\d7"; /* use the hex value here... */
+  font-size: 20px; 
+  color: #FFF;
+  line-height: 30px;
+  text-align: center;
+}

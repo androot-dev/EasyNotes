@@ -7,9 +7,5 @@ pencil.addEventListener('click', SendBackgroundMessage, false)
 
 function SendBackgroundMessage(msj){
 	
-	chrome.runtime.sendMessage({msg: 
-		'<div id="note" >'+
-			'<div class="accessory" id="tack"></div>'+
-			'<textarea id="paper" ></textarea>'+
-		'</div>'});
+	chrome.runtime.sendMessage({msg: 'newnote'});
 }
