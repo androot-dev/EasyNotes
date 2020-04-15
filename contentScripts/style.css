@@ -21,13 +21,15 @@
   justify-content: center;
   align-items: center;
   z-index: 8000;
-
+  top: 0;
+  left: 0;
+  pointer-events: none;
 }
 #paper{
   position: relative;
   border: none;
   font-size: 30px;
-  font-family: "Comic Neue", "Comic Sans", "Segoue UI" !important;
+  font-family: "Comic Neue", "Comic Sans", cursive, !important;
   font-weight: 600 !important;
   width: 180px !important;
   height: 180px !important;

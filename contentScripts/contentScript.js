@@ -19,14 +19,20 @@ class note {
       note.appendChild(tack);
       note.appendChild(textarea);
       capa.appendChild(note);
-      if(document.body.tagName == 'FRAMESET'){
 
-        document.body.insertAdjacentHtml('beforeend', capa.outerHTML);
-      
+      if(document.body.tagName == 'FRAMESET'){
+        document.body.insertAdjacentHTML('afterend', capa.outerHTML);
       }else{
-        document.body.insertBefore(capa, document.body.children[2]);
-        
+        document.body.insertBefore(capa, document.body.children[0]);
       }
+      let centerScroll = {left:note.offsetLeft, top:note.offsetTop}
+      capa.style.top = window.scrollY+'px';
+      capa.style.width = '100%';
+      capa.style.height = '100%';
+      note.style.position = 'absolute';
+      note.style.top= centerScroll.top+"px";
+      note.style.left = centerScroll.left+"px";
+
     }
     
   }
