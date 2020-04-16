@@ -7,23 +7,20 @@
   justify-content: center;
   align-items: center;
   box-shadow: 3px 6px 9px -5px rgba(0,0,0,0.75);
-  pointer-events: all;
   background: linear-gradient(135deg, rgba(255,221,0,1) 0%, rgba(255,221,0,1) 50%, rgba(255,221,0,1) 51%, rgba(252,206,20,1) 92%, rgba(240,195,17,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffdd00', endColorstr='#f0c311', GradientType=1 );
-
 }
 #capa{
-  width: 100vw;
-  height: 100vh;
-  background: rgba(23,233,233,0.2);
   position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(23,233,233,0.2);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 8000;
   top: 0;
   left: 0;
-  pointer-events: none;
 }
 #paper{
   position: relative;
@@ -36,10 +33,10 @@
   background: transparent;
   resize: none !important;
   color: black !important;
-  cursor: pointer;
   outline:none !important;
   outline-width: 0 !important;
   box-shadow: none;
+  cursor: pointer;
 }
 #paper::-webkit-scrollbar {
     width: 2px;     /* Tamaño del scroll en vertical */
