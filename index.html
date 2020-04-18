@@ -4,25 +4,50 @@
     <meta charset="utf-8">
     <title>NoteEX</title>
     <link rel="stylesheet" href="index.css">
+   
   </head>
   <body>
-        <div id="toolbar">
-          <ul>
-            <li id="pencil"></li>
-            <li id="image"></li>
-            <!--<li><button id="brush"></button></li>-->
-
-          </ul>
+    <div id="toolbar">
+    <div id="presentation">
+      <h3>Noteasy</h3>
+      <div class="logo"></div>
+    </div>  
+      <div id="noteNew">
+        <div id="miniNote">
+            <div class="tack" id='tackOriginal'></div>
+            <div class="falseLetter"></div>
+            <div class="falseLetter firstFL"></div>
+            <div class="falseLetter twoFL"></div>
+            <div class="falseLetter thirdFL"></div>
+            <div class="falseLetter fourFL"></div>
         </div>
-    
-     </div>
-    <script src="index.js"></script>
+      </div>
+      <ul id="styleNote">
+        <li class="prefered" id="colorNote-0"></li>
+        <li class="prefered" id="colorNote-1"></li>
+        <li class="prefered" id="colorNote-2"></li>
+        <li class="prefered" id="colorNote-3"></li>
+        <li class="prefered" id="colorNote-4"></li>
+        <li class="prefered" id="colorNote-5"></li>          
+      </ul>
+    </div>
+
+  <script src="index.js"></script>
   </body>
   <style type="text/css">
     *{
       margin: 0;
       padding: 0;
     }
-
+    @font-face{
+      font-family:'NeueR';
+      src: url('src/fonts/ComicNeue-Regular.ttf') format('truetype');
+      font-display: block;
+    }
+    @font-face{
+      font-family:'NeueB';
+      src: url('src/fonts/ComicNeue-Bold.ttf') format('truetype');
+      font-display: block;
+    }
   </style>
 </html>

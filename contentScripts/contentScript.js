@@ -1,51 +1,56 @@
 class note {
-  constructor(){
-
+  constructor(){}
+  createNote(Accessory='tack', dimensions = {width: 210, height:200}){
     
-  }
-  createNote(request){
-    if(request == 'newnote'){
-      let note = document.createElement('div');
-      let textarea = document.createElement('textarea');
-      let tack = document.createElement('div');
-      let x = document.createElement('span');
-      let capa = document.createElement('div');
-      capa.id = "capa";
-
-      note.id = 'note';
-      textarea.id = 'paper';
-      tack.id='tack';
-      x.id = 'delete';
-      capa.style.height = document.body.clientHeight+'px';
-      tack.appendChild(x);
-      note.appendChild(tack);
-      note.appendChild(textarea);
-      capa.appendChild(note);
-      
-
-      if(document.body.tagName == 'FRAMESET'){
-        document.body.insertAdjacentHTML('afterend', capa.outerHTML);
-      }else{
-        document.body.insertBefore(capa, document.body.children[0]);
+      let tag = function(tag, id){
+        let el = document.createElement(tag);
+        el.id=id;
+        return el;
       }
-      let centerScroll = {left:note.offsetLeft, top:note.offsetTop}
-      note.style.position = 'absolute';
-      note.style.top = (window.scrollY+(note.clientHeight/2))+"px";
-      note.style.left = centerScroll.left+"px"; 
+      let note      = tag ('div', "noteEx0A")
+      let textarea  = tag ('textarea', "paperEx0A")
+      let accessory = tag ('div', Accessory+"Ex0A")
+      let area      = tag ('div',"areaEx0A")
+      if(Accessory == 'tack'){
+        var remove  = tag ('span', "removeEx0A");
+      }
+      accessory.appendChild(remove)
+      note.appendChild(accessory);
+      note.appendChild(textarea);
+      area.appendChild(note);
+      this.fontLoad("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
+      this.insertNote(area, note, accessory);
+  }
+  colorsNote(palette_note='default', accessory='tack'){
+    let palettes = {
+     default: ['#fc5c65', '#fd9644', '#fed330', '#26de81', '#2bcbba' ]
+    };
+    
+    if (palette_note) {}
+    let note = palettes[palette_note][ Math.floor(Math.random() * 6)];
+    let tack  = tackColor[ Math.floor(Math.random() * 5)]
+
+    return {
+      noteColor: note,
+      tackColor: tack
     }
   }
-}
-class recivedMessageBackground extends note{
-  constructor(callback){
-    super();
-    chrome.runtime.onMessage.addListener ( (request, _, sendResponse) =>  {
-     
-      this.createNote(request);
-      this.fontLoad("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
-      callback();
+  insertNote(area, note, tack){
+     area.style.height = document.body.clientHeight+'px';
+     let colors = this.colorsNote();
+     note.style.background = colors.noteColor;
+     //tack.style.background = colors.tackColor.background;
+     //tack.style.filter = colors.tackColor.filter;
 
-      return true;
-    });
+
+     if(document.body.tagName == 'FRAMESET'){
+        document.body.insertAdjacentHTML('afterend', area.outerHTML);
+      }else{
+        document.body.insertBefore(area, document.body.children[0]);
+      }
+      note.style.position = 'absolute';
+      note.style.top = (window.scrollY+(note.clientHeight/2))+"px";
+      note.style.left = note.offsetLeft+"px"; 
   }
   fontLoad(link){
     if(!document.getElementById('font-ready')){
@@ -55,6 +60,18 @@ class recivedMessageBackground extends note{
       tag.id = "font-ready";
       document.head.appendChild(tag);
     }
+  }
+
+}
+class recivedMessageBackground extends note{
+  constructor(callback){
+    super();
+    chrome.runtime.onMessage.addListener ( (request, _, sendResponse) =>  {
+      this[request]();
+      callback();
+
+      return true;
+    });
   }
 }
 

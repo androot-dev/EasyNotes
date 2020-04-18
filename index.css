@@ -1,41 +1,108 @@
 #toolbar{
-	padding: 5px;
-	height: 50px;
-	background: #EEEE;
-}
-#toolbar ul{
+	background: #2d3436;
 	display: flex;
-	justify-content: flex-start;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: flex-start;
+	font-family: 'NeueR';
+	overflow: hidden;
+}
+#presentation{
+	width: 100%;
+	background: #000;
+	margin-bottom: 10px;
+	color: white;
+	text-align: left;
+	padding: 5px;
+	display: flex;
+	justify-content: space-around;
 	align-items: center;
 }
-#toolbar ul li{
-	width: 50px;
-	height: 50px;
+.logo{
+	background-image: url('src/img/noteeasy.png'); 
+	height: 20px;
+	width: 20px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+#miniNote{
+	width: 70px;
+	height: 70px;
+	background: #f1c40f;
+	font-family: 'NeueB';
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	box-shadow: 0px 5px 8px -5px black;
+	transition: all .1s ease-in-out;
+}
+#miniNote .tack{
+	width: 5px;
+	height: 5px;
+	background: #E50909;
+	border-radius: 50%;
+	position:absolute;
+	top: 5px;
+}
+.falseLetter{
+	width: 70%;
+	height: 4px;
+	background: #000;
+	top: 18px;
+	position: absolute;
+}
+.firstFL{
+	top: 28px;
+}
+.twoFL{
+	top: 36px;
+}
+.thirdFL{
+	top: 44px;
+}
+.fourFL{
+	top: 52px;
+	width: 40%;
+	left: 11px;
+}
+#styleNote{
+	display: flex;
+	padding: 10px 0 0 0;
+	justify-content:center;
+	align-items: center;
 	list-style: none;
 }
-#toolbar ul li {
-	width: 50px;
-	height: 50px;
-	border: none;
-	background-repeat: no-repeat;
-	background-size: 35px;
-    background-position: center;
-    background-attachment: scroll;
-    outline:none !important;
-    outline-width: 0 !important;
-    box-shadow: none;
- }
-#pencil{	
-	background-image: url('src/img/pencil.png');
-}
-#brush{
-	background-image: url('src/img/brush.png');
-}
-#image{
-	background-image: url('src/img/image.png');
-}
-#toolbar ul li:hover{
-	transition: all .2s ease-in-out;
-	background-size: 40px;
+ #miniNote:hover{
 	cursor: pointer;
+	transform: rotate(3deg);
+}
+ #miniNote:active{
+	top: 0px;
+	transform: scale(1.05);
+}
+#styleNote li{
+	
+	background: #000;
+}
+.prefered{
+	border-radius: 50%;
+	border:solid 1px black;
+	width: 10px;
+	height: 10px;
+	margin: 2px;
+	flex-shrink: 0;
+	margin-bottom: 5px;
+}
+#styleNote .tack{
+	width: 5px;
+	height: 5px;
+	background: #E50909;
+	border-radius: 50%;
+}
+
+.prefered:hover{
+	transform: scale(1.4);
+	transition: all .1s ease-in-out;
 }

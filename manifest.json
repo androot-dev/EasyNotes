@@ -1,12 +1,25 @@
 {
   "manifest_version":2,
-  "name":"Note Easy",
+  "name":"Noteasy",
   "description":"Guarda y muestra notas en tus webs favoritas",
   "version":"0.1",
   "browser_action":{
     "default_popup":"index.html",
-    "default_title":"Note Easy"
+    "default_title":"Noteasy",
+    "default-icon":{
+      "16": "src/img/logo16.png",
+      "24": "src/img/logo24.png",
+      "32": "src/img/logo32.png",
+      "128":"src/img/logo128.png"
+    }
   },
+  "icons":{
+    "16": "src/img/logo16.png",
+    "24": "src/img/logo24.png",
+    "32": "src/img/logo32.png",
+    "128":"src/img/logo128.png"
+  },
+
   "permissions":["tabs","storage", "activeTab"],
   "background":{
 		"scripts":["background/background.js"], 
