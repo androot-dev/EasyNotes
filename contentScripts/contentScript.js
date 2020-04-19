@@ -1,44 +1,31 @@
 class note {
-  constructor(){}
-  createNote(Accessory='tack', dimensions = {width: 210, height:200}){
+  constructor(){ }
+  createNote(request){
     
       let tag = function(tag, id){
+      
         let el = document.createElement(tag);
         el.id=id;
         return el;
       }
-      let note      = tag ('div', "noteEx0A")
-      let textarea  = tag ('textarea', "paperEx0A")
-      let accessory = tag ('div', Accessory+"Ex0A")
-      let area      = tag ('div',"areaEx0A")
-      if(Accessory == 'tack'){
-        var remove  = tag ('span', "removeEx0A");
-      }
+      let note = tag ('div', "noteEx0A")
+      let textarea = tag ('textarea', "paperEx0A")
+      let accessory = tag ('div', "tackEx0A")
+      let area = tag ('div',"areaEx0A")
+      let remove = tag ('span', "removeEx0A");
+
       accessory.appendChild(remove)
       note.appendChild(accessory);
       note.appendChild(textarea);
       area.appendChild(note);
       this.fontLoad("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
-      this.insertNote(area, note, accessory);
+      this.insertNote(area, note, accessory, request, textarea);
   }
-  colorsNote(palette_note='default', accessory='tack'){
-    let palettes = {
-     default: ['#fc5c65', '#fd9644', '#fed330', '#26de81', '#2bcbba' ]
-    };
-    
-    if (palette_note) {}
-    let note = palettes[palette_note][ Math.floor(Math.random() * 6)];
-    let tack  = tackColor[ Math.floor(Math.random() * 5)]
 
-    return {
-      noteColor: note,
-      tackColor: tack
-    }
-  }
-  insertNote(area, note, tack){
+  insertNote(area, note, tack, request, paper){
      area.style.height = document.body.clientHeight+'px';
-     let colors = this.colorsNote();
-     note.style.background = colors.noteColor;
+     note.style.background = request.noteColor;
+     paper.style.color = request.fontColor;
      //tack.style.background = colors.tackColor.background;
      //tack.style.filter = colors.tackColor.filter;
 
@@ -67,7 +54,8 @@ class recivedMessageBackground extends note{
   constructor(callback){
     super();
     chrome.runtime.onMessage.addListener ( (request, _, sendResponse) =>  {
-      this[request]();
+
+      this[request.action](request);
       callback();
 
       return true;
@@ -125,7 +113,7 @@ class dragAndDrop{
       events(arg[key].drag, key);
       events(arg[key].drop, key, true);
   }
-}
+ }
   dragstart(evt, element){
     console.log('dragstart in '+evt.target.id );
     evt.target.style.opacity = '1';

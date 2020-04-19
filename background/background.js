@@ -1,16 +1,24 @@
 'use strict';
+class comunicationBackground{
+	/* Esta clase comunica el background con el popup y el contentScript */
+	constructor(){}
+	sendContentScript(request){
+		chrome.tabs.query({active: true, lastFocusedWindow: true}, function (tab) {
+			let tabId = tab[0].id;
+			
+			chrome.tabs.sendMessage (tabId, request);
+  		});
+	}
+	receivingOn(){
 
+		chrome.runtime.onMessage.addListener((request, sender, sendResponde)=>{
 
-function msgContentScript (msg) {
-
-  chrome.tabs.query({active: true, lastFocusedWindow: true}, function (tab) {
-    let tabId = tab[0].id;
-    chrome.tabs.sendMessage (tabId, msg);
-  });
+			if(request.destination == 'contentScript'){
+				this.sendContentScript(request);
+			}
+			return true;
+		});
+	}
 }
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponde){
-	msgContentScript(request.msg);
-
-	return true;
-});
+let comunication = new comunicationBackground();
+comunication.receivingOn();

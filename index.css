@@ -1,22 +1,27 @@
 #toolbar{
-	background: #2d3436;
+	background: #f5f6fa;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: flex-start;
 	font-family: 'NeueR';
 	overflow: hidden;
+	padding: 5px;
 }
 #presentation{
 	width: 100%;
-	background: #353b48;
+	background:#353b48;
 	margin-bottom: 10px;
+	font-stretch: expanded;
+	font-size: 15px;
 	color: white;
 	text-align: left;
 	padding: 5px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	position: absolute;
+	top: 0;
 }
 .logo{
 	background-image: url('src/img/noteeasy.png'); 
@@ -37,7 +42,10 @@
 	position: relative;
 	box-shadow: 0px 5px 8px -5px black;
 	transition: all .1s ease-in-out;
+	list-style: none;
+	margin-top: 35px;
 }
+
 #miniNote .tack{
 	width: 5px;
 	height: 5px;
@@ -74,16 +82,15 @@
 	align-items: center;
 	list-style: none;
 }
- #miniNote:hover{
+#miniNote:hover{
+	transition: all .1s ease-in-out;
 	cursor: pointer;
-	transform: rotate(3deg);
+	transform: rotate(-3deg);
 }
- #miniNote:active{
-	top: 0px;
+#miniNote:active{
 	transform: scale(1.05);
 }
 #styleNote li{
-	
 	background: #000;
 }
 .prefered{
@@ -94,6 +101,7 @@
 	margin: 2px;
 	flex-shrink: 0;
 	margin-bottom: 5px;
+	cursor: pointer;
 }
 #styleNote .tack{
 	width: 5px;
