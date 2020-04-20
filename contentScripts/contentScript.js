@@ -108,6 +108,7 @@ class DragDrop{
       return el; }
     this.dragElement = drag;
     this.dropElement = drop;
+    this.IDelement;
     this.dragged = null;
     this.dropped = null;
     this.dropoutEvent = null;
@@ -115,45 +116,79 @@ class DragDrop{
     $(this.dragElement).on('dragstart');
     $(this.dropElement).on('dragover');
     $(this.dropElement).on('drop');
+    $(this.dragElement).on('drop');
   }
   
   dragstart(evt){
+    function mousePosition(id) {
+        var ClientRect = document.getElementById(id).getBoundingClientRect();
+        return { //objeto
+          x: Math.round(evt.clientX - ClientRect.left),
+          y: Math.round(evt.clientY - ClientRect.top)
+        }
+    }
     let intID = evt.target.id.replace('noteEx', '');
     let area = document.getElementById("areaEx"+intID);
     area.style.visibility = 'visible';
     evt.target.style.opacity = '1';
     this.dragged = evt.target;
+    this.IDelement = intID;
+    let pos = mousePosition(evt.target.id);
+    let posArea = mousePosition("areaEx"+this.IDelement);
+    evt.dataTransfer.setData('x', pos.x);
+    evt.dataTransfer.setData('y', pos.y);
+    let img = document.createElement('img');
+
+    evt.dataTransfer.setDragImage(img, 0, 0);
+    evt.dataTransfer.effectAllowed = "none";
   }
   dragover(evt){
-    if(evt.target.classList[0] == 'areaEx0A' /*droppables*/ ){
-       evt.preventDefault();
+    function mousePosition(id) {
+      var ClientRect = document.getElementById(id).getBoundingClientRect();
+      return { //objeto
+        x: Math.round(evt.clientX - ClientRect.left),
+        y: Math.round(evt.clientY - ClientRect.top)
+      }
+    }
+    let posMouse = mousePosition("areaEx"+this.IDelement);
+     let positionPressMouseNote = {
+        x: evt.dataTransfer.getData('x'),
+        y: evt.dataTransfer.getData('y')
+      } 
+      this.dragged.style.top = (posMouse.y-positionPressMouseNote.y)+'px';
+      this.dragged.style.left= (posMouse.x-positionPressMouseNote.x)+'px';
+    if(evt.target.classList[0] == 'areaEx0A' ||  
+       evt.target.classList[0] == 'noteEx0A' ||
+       evt.target.classList[0] == 'paperEx0A' ||
+       evt.target.classList[0] == 'tackEx0A'){
+      evt.preventDefault();
     }
   }
   drop(evt){
-    function mousePosition(evt) {
-        var ClientRect = evt.target.getBoundingClientRect();
-        return { //objeto
-          x: Math.round(evt.clientX - ClientRect.left),
-          y: Math.round(evt.clientY - ClientRect.top)
-        }
+    function mousePosition(id) {
+      var ClientRect = document.getElementById(id).getBoundingClientRect();
+      return { //objeto
+        x: Math.round(evt.clientX - ClientRect.left),
+        y: Math.round(evt.clientY - ClientRect.top)
       }
-    if (this.dragged!=null) { 
-    let pos = mousePosition(evt);
-    let centro = {
-        width: this.dragged.clientWidth /2,
-        height: this.dragged.clientHeight /2
-      } 
-      evt.target.style.visibility = 'hidden';
-      this.dragged.style.top = (pos.y-centro.height)+'px';
-      this.dragged.style.left = (pos.x-centro.width)+'px';
-      this.dropped=null;
-      this.dragged=null;
     }
+    console.log(evt.target.classList[0])
+    if (this.dragged!=null && evt.target.classList[0] == 'areaEx0A') { 
+      let posMouse = mousePosition("areaEx"+this.IDelement);
+      let positionPressMouseNote = {
+          x: evt.dataTransfer.getData('x'),
+          y: evt.dataTransfer.getData('y')
+        } 
+        evt.target.style.visibility = 'hidden';
+        this.dragged.style.top = (posMouse.y-positionPressMouseNote.y)+'px';
+        this.dragged.style.left= (posMouse.x-positionPressMouseNote.x)+'px';
+        this.dropped=null;
+        this.dragged=null;
+
+      }
   } 
   /* end class */
 }
  new comunicationContentScript(() =>{
-
      new DragDrop('.noteEx0A', '.areaEx0A');
-
  });

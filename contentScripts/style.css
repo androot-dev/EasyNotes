@@ -12,7 +12,7 @@
   position: absolute !important;
   width: 100% !important;
   height: 100% !important;
-  background: rgba(23,233,233,0.3) !important;
+  background: transparent !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
