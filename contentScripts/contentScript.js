@@ -1,43 +1,6 @@
-class note {
-  constructor(){ }
-  createNote(request){
-    
-      let tag = function(tag, id){
-      
-        let el = document.createElement(tag);
-        el.id=id;
-        return el;
-      }
-      let note = tag ('div', "noteEx0A")
-      let textarea = tag ('textarea', "paperEx0A")
-      let accessory = tag ('div', "tackEx0A")
-      let area = tag ('div',"areaEx0A")
-      let remove = tag ('span', "removeEx0A");
-
-      accessory.appendChild(remove)
-      note.appendChild(accessory);
-      note.appendChild(textarea);
-      area.appendChild(note);
-      this.fontLoad("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
-      this.insertNote(area, note, accessory, request, textarea);
-  }
-
-  insertNote(area, note, tack, request, paper){
-     area.style.height = document.body.clientHeight+'px';
-     note.style.background = request.noteColor;
-     paper.style.color = request.fontColor;
-     //tack.style.background = colors.tackColor.background;
-     //tack.style.filter = colors.tackColor.filter;
-
-
-     if(document.body.tagName == 'FRAMESET'){
-        document.body.insertAdjacentHTML('afterend', area.outerHTML);
-      }else{
-        document.body.insertBefore(area, document.body.children[0]);
-      }
-      note.style.position = 'absolute';
-      note.style.top = (window.scrollY+(note.clientHeight/2))+"px";
-      note.style.left = note.offsetLeft+"px"; 
+class font{
+  constructor(){
+    //this.fontLoad("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
   }
   fontLoad(link){
     if(!document.getElementById('font-ready')){
@@ -48,9 +11,77 @@ class note {
       document.head.appendChild(tag);
     }
   }
-
 }
-class recivedMessageBackground extends note{
+class note extends font {
+  constructor(){
+    super();
+    function getTotalNotes(){
+      return document.querySelectorAll('.noteEx0A').length;
+    }
+    this.countNote = getTotalNotes();
+
+  }
+  createNote(request){
+      const create = function(tag, attr){ 
+        let el = document.createElement(tag);
+        el.id = attr.id;
+        el.className+=attr.class;
+        return el;
+      }
+      const noteModel = {
+        note: create ('div',{class:"noteEx0A", id:"noteEx"+(this.countNote+1)}),
+        area: create ('div',{class:"areaEx0A", id:"areaEx"+(this.countNote+1)}),
+        tack: create ('div',{class:"tackEx0A", id:"tackEx"+(this.countNote+1)}),
+        span: create ('span',{class:"removeEx0A", id:"removeEx"+(this.countNote+1)}),
+        text: create ('textarea',{class:"paperEx0A", id:"paperEx"+(this.countNote+1)}),
+        generate: function(){
+          this.tack.appendChild(this.span);
+          this.note.appendChild(this.tack);
+          this.note.appendChild(this.text);
+          this.area.appendChild(this.note);
+        },
+        initialize: function(request){
+          this.generate();
+          let init = {
+            beforeInsertStyle: (request)=>{
+              this.note.style.background = request.noteColor;
+              this.text.style.color = request.fontColor;
+              this.area.style.height = document.body.clientHeight+'px';
+            },
+            insertNote: () => {
+              function insertAfter(nodeRef, insertNode){
+                if(nodeRef.nextSibling){ 
+                    nodeRef.parentNode.insertBefore(insertNode,nodeRef.nextSibling); 
+                } else { 
+                    nodeRef.parentNode.appendChild(insertNode); 
+                }
+              }
+                if(document.body.tagName == 'FRAMESET'){
+                  document.body.insertAdjacentHTML('afterend', this.area.outerHTML);
+                }else{
+                  insertAfter( document.body.children[0], this.area);
+                } 
+            },
+            afterInsertStyle: (request) =>{
+              this.note.style.position = 'absolute';
+              this.note.style.top = (window.scrollY+(this.note.clientHeight/2))+"px";
+              this.note.style.left = this.note.offsetLeft+"px"; 
+              this.area.style.visibility = 'hidden';
+              this.note.style.visibility = 'visible';
+            }
+
+          }
+          
+          init.beforeInsertStyle(request);
+          init.insertNote();
+          init.afterInsertStyle(request);
+         
+       
+        }}
+      noteModel.initialize(request);
+  }
+}
+class comunicationContentScript extends note{
   constructor(callback){
     super();
     chrome.runtime.onMessage.addListener ( (request, _, sendResponse) =>  {
@@ -63,141 +94,66 @@ class recivedMessageBackground extends note{
   }
 }
 
-class dragAndDrop{
-  constructor(arg){
-    this.arg = arg;
+class DragDrop{
+  constructor(drag, drop){
+    const $ = (sel) => { 
+      let el = document.querySelectorAll(sel); //selecciona lista de elementos
+      el.on = (evt) =>{ // añade un evento a todos los elementos de una lista 
+        el.forEach( (element, index) => {
+          if(evt == 'dragstart'){element.setAttribute('draggable', 'true')}
+            element.addEventListener(evt, (e) => 
+            this[evt](e), false);
+        });
+      }
+      return el; }
+    this.dragElement = drag;
+    this.dropElement = drop;
     this.dragged = null;
     this.dropped = null;
     this.dropoutEvent = null;
-
-
-  var events=(el, key, drop = false) => {
-    let elements = document.querySelectorAll(el);
-
-    let drops = document.querySelectorAll(this.arg[key].drop);
-
-    for (let i = 0; i<elements.length; i++){
-      if(drop == false){
-      elements[i].setAttribute('draggable', 'true');
-      
-      elements[i].addEventListener('dragstart', (e) =>
-       this.dragstart(e, elements[i]), false);
-      } 
-
-      if(drop == true){
-        elements[i].addEventListener('dragover', (e) => 
-        this.dragover(e, elements[i]), false);
-     }
-      /* 
-
-      elements[i].addEventListener('dragenter', (e) => 
-        this.dragenter(e, elements[i], drops), false);
-
-      elements[i].addEventListener('dragend', (e) => 
-        this.dragend(e, elements[i]), false);
-
-      elements[i].addEventListener('dragleave', (e) => 
-        this.dragleave(e, elements[i]), false);
-
-       elements[i].addEventListener('drag', (e) => 
-        this.drag(e, elements[i]), false);
-
-        elements[i].addEventListener('drop', (e) => 
-        this.drop(e, elements[i]), false);
-      */
-      
-     
-    }
+   
+    $(this.dragElement).on('dragstart');
+    $(this.dropElement).on('dragover');
+    $(this.dropElement).on('drop');
   }
-  for (let key = 0; key < arg.length; key++) {
-      events(arg[key].drag, key);
-      events(arg[key].drop, key, true);
-  }
- }
-  dragstart(evt, element){
-    console.log('dragstart in '+evt.target.id );
+  
+  dragstart(evt){
+    let intID = evt.target.id.replace('noteEx', '');
+    let area = document.getElementById("areaEx"+intID);
+    area.style.visibility = 'visible';
     evt.target.style.opacity = '1';
     this.dragged = evt.target;
   }
-  drag(evt, element){
-   evt.preventDefault();
-   console.log('drag in '+evt.target.id )
-  }
-  dragenter(evt, element, drops){
-      evt.preventDefault();
-    var drop = false;
-    for (let key in drops){
-      if(drops[key] == element){
-        drop = true;
-        break;
-      }
-    }
-    if(drop == true){
-        console.log('DRAGENTER '+evt.target.id)
-        this.dropoutEvent = false;
-        this.dropped=evt.target;
-      }else {
-
-      
-      }
-  
-  }
-  dragover(evt, element){
-   // console.log('dragover in '+evt.target.id )
-   //cuando se previene el comportamiento por defecto de este evento
-   //sequitan las limitaciones de drop, convirtiendo las zonas en droppables.
-    if(evt.target.id == 'capa' /*droppables*/ ){
+  dragover(evt){
+    if(evt.target.classList[0] == 'areaEx0A' /*droppables*/ ){
        evt.preventDefault();
     }
- 
-
   }
-  dragleave(evt, element){
-    console.log('dragleave in '+evt.target.id )
-    evt.preventDefault();
-    this.dropoutEvent = true;
-    this.dropped=null;
-  }
-  dragend(evt,  element){
-    console.log('dragend in '+evt.target.id )
-    if(this.dropoutEvent == true){this.dropout();}
-  }
-  drop(evt, element){
-
-    console.log('drop in '+evt.target.id )
-    function mousePosition(elemento, evt) {
-        var ClientRect = elemento.getBoundingClientRect();
+  drop(evt){
+    function mousePosition(evt) {
+        var ClientRect = evt.target.getBoundingClientRect();
         return { //objeto
-        x: Math.round(evt.clientX - ClientRect.left),
-        y: Math.round(evt.clientY - ClientRect.top)
-         }
+          x: Math.round(evt.clientX - ClientRect.left),
+          y: Math.round(evt.clientY - ClientRect.top)
+        }
       }
     if (this.dragged!=null) { 
-    let pos = mousePosition(evt.target, evt);
+    let pos = mousePosition(evt);
     let centro = {
         width: this.dragged.clientWidth /2,
         height: this.dragged.clientHeight /2
       } 
+      evt.target.style.visibility = 'hidden';
       this.dragged.style.top = (pos.y-centro.height)+'px';
       this.dragged.style.left = (pos.x-centro.width)+'px';
       this.dropped=null;
       this.dragged=null;
     }
-  }  
-   dropout(){ /* my event */
-    if(this.dragged != null){
-     
-    }
-      this.dropped=null;
-      this.dragged=null;
-  }
+  } 
+  /* end class */
 }
- 
- new recivedMessageBackground(() =>{
+ new comunicationContentScript(() =>{
 
-     new dragAndDrop([{
-      drag:"#note", //draggable element
-      drop: "#capa"
-    }]);
+     new DragDrop('.noteEx0A', '.areaEx0A');
 
  });

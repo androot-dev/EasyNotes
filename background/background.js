@@ -10,9 +10,7 @@ class comunicationBackground{
   		});
 	}
 	receivingOn(){
-
 		chrome.runtime.onMessage.addListener((request, sender, sendResponde)=>{
-
 			if(request.destination == 'contentScript'){
 				this.sendContentScript(request);
 			}
