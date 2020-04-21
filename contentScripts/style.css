@@ -29,12 +29,15 @@
   width: 180px !important;
   height: 180px !important;
   background: transparent !important;
+  overflow: auto !important;
+  overflow-x: hidden;
   resize: none !important;
   outline:none !important;
   outline-width: 0 !important;
   box-shadow: none !important;
   cursor: pointer !important;
 }
+
 .noteEx0A .paperEx0A::-webkit-scrollbar {
     width: 2px !important;     /* Tamaño del scroll en vertical */
     height: 2px !important;    /* Tamaño del scroll en horizontal */
@@ -48,11 +51,11 @@
 /* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
 .noteEx0A .paperEx0A::-webkit-scrollbar-thumb:hover {
     background: white !important;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 0 2px 1px rgba(0, 44, 33, 0) !important;
 }
 /* Cambiamos el fondo cuando esté en active */
 .noteEx0A .paperEx0A::-webkit-scrollbar-thumb:active {
-    background-color: .333 !important;
+    background-color: #333 !important;
 }
 .noteEx0A .tackEx0A{
   margin-bottom: 1px !important;
