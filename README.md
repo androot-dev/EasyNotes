@@ -1,6 +1,6 @@
-# noteEasy
-Extensión de google chrome para crear notas en tus páginas web favoritas
+# noteasy
+Es una extensión para el navegador actualmente disponible unicamente para el Google Chrome y permite dejar pequeñas notas en las web que visitas. Y estas estaran disponibles la proxima vez que ingreses a la pagina. 
 
-#problemas
-las ultima nota agregada se posiciona debajo de las demas. hay que superponerla.
+
+
 
