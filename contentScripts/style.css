@@ -30,12 +30,13 @@
   height: 180px !important;
   background: transparent !important;
   overflow: auto !important;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   resize: none !important;
   outline:none !important;
   outline-width: 0 !important;
   box-shadow: none !important;
   cursor: pointer !important;
+  line-height: 28px !important;;
 }
 
 .noteEx0A .paperEx0A::-webkit-scrollbar {
@@ -75,6 +76,8 @@
   height: 30px !important;
   text-align: center !important;
   cursor: pointer !important;
+  background: transparent !important;
+  font-size: 20px !important; 
 }
 
 .noteEx0A .removeEx0A:hover::after{

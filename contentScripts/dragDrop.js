@@ -1,6 +1,19 @@
-
 class DragDrop{
-  constructor(drag, drop){
+  constructor(){
+      this.dataEvents = {};
+  }
+  setData(name, val){
+     this.dataEvents[name] = val;
+  }
+  getData(nameProp){
+    return this.dataEvents[nameProp];
+  }
+  clearData(){
+    this.dataEvents = {};
+  }
+  onDrag(){
+    let drag = '.noteEx0A';
+    let drop = '.areaEx0A';
     const $ = (sel) => { 
       let el = document.querySelectorAll(sel); //selecciona lista de elementos
       el.on = (evt) =>{ // añade un evento a todos los elementos de una lista 
@@ -21,37 +34,26 @@ class DragDrop{
         });
       }
       return el; }
-    this.dropoutEvent = null;
-    this.dataEvents = {};
     $(drag).on('dragstart');
     $(drop).on('dragover');
     $(drag).on('drop');
-  }
-  setData(name, val){
-     this.dataEvents[name] = val;
-  }
-  getData(nameProp){
-    return this.dataEvents[nameProp];
-  }
-  clearData(){
-    this.dataEvents = {};
   }
   dragstart(evt){
     this.clearData();
     if(evt.target.mouseX){
       let drag ={
-      css_start:()=>{
-        this.getData('areaDrop').style.visibility = 'visible';
-      },
-      props_global:()=>{
-         this.setData('drag', evt.target);
-         this.setData('areaDrop', 
-          document.getElementById("areaEx"+evt.target.id.replace('noteEx', '')));
-      },
-      preventGhost:function(){
-        let img = document.createElement('img');
-        evt.dataTransfer.setDragImage(img, 0, 0);
-      }
+        props_global:() =>{
+           this.setData('drag', evt.target);
+           this.setData('areaDrop', 
+           document.getElementById("areaEx"+evt.target.id.replace('noteEx', '')));
+        },
+        css_start:()=>{
+          this.getData('areaDrop').style.visibility = 'visible';
+        },
+        preventGhost:() =>{
+          let img = document.createElement('img');
+          evt.dataTransfer.setDragImage(img, 0, 0);
+        }
      }
       drag.props_global();
       drag.css_start(); 
@@ -81,7 +83,6 @@ class DragDrop{
           }
         }
         if(drop == true){
-          console.log('dropable')
            evt.preventDefault();
         }
       }

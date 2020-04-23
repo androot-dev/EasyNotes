@@ -2,9 +2,7 @@ class popupColors{
 	constructor(notesColors, fontColor='#000'){
 		this.prefereds = notesColors;
 		this.fontColor = fontColor;
-		this.selection = {
-
-		}
+		this.selection = {}
 		this.setListPreferedColor();
 		this.getSelectedColor(2);
 
