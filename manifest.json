@@ -30,9 +30,10 @@
      "matches":["<all_urls>"],
      "js":[
       "contentScripts/dragDrop.js", 
-      "contentScripts/notes.js", 
       "contentScripts/comunication.js",
-      "contentScripts/storage.js"
+      "contentScripts/storage.js",
+      "contentScripts/notes.js",
+      "contentScripts/extension.js"
     ],
      "css":["contentScripts/style.css"]
    }

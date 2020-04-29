@@ -1,13 +1,14 @@
 .noteEx0A{
   display: flex !important;
   position: relative ;
-  padding: 5px 15px 15px 15px !important;
+  padding: 5px 15px 25px 15px !important;
   flex-direction: column !important;
   justify-content: center !important;
   align-items: center !important;
   box-shadow: 3px 6px 9px -5px rgba(0,0,0,0.75) !important;
   transform: skew(0.2deg) !important;
 }
+
 .areaEx0A{
   position: absolute !important;
   width: 100% !important;
@@ -27,7 +28,7 @@
   font-family: /*"Comic Neue",*/ "Comic Sans", cursive !important;
   font-weight: 700 !important;
   width: 180px !important;
-  height: 180px !important;
+  height: 175px !important;
   background: transparent !important;
   overflow: auto !important;
   overflow-x: hidden !important;
@@ -36,18 +37,21 @@
   outline-width: 0 !important;
   box-shadow: none !important;
   cursor: pointer !important;
-  line-height: 28px !important;;
+  line-height: 28px !important;
+
 }
 
 .noteEx0A .paperEx0A::-webkit-scrollbar {
     width: 2px !important;     /* Tamaño del scroll en vertical */
     height: 2px !important;    /* Tamaño del scroll en horizontal */
+    margin-right: -5px !important;
+
       /* Ocultar scroll */
 }
 .noteEx0A .paperEx0A::-webkit-scrollbar-thumb {
     background: #EEEEEE !important;
     border-radius: 4px !important;
-    margin-left: 5px !important;
+    margin-left: 0px !important;
 }
 /* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
 .noteEx0A .paperEx0A::-webkit-scrollbar-thumb:hover {
@@ -59,7 +63,7 @@
     background-color: #333 !important;
 }
 .noteEx0A .tackEx0A{
-  margin-bottom: 1px !important;
+  margin-bottom: 2px !important;
   width: 20px !important;
   height: 20px !important;
   background: .443556 !important;                                                                          
@@ -89,4 +93,21 @@
   color: #FFF !important;
   line-height: 30px !important;
   text-align: center !important;
+}
+.noteEx0A .messageEx0A{
+  transition: all .1s ease-in-out !important;
+  position: absolute !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  bottom: 7px !important;
+  width: 100px !important;
+  height: 20px !important;
+  font-size: 12px !important;
+  text-align: center !important;
+  border-radius: 10px !important;
+  background: transparent ;
+  z-index: 9000 !important;
+  color: white !important;
+  font-family: "Comic Sans", cursive !important;
 }
