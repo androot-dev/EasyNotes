@@ -34,9 +34,10 @@ class DragDrop{
         });
       }
       return el; }
+    $(drag).on('dragend')
     $(drag).on('dragstart');
     $(drop).on('dragover');
-    $(drag).on('drop');
+   // $(drag).on('drop');
   }
   dragstart(evt){
     this.clearData();
@@ -64,6 +65,9 @@ class DragDrop{
       evt.preventDefault()
     }
   }
+  dragend(evt){
+    this.getData('areaDrop').style.visibility = 'hidden';
+  }
   dragover(evt){
     
     let over = {
@@ -90,8 +94,6 @@ class DragDrop{
     over.move(over.area);
     over.setDropZones(['areaEx0A', 'noteEx0A', 'paperEx0A', 'tackEx0A']);
   }
-  drop(evt){
-    this.getData('areaDrop').style.visibility = 'hidden';
-  }
+  //drop(evt){}
   /* end class */
 }

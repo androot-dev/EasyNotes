@@ -3,6 +3,7 @@ class note extends storage {
     super();
     this.class ="Ex0A";
     this.id = this.getID();
+    this.temp;
   }
   getID(){
     let notes = document.querySelectorAll('.noteEx0A');
@@ -14,7 +15,7 @@ class note extends storage {
 		return 1;	
     }
   }
-  createNote(request){
+  createNote(request, position="center"){
       let id=this.getID();
       this.id = id;
       function requestApply(noteModel, request){
@@ -42,6 +43,13 @@ class note extends storage {
           model.note.style.left = model.offsetLeft+"px"; 
           model.area.style.visibility = 'hidden';
           model.note.style.visibility = 'visible';
+      }
+      let setPosition = (x, y) =>{
+      	model.note.style.position = 'absolute';
+      	model.note.style.top = y;
+        model.note.style.left = x; 
+        model.area.style.visibility = 'hidden';
+        model.note.style.visibility = 'visible';
       }
       let create=(tag, name)=>{
         let el = document.createElement(tag);
@@ -87,27 +95,33 @@ class note extends storage {
             },time)
       }
       model.area.saveAuto = (time) =>{
-      	model.text.addEventListener('keyup', (e) =>{
-      		var temp;
-	      	if( model.text.textContent != "" ){
-		        clearTimeout(temp);
-		        
-		        temp = setTimeout(()=>{
-		        	let id = model.note.idnote;
-					
-			          this.save(request.url+id, {
-			          	fontColor:request.fontColor,
-					    noteColor:request.noteColor,
-					    text: model.text.textContent,
-				  		id: id,
-				  		url:request.url
-				      });
-			          
-			          model.info.show('Guardado');
-    			}, time);
-      		}
-   		});
+      	model.text.addEventListener('keyup', (e) =>save(e, 2000));
+        model.note.addEventListener('dragend', (e) =>save(e, 0));
+	      	let save = (e, time)=>{
+            if( model.text.textContent != "" ){
+              clearTimeout(this.temp);
+              
+              this.temp = setTimeout(()=>{
+                let id = model.note.idnote;
+                
+                  this.save(request.url+id, {
+                    fontColor:request.fontColor,
+                    noteColor:request.noteColor,
+                    text: model.text.textContent,
+                    id: id,
+                    url:request.url,
+                    x: model.note.style.left,
+                    y: model.note.style.top
+                });
+                  
+                  model.info.show('Guardado');
+              }, time);
+            }
+          }
+          
+   		
 	}
+
 	if(!request.text){request.text = ""}
 		model.text.textContent = request.text;
 	    model.area.saveAuto(2000);
@@ -119,24 +133,30 @@ class note extends storage {
 	    let note = model.fusion();
 	    requestApply(model, request);
 	    appendNote(model.area);
-	    centerNote(model);
+	    if (position == 'center') {
+	    	centerNote(model);
+	    }else{
+	    	setPosition(request.x, request.y);
+	    }
+	    
 
 	    return id;
   }
   async loadNotes(request){
-  	let a = this;
+ 
     for (let i = 1; i < 100; i++) {
     	
 	    const note = await new Promise((resolve, reject) => {
 	     	this.load(request.url+i, (res)=>{
 		     	if(res){
 		    		resolve(res);
-		      	}
+		      }
 	    	})
 	    });
 
 	    if(note[request.url+i]){
-	    	this.createNote(note[request.url+i]);
+	    	this.createNote(note[request.url+i], false);
+	    	this.onDrag();
 	    }else {
 	    	break;
 	    }
