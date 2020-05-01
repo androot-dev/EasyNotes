@@ -15,34 +15,36 @@ class note extends storage {
 		return 1;	
     }
   }
-  createNote(request, position="center"){
-      let id=this.getID();
+  createNote(request, control_id ='auto' ,position="center"){
+      let id;
+      if(control_id == 'auto'){
+        id=this.getID();
+      }else{
+        id = control_id;
+      }
+      
       this.id = id;
       function requestApply(noteModel, request){
         noteModel.note.style.background = request.noteColor;
         noteModel.text.style.color = request.fontColor;
       }
       let appendNote = (note) =>{
-         note.style.height = document.body.clientHeight+'px';
-         if(document.body.tagName == 'FRAMESET'){
-            document.body.insertAdjacentHTML('afterend', note.outerHTML);
+        note.style.height = document.body.clientHeight+'px';
+        let referenceNode = () =>{
+          if(this.getID() == 1){
+          	return document.body.children[0];
           }else{
-          	 let referenceNode = () =>{
-          	 	if(this.getID() == 1){
-          	 		return document.body.children[0];
-          	 	}else{
-          	 		return document.body.children[this.getID()];
-          	 	}
-          	 }
-            document.body.insertBefore(note, referenceNode());
+          	return document.body.children[this.getID()];
           }
+        }
+        document.body.insertBefore(note, referenceNode());
       }
       let centerNote = (model)=>{
-          model.note.style.position = 'absolute';
-          model.note.style.top = (window.scrollY+(model.clientHeight/2))+"px";
-          model.note.style.left = model.offsetLeft+"px"; 
-          model.area.style.visibility = 'hidden';
-          model.note.style.visibility = 'visible';
+        model.note.style.position = 'absolute';
+        model.note.style.top = (window.scrollY+(model.clientHeight/2))+"px";
+        model.note.style.left = model.offsetLeft+"px"; 
+        model.area.style.visibility = 'hidden';
+        model.note.style.visibility = 'visible';
       }
       let setPosition = (x, y) =>{
       	model.note.style.position = 'absolute';
@@ -54,7 +56,7 @@ class note extends storage {
       let create=(tag, name)=>{
         let el = document.createElement(tag);
         el.classList+= name+this.class;
-        el.id = name+"Ex"+id;   
+        el.id = name+"Ex"+id;  
         return el;
       }
        let model  = {
@@ -72,19 +74,18 @@ class note extends storage {
             this.note.appendChild(this.text);
             this.area.appendChild(this.note);
             return this.area;
-          },
-          
+          }
       }
-      for(let key in model){
-      	if(model[key]!='fusion'){
-      		model[key].idnote = model.note.id.replace('noteEx', "");
-      	}
-      }
+    let addProps = (model) =>{
+        for(let key in model){
+          if(model[key]!='fusion'){
+            model[key].idnote = model.note.id.replace('noteEx', "");
+          }
+        }
       model.span.delete = () =>{
         document.body.removeChild(
               document.getElementById('areaEx'+id)
         );
-
       }
       model.info.show = function(message, time=2000){
             this.textContent = message;
@@ -95,15 +96,14 @@ class note extends storage {
             },time)
       }
       model.area.saveAuto = (time) =>{
-      	model.text.addEventListener('keyup', (e) =>save(e, 2000));
+        model.text.addEventListener('keyup', (e) =>save(e, 2000));
         model.note.addEventListener('dragend', (e) =>save(e, 0));
-	      	let save = (e, time)=>{
+          let save = (e, time)=>{
             if( model.text.textContent != "" ){
               clearTimeout(this.temp);
               
               this.temp = setTimeout(()=>{
                 let id = model.note.idnote;
-                
                   this.save(request.url+id, {
                     fontColor:request.fontColor,
                     noteColor:request.noteColor,
@@ -113,39 +113,39 @@ class note extends storage {
                     x: model.note.style.left,
                     y: model.note.style.top
                 });
-                  
                   model.info.show('Guardado');
               }, time);
             }
           }
-          
-   		
-	}
+        }
+      }
+      let activeProps = function(model){
+        model.text.textContent = request.text;
+        model.area.saveAuto(2000);
+        model.span.addEventListener('click',function(){
+          this.delete();
+          chrome.storage.sync.remove([request.url+this.idnote]);
+          console.log(request.url+this.idnote)
+          console.log('se borro el id = '+this.idnote)
+        }, false);
+        model.text.contentEditable= "true";
+      }
+    	if(!request.text){request.text = ""}
+        requestApply(model, request);
+        addProps(model);
+        activeProps(model);
+        appendNote( model.fusion() );
 
-	if(!request.text){request.text = ""}
-		model.text.textContent = request.text;
-	    model.area.saveAuto(2000);
-	    model.span.addEventListener('click',()=>{
-	    	model.span.delete();
-	    	chrome.storage.sync.remove([request.url+model.span.idnote]);
-	    }, false);
-	    model.text.contentEditable= "true";
-	    let note = model.fusion();
-	    requestApply(model, request);
-	    appendNote(model.area);
 	    if (position == 'center') {
 	    	centerNote(model);
 	    }else{
 	    	setPosition(request.x, request.y);
 	    }
-	    
-
 	    return id;
   }
   async loadNotes(request){
- 
+  console.log(request.url)
     for (let i = 1; i < 100; i++) {
-    	
 	    const note = await new Promise((resolve, reject) => {
 	     	this.load(request.url+i, (res)=>{
 		     	if(res){
@@ -155,16 +155,13 @@ class note extends storage {
 	    });
 
 	    if(note[request.url+i]){
-	    	this.createNote(note[request.url+i], false);
+        console.log('se cargo la nota: '+i)
+        console.log('request_is:')
+        console.log(note[request.url+i])
+	    	this.createNote(note[request.url+i], i, false);
 	    	this.onDrag();
-	    }else {
-	    	break;
 	    }
-	    
     }
-
-      
-      	
   }
    
 }

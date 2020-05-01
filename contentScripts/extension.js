@@ -6,9 +6,6 @@ class extension extends note{
 let noteasy = new extension();
 
 noteasy.cathMessage((request)=>{
-
 	noteasy[request.action](request);
 	noteasy.onDrag();
-
-	
 });
