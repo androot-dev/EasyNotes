@@ -8,12 +8,11 @@
   box-shadow: 3px 6px 9px -5px rgba(0,0,0,0.75) !important;
   transform: skew(0.2deg) !important;
 }
-
 .areaEx0A{
   position: absolute !important;
   width: 100% !important;
   height: 100% !important;
-  background: rgba(55,55,22, 0.4) !important;
+  background: rgba(55,55,22, 0.6) !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
@@ -38,9 +37,7 @@
   box-shadow: none !important;
   cursor: pointer !important;
   line-height: 28px !important;
-
 }
-
 .noteEx0A .paperEx0A::-webkit-scrollbar {
     width: 2px !important;     /* Tamaño del scroll en vertical */
     height: 2px !important;    /* Tamaño del scroll en horizontal */
@@ -83,7 +80,6 @@
   background: transparent !important;
   font-size: 20px !important; 
 }
-
 .noteEx0A .removeEx0A:hover::after{
   width: 40px !important;
   height: 30px !important;

@@ -65,7 +65,7 @@ class note extends storage {
           span: create('span', 'remove'),
           tack: create('div', 'tack'),
           info: create('span', 'message'),
-          text: create('span', 'paper'),
+          text: create('div', 'paper'),
 
           fusion: function(){
             this.tack.appendChild(this.span);
@@ -125,8 +125,6 @@ class note extends storage {
         model.span.addEventListener('click',function(){
           this.delete();
           chrome.storage.sync.remove([request.url+this.idnote]);
-          console.log(request.url+this.idnote)
-          console.log('se borro el id = '+this.idnote)
         }, false);
         model.text.contentEditable= "true";
       }
@@ -144,7 +142,6 @@ class note extends storage {
 	    return id;
   }
   async loadNotes(request){
-  console.log(request.url)
     for (let i = 1; i < 100; i++) {
 	    const note = await new Promise((resolve, reject) => {
 	     	this.load(request.url+i, (res)=>{
@@ -153,11 +150,7 @@ class note extends storage {
 		      }
 	    	})
 	    });
-
 	    if(note[request.url+i]){
-        console.log('se cargo la nota: '+i)
-        console.log('request_is:')
-        console.log(note[request.url+i])
 	    	this.createNote(note[request.url+i], i, false);
 	    	this.onDrag();
 	    }

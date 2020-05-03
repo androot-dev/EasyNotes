@@ -5,7 +5,6 @@ class comunicationBackground{
 	sendContentScript(request){
 		chrome.tabs.query({active: true, lastFocusedWindow: true}, function (tab) {
 			let tabId = tab[0].id;
-			
 			chrome.tabs.sendMessage (tabId, request);
   		});
 	}
@@ -25,16 +24,12 @@ class comunicationBackground{
 		chrome.tabs.onUpdated.addListener( (tabId , info)=> {
 		  if (info.status === 'complete') {
 		  	chrome.tabs.query({'active': true, lastFocusedWindow: true},(tab)=>{
-   
-    			
     			var url = new URL (tab[0].url);
     			let loadRequest={
     				action:'loadNotes',
     				url: url
     			}
     			this.sendContentScript(loadRequest);
-    			 
-    			
     		});
 		  }
     	});

@@ -11,7 +11,4 @@ class storage extends comunicationContentScript{
 	  	return res;
 	  });
 	}
-	onSave(id, evt, data,  time=2000){
-		//debo resolver como identificar los registros
-	}
 }

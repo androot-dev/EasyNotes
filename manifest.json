@@ -1,11 +1,11 @@
 {
   "manifest_version":2,
-  "name":"Noteasy",
+  "name":"NoteEasy",
   "description":"Guarda y muestra notas en tus webs favoritas",
   "version":"0.1",
   "browser_action":{
     "default_popup":"index.html",
-    "default_title":"Noteasy",
+    "default_title":"NoteEasy",
     "default-icon":{
       "16": "src/img/logo16.png",
       "24": "src/img/logo24.png",
