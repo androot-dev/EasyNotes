@@ -40,9 +40,10 @@ class note extends storage {
         document.body.insertBefore(note, referenceNode());
       }
       let centerNote = (model)=>{
+        console.log(model.note.offsetLeft+"px")
         model.note.style.position = 'absolute';
-        model.note.style.top = (window.scrollY+(model.clientHeight/2))+"px";
-        model.note.style.left = model.offsetLeft+"px"; 
+        model.note.style.top = (window.scrollY+(model.note.clientHeight/2))+"px";
+        model.note.style.left = model.note.offsetLeft+"px"; 
         model.area.style.visibility = 'hidden';
         model.note.style.visibility = 'visible';
       }
@@ -129,16 +130,19 @@ class note extends storage {
         model.text.contentEditable= "true";
       }
     	if(!request.text){request.text = ""}
+
+
         requestApply(model, request);
         addProps(model);
         activeProps(model);
         appendNote( model.fusion() );
+        if (position == 'center') {
+          centerNote(model);
+        }else{
+          setPosition(request.x, request.y);
+        }
 
-	    if (position == 'center') {
-	    	centerNote(model);
-	    }else{
-	    	setPosition(request.x, request.y);
-	    }
+	    
 	    return id;
   }
   async loadNotes(request){
