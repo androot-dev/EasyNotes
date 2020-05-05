@@ -12,7 +12,7 @@
   position: absolute !important;
   width: 100% !important;
   height: 100% !important;
-  background: rgba(55,55,22, 0.6) !important;
+  background: transparent !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
@@ -106,4 +106,7 @@
   z-index: 9000 !important;
   color: white !important;
   font-family: "Comic Sans", cursive !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
 }

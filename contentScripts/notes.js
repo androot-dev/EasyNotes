@@ -15,6 +15,9 @@ class note extends storage {
 		return 1;	
     }
   }
+  createNoteFrameset(){
+
+  }
   createNote(request, control_id ='auto' ,position="center"){
       let id;
       if(control_id == 'auto'){
@@ -40,7 +43,6 @@ class note extends storage {
         document.body.insertBefore(note, referenceNode());
       }
       let centerNote = (model)=>{
-        console.log(model.note.offsetLeft+"px")
         model.note.style.position = 'absolute';
         model.note.style.top = (window.scrollY+(model.note.clientHeight/2))+"px";
         model.note.style.left = model.note.offsetLeft+"px"; 
@@ -77,7 +79,9 @@ class note extends storage {
             return this.area;
           }
       }
-    let addProps = (model) =>{
+      let addProps = (model) =>{
+        model.text.classList+=" notranslate";
+
         for(let key in model){
           if(model[key]!='fusion'){
             model[key].idnote = model.note.id.replace('noteEx', "");
@@ -160,5 +164,4 @@ class note extends storage {
 	    }
     }
   }
-   
 }
