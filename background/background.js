@@ -2,11 +2,8 @@
 class comunicationBackground{
 	/* Esta clase comunica el background con el popup y el contentScript */
 	constructor(){}
-	sendContentScript(request){
-		chrome.tabs.query({active: true, lastFocusedWindow: true}, function (tab) {
-			let tabId = tab[0].id;
-			chrome.tabs.sendMessage (tabId, request);
-  		});
+	sendContentScript(tabId, request){	
+		chrome.tabs.sendMessage (tabId, request);
 	}
 	receivingOn(){
 		chrome.runtime.onMessage.addListener((request, sender, sendResponde)=>{
@@ -14,22 +11,32 @@ class comunicationBackground{
 				chrome.tabs.query({'active': true, lastFocusedWindow: true},(tab)=>{
     			var url = new URL (tab[0].url);
     			request.url = url;
-    			this.sendContentScript(request);
+    			this.sendContentScript(tab[0].id, request);
     		});
 			}
 			return true;
 		});
 	}
 	loadNotes(){
+		
 		chrome.tabs.onUpdated.addListener( (tabId , info)=> {
 		  if (info.status === 'complete') {
-		  	chrome.tabs.query({'active': true, lastFocusedWindow: true},(tab)=>{
-    			var url = new URL (tab[0].url);
-    			let loadRequest={
-    				action:'loadNotes',
-    				url: url
-    			}
-    			this.sendContentScript(loadRequest);
+
+		  	chrome.tabs.get(tabId,(tab)=>{
+    			var url = new URL (tab.url);
+    	
+    			this.sendContentScript(tabId, {
+	    			action:'cleanNotesPageDynamic', 
+	    			url: url
+	    		}); // para borrar las notas en la pantalla 
+	    			// donde no se recarga la pagina al cambiar de url.
+	    			//ejemplo (instagram)
+	    		this.sendContentScript(tabId, {
+	    			action:'loadNotes',
+	    			url: url
+	    		});
+
+	    		
     		});
 		  }
     	});

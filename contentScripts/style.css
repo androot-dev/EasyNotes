@@ -79,7 +79,15 @@
   cursor: pointer !important;
   background: transparent !important;
   font-size: 20px !important; 
-}
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 20px !important;
+  font-weight: 900 !important;
+  font-family: arial !important;
+} 
 .noteEx0A .removeEx0A:hover::after{
   width: 40px !important;
   height: 30px !important;
@@ -93,12 +101,10 @@
 .noteEx0A .messageEx0A{
   transition: all .1s ease-in-out !important;
   position: absolute !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  bottom: 7px !important;
+  top: 7px !important;
+  right: 7px !important; 
   width: auto !important;
-  padding: 2px 4px !important;
+  padding: 0px 0px !important;
   font-size: 10px !important;
   text-align: center !important;
   border-radius: 10px !important;
@@ -107,6 +113,9 @@
   color: white !important;
   font-family: "Comic Sans", cursive !important;
   width: auto !important;
-  height: auto !important;
+  height: 0 !important;
   margin: 0 !important;
+  box-shadow: 3px 3px 9px -5px rgba(0,0,0,0.75) !important;
+  background: #EA2027 !important; 
+  line-height: 13.5px !important;
 }

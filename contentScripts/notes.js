@@ -3,7 +3,7 @@ class note extends storage {
     super();
     this.class ="Ex0A";
     this.id = this.getID();
-    this.temp;
+    this.temp = [];
   }
   getID(){
     let notes = document.querySelectorAll('.noteEx0A');
@@ -81,7 +81,8 @@ class note extends storage {
       }
       let addProps = (model) =>{
         model.text.classList+=" notranslate";
-
+        model.note.fontColor = request.fontColor;
+        model.note.backColor = request.noteColor;
         for(let key in model){
           if(model[key]!='fusion'){
             model[key].idnote = model.note.id.replace('noteEx', "");
@@ -94,10 +95,13 @@ class note extends storage {
       }
       model.info.show = function(message, time=2000){
             this.textContent = message;
-            this.style.background = '#EA2027';
+            this.style.setProperty('height', 'auto', 'important');
+            this.style.setProperty('padding', '2px 4px', 'important');
+            
             return setTimeout(()=>{
               this.textContent = "";
-              this.style.background = 'transparent';
+              this.style.setProperty('height', '0', 'important');
+              this.style.setProperty('padding', '0px 0px', 'important');
             },time)
       }
       model.area.saveAuto = (time) =>{
@@ -105,9 +109,10 @@ class note extends storage {
         model.note.addEventListener('dragend', (e) =>save(e, 0));
           let save = (e, time)=>{
             if( model.text.textContent != "" ){
-              clearTimeout(this.temp);
-              
-              this.temp = setTimeout(()=>{
+              if(this.temp[id]){
+                clearTimeout(this.temp[id]);
+              }   
+              this.temp[id] = setTimeout(()=>{
                 let id = model.note.idnote;
                   this.save(request.url+id, {
                     fontColor:request.fontColor,
@@ -128,14 +133,13 @@ class note extends storage {
         model.text.textContent = request.text;
         model.area.saveAuto(2000);
         model.span.addEventListener('click',function(){
-          this.delete();
-          chrome.storage.sync.remove([request.url+this.idnote]);
+          chrome.storage.sync.remove([request.url+this.idnote], ()=>{
+            this.delete();
+          });
         }, false);
         model.text.contentEditable= "true";
       }
     	if(!request.text){request.text = ""}
-
-
         requestApply(model, request);
         addProps(model);
         activeProps(model);
@@ -149,6 +153,11 @@ class note extends storage {
 	    
 	    return id;
   }
+  cleanNotesPageDynamic(){
+    document.querySelectorAll('.removeEx0A').forEach( function(element, index) {
+     element.delete();
+    });
+  }
   async loadNotes(request){
     for (let i = 1; i < 100; i++) {
 	    const note = await new Promise((resolve, reject) => {
@@ -159,8 +168,11 @@ class note extends storage {
 	    	})
 	    });
 	    if(note[request.url+i]){
-	    	this.createNote(note[request.url+i], i, false);
-	    	this.onDrag();
+        let exist = document.getElementById('noteEx'+note[request.url+i].id);
+        if(!exist){
+          this.createNote(note[request.url+i], i, false);
+          this.onDrag();
+        }
 	    }
     }
   }
