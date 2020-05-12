@@ -131,6 +131,7 @@ class note extends storage {
       }
       let activeProps = function(model){
         model.text.textContent = request.text;
+        model.span.idExtension = request.url+model.span.idnote;
         model.area.saveAuto(2000);
         model.span.addEventListener('click',function(){
           chrome.storage.sync.remove([request.url+this.idnote], ()=>{

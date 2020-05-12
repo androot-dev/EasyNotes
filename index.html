@@ -8,9 +8,24 @@
   </head>
   <body>
     <div id="toolbar">
-    <div id="presentation">
-      <h3>NoteEasy</h3>
+    <div id="barOptions">
+      <button class="icon" id="deleteNotes"></button>
+      <button class="icon" id="hiddenNotes"></button>
+      <div id="bubbleInfo"></div>
       
+      <div id="deleteMenu">
+        <div>
+          <input type="radio" id="allPages" name="selnotes" value="En todas la paginas">
+          <label for="allPages">En todas las paginas</label><br>
+        </div>
+        <div>
+          <input type="radio" id="allHere" name="selnotes" value="Solo en esta pagina" checked>
+          <label for="allHere">Solo en esta pagina</label><br>
+        </div>
+        
+        <div id="msgBottom">Borrar Notas</div>
+      </div>
+
     </div>  
       <div id="noteNew">
         <ul id="miniNote">
