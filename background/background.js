@@ -84,9 +84,9 @@ class comunicationBackground{
 								}
 							}
 							for(let i =0; i<tab.length; i++){
-								let alejandro = chrome.runtime.lastError
+								
 								chrome.tabs.executeScript(tab[i].id,{
-									code:'noteasy.deleteAllHere(false);'
+									code:'noteasy.deleteAllHere({}, false);'
 								})
 							}
 						})

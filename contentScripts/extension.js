@@ -3,7 +3,7 @@ class extension extends note{
 		super();
 	}
 
-	async deleteAllHere(remove = true){
+	async deleteAllHere(rq, remove = true){
 		let count = 0;
 		let el = document.querySelectorAll('.removeEx0A');
 		let notes = el.length > 0 ? el : el[0];

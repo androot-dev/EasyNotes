@@ -171,6 +171,7 @@ class popup extends colors{
 		} );
 		$('#deleteConfirm').on('click', ()=>{
 			this.deleteNotes();
+			this.menuDelete();
 		});
 		$("#hiddenButton").on('click', () =>{
 			this.menuHidden('toggle');
@@ -221,11 +222,15 @@ class popup extends colors{
 				return this.allHere().checked ? this.allHere() : this.allPages();
 			}
 		}
-		//'cambiar aqui'
-		if(radioButtonsDelete.checked().bind == 'deleteAll'){
-			chrome.runtime.sendMessage({action:'deleteAll'})
+		let checked = radioButtonsDelete.checked().bind;
+		if(checked == 'deleteAll'){
+			chrome.runtime.sendMessage({
+				action: checked
+			});
 		}else{
-			this.sendContentScript({action:'deleteAllHere'})
+			this.sendContentScript({
+				action:checked
+			});
 		}
 		
 	}
