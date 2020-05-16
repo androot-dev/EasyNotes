@@ -17,7 +17,6 @@ class comunicationBackground{
 	 	 		}else{
 	 	 			this[name]();
 	 	 		}
-	 	 		
 	 	 	}
  	 	});
 	}
@@ -29,7 +28,6 @@ class comunicationBackground{
 		}
 	}
 	async deleteAll(){
-		
 		return await new Promise(async(resolve, reject) => {
 			chrome.tabs.query({'active': true, lastFocusedWindow: true},async (tab)=> {
 					await chrome.storage.sync.get(null,async function(items){
@@ -42,49 +40,51 @@ class comunicationBackground{
 								count++;
 							}
 						}
+						chrome.tabs.query({}, function(tab){		
+							for(let i =0; i<tab.length; i++){
+								if(tab[i].url.substring(0, 6) == 'chrome'){
+									tab.splice(i, i);
+								}
+							}
+							for(let i =0; i<tab.length; i++){
+								chrome.tabs.executeScript(tab[i].id,{
+									code:'noteasy.deleteAllHere();'
+								})
+							}
+						})
 						if(count){
 							resolve({notesDelete:count});
+						}else{
+							resolve({notesDelete:'0'});
 						}	
 					});	
 			});	
-		}).then((res)=>{
-
-			chrome.tabs.query({}, function(tab){		
-					for(let i =0; i<tab.length; i++){
-						if(tab[i].url.substring(0, 6) == 'chrome'){
-							tab.splice(i, i);
-						}
-					}
-					for(let i =0; i<tab.length; i++){
-						chrome.tabs.executeScript(tab[i].id,{
-							code:'noteasy.deleteAllHere();'
-						})
-					}
-			})
-			return res;
 		});
 	}
 	loadNotes(){
 		chrome.tabs.onUpdated.addListener( (tabId , info)=> {
 		  if (info.status === 'complete') {
 		  	chrome.tabs.get(tabId,(tab)=>{
-
-    			var url = new URL (tab.url);
-    			this.sendContentScript(tabId, {
-	    			action:'cleanNotesPageDynamic', 
-	    			url: url
-	    		}); // para borrar las notas en la pantalla 
-	    			// donde no se recarga la pagina al cambiar de url.
-	    			//ejemplo (instagram)
-	    		this.sendContentScript(tabId, {
-	    			action:'loadNotes',
-	    			url: url
-	    		});
-
-	    		
+		  		try {
+		  			var url = new URL (tab.url);
+	    			this.sendContentScript(tabId, {
+		    			action:'cleanNotesPageDynamic', 
+		    			url: url
+		    		}); // para borrar las notas en la pantalla 
+		    			// donde no se recarga la pagina al cambiar de url.
+		    			//ejemplo (instagram)
+		    		this.sendContentScript(tabId, {
+		    			action:'loadNotes',
+		    			url: url
+		    		});	
+		  		} catch(e) {
+		  			
+		  			console.log(e);
+		  		}
+    			
     		});
 		  }
     	});
 	}
 }
-let comunication = new comunicationBackground();
+new comunicationBackground();

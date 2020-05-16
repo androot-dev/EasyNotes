@@ -4,28 +4,31 @@
     <meta charset="utf-8">
     <title>NoteEX</title>
     <link rel="stylesheet" href="index.css">
-   
+    <link rel="stylesheet" type="text/css" href="src/css/all.min.css">
   </head>
   <body>
+    
     <div id="toolbar">
-    <div id="barOptions">
-      <button class="icon" id="deleteNotes"></button>
-      <button class="icon" id="hiddenNotes"></button>
-      <div id="bubbleInfo"></div>
-      
-      <div id="deleteMenu">
-        <div>
+       <div id="deleteMenu">
+
+        <div class="opt">
           <input type="radio" id="allPages" name="selnotes" value="En todas la paginas">
           <label for="allPages">En todas las paginas</label><br>
         </div>
-        <div>
+        <div class="opt">
           <input type="radio" id="allHere" name="selnotes" value="Solo en esta pagina" checked>
           <label for="allHere">Solo en esta pagina</label><br>
         </div>
-        
-        <div id="msgBottom">Borrar Notas</div>
-      </div>
 
+        <div id="contentDeleteButtons">
+          <button class="mini-btn" id="deleteConfirm">Borrar<i  class="fa fa-exclamation-triangle"></i></button>
+        </div>
+      </div>
+    <div id="barOptions">
+      <button id="deleteButton"><i class="fa fa-trash"></i></button>
+      <button id="hiddenButton"><i class="fa fa-eye-slash"></i></button>
+      <button id="configButton"><i class="fa fa-cog"></i></button>
+      <div id="bubbleInfo"></div>
     </div>  
       <div id="noteNew">
         <ul id="miniNote">

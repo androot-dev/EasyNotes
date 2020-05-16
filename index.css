@@ -1,6 +1,5 @@
-
 #toolbar{
-	background: #ecf0f1;
+	background:#ecf0f1;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -9,67 +8,43 @@
 	overflow: hidden;
 	padding: 5px;
 }
-#hiddenNotes{
-	
+#hiddenButton{
 	width: 26px;
-}
-#deleteNotes{
-	position: absolute;
-	top: 2px; 
-	left: 2px;
-	background-image: url('src/img/del.png');
-}
-.icon{
-	
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 18px;
-	background-attachment: all;
 	transition: all .1s ease-in-out;
-	margin: 0px 5px;
+	background: transparent;
 }
-.icon:active{
-	-webkit-background-size: 22px;
-	background-size: 22px;
+i{
+	color: white;
 }
 button{
 	width: 23px;
 	height: 23px;
 	border: none;
-	background: none;
 	border-radius: 50%;
 	padding: 3px;
 	outline:none !important;
 	outline-width: 0 !important;
 	box-shadow: none !important;
 	cursor: pointer;
+	background: none;
 }
 #barOptions{
 	transition: all 1s ease-in-out !important;
 	width: 100%;
 	height: auto;
-	background:#2f3640;
+	background:#353b48;
 	margin-bottom: 10px;
 	font-stretch: expanded;
 	font-size: 15px;
 	color: white;
-	text-align: left;
 	padding: 2px;
 	display: flex;
-	justify-content: flex-start;
+	justify-content: space-around;
 	align-items: center;
 	position: absolute;
 	top: 0;
 	border-bottom: solid 1.5px #353b48;
 	z-index: 10;
-}
-.logo{
-	background-image: url('src/img/noteeasy.png'); 
-	height: 20px;
-	width: 20px;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
 }
 #miniNote{
 	width: 70px;
@@ -85,7 +60,6 @@ button{
 	list-style: none;
 	margin-top: 35px;
 }
-
 #miniNote .tack{
 	width: 5px;
 	height: 5px;
@@ -149,7 +123,6 @@ button{
 	background: #E50909;
 	border-radius: 50%;
 }
-
 .prefered:hover{
 	transform: scale(1.4);
 	transition: all .1s ease-in-out;
@@ -158,13 +131,19 @@ button{
 	display: none;
 	font-family: "NeueB";
 	font-size: 12px;
-	position: absolute;
 	justify-content: space-around;
 	align-items: center;
 	flex-wrap: wrap;
 	flex-direction: column;
+	position: absolute;
+	width: 100%;
+	background: #ecf0f1;
+	bottom: 0;
+	z-index: 9999;
+	color: black;
+	transition: all .2s ease-in-out;
 }
-#deleteMenu div{
+#deleteMenu .opt{
 	width: 100%;
 	display: flex;
 	justify-content: flex-start;
@@ -173,16 +152,52 @@ button{
 	padding-left: 8px;
 	padding-top: 5px;
 }
-
-#deleteMenu div label{
+#deleteMenu .opt label{
 	margin: 0 5px;
 }
-#deleteMenu #msgBottom{
-	font-family: "NeueB";
-	font-size: 12px;
-	position: absolute;
-	right: -30px;
-	top: -38px;
+#deleteConfirm{
+	font-size: 11px;
+	color: white;
+	display: flex;
+	justify-content: center;
+	width: auto;
+	height: auto;
+	padding: 3.5px;
+	background: black;
+	border-radius: 3px;
+	box-shadow: 0px 5px 8px -5px black;
+	transition: all .1s ease-in-out;
+}
+#deleteConfirm:hover{
+	background: red;
+}
+.mini-btn i{
+	margin:0 2px;
+}
+.mini-btn{
+	text-align: center;
+	font-size: 11px;
+	color: white;
+	display: flex;
+	justify-content: space-around;
+	width: auto;
+	height: auto;
+	padding: 3px;
+	background: red;
+	border-radius: 3px;
+}
+#upMenu{
+	background:transparent;
+	color: black;
+} 
+
+#contentDeleteButtons{
+	width: 100%;
+	display:flex;
+	align-items: center; 
+	justify-content: center;
+	padding: 3px;
+	margin-left: -5px;
 }
 #barOptions #bubbleInfo{
 	text-align: center;
