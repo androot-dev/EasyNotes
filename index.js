@@ -53,15 +53,7 @@ class popupComunication{
  	});
 
  }
- save(name, data){
-	 chrome.storage.sync.set({[name]:data});    
- }
- load(name, fn){
-	chrome.storage.sync.get([name], (res)=>{
-		fn(res);
-		return res;
-	});
- }
+
  showBubbleMessage(msg, time=2500){
  	let bubble = $('#bubbleInfo');
  	if(this.toggles.bubble){
@@ -177,6 +169,9 @@ class popup extends colors{
 		$('#deleteButton').on('click', ()=> {
 			this.menuDelete();
 		} );
+		$('#deleteConfirm').on('click', ()=>{
+			this.deleteNotes();
+		});
 		$("#hiddenButton").on('click', () =>{
 			this.menuHidden('toggle');
 		});
@@ -188,18 +183,18 @@ class popup extends colors{
 			toggle: (varCondition)=>{ 
 				let newValue = varCondition == 'hidden' ? 'show': 'hidden';
 				if(varCondition == 'hidden'){
-
+					chrome.runtime.sendMessage({action:'showNotes'})
 					hidden_.style.background="transparent";
 					chrome.storage.sync.set({['hiddenNotes']: newValue});
 				}else if(varCondition == 'show'){	
-
-					hidden_.style.background="#6C6C6C";
+					chrome.runtime.sendMessage({action:'hiddenNotes'})
+					hidden_.style.background="#636e72";
 					chrome.storage.sync.set({['hiddenNotes']: newValue});				
 				}
 			},
 			show: (varCondition)=>{
 				if(varCondition == 'hidden'){
-					hidden_.style.background="#6C6C6C";
+					hidden_.style.background="#636e72";
 				}else{
 					hidden_.style.background="transparent";
 				}
@@ -210,9 +205,7 @@ class popup extends colors{
 			(res)=> actions[action](res)
 		);
 	}
-	menuDelete(){
-
-		let menu = $('#deleteMenu');
+	deleteNotes(){
 		let radioButtonsDelete = {
 			allHere: function(){
 				let el = $('#allHere');
@@ -228,17 +221,29 @@ class popup extends colors{
 				return this.allHere().checked ? this.allHere() : this.allPages();
 			}
 		}
+		//'cambiar aqui'
+		if(radioButtonsDelete.checked().bind == 'deleteAll'){
+			chrome.runtime.sendMessage({action:'deleteAll'})
+		}else{
+			this.sendContentScript({action:'deleteAllHere'})
+		}
+		
+	}
+	menuDelete(){
+		let menu = $('#deleteMenu');
+		
 		if(this.toggles.menuDelete == false){
-			$('#deleteButton').style.background = "#6C6C6C";
+			$('#deleteButton').style.background = "#636e72";
+			menu.style.visibility = 'visible';
 			menu.style.height = '80%';
-			menu.style.display = 'flex';
 
 			$("#hiddenButton").style.color = 'red';
 			$("#configButton").style.visible = 'hidden';
 			this.toggles.menuDelete = true;
 		}else{
 			$('#deleteButton').style.background = "transparent";
-			menu.style.display = 'none';
+			menu.style.height = '0';
+			menu.style.visibility = 'hidden';
 			this.toggles.menuDelete =false;
 		}
 		

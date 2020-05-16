@@ -2,8 +2,8 @@ class extension extends note{
 	constructor(){
 		super();
 	}
-	
-	async deleteAllHere(){
+
+	async deleteAllHere(remove = true){
 		let count = 0;
 		let el = document.querySelectorAll('.removeEx0A');
 		let notes = el.length > 0 ? el : el[0];
@@ -13,6 +13,8 @@ class extension extends note{
 		}
 		const note = await new Promise( (resolve, reject) => {
 		notes.forEach( async (element, index) => {
+			if(remove == true){
+				
 		     	await chrome.storage.sync.remove([element.idExtension], ()=>{
 	            	element.delete();
 	            	count++;
@@ -20,6 +22,9 @@ class extension extends note{
 	            		resolve();
 	            	}
           		});
+          	}else{
+          		element.delete();
+          	}
 	    	});
 		});
 		return {notesDelete:count};

@@ -128,7 +128,9 @@ button{
 	transition: all .1s ease-in-out;
 }
 #deleteMenu{
-	display: none;
+	display: flex;
+	height: 0;
+	visibility: hidden;
 	font-family: "NeueB";
 	font-size: 12px;
 	justify-content: space-around;
@@ -141,7 +143,7 @@ button{
 	bottom: 0;
 	z-index: 9999;
 	color: black;
-	transition: all .2s ease-in-out;
+	transition: all .3s ease-in-out;
 }
 #deleteMenu .opt{
 	width: 100%;
