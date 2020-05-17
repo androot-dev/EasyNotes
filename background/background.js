@@ -123,6 +123,13 @@ class APIchrome extends comunicationBackground{
 class notesController extends APIchrome{
 	constructor(){
 		super();
+		this.onMessages({
+			hiddenNotes:null,
+			showNotes:  null,
+			deleteAll: function(()=>{
+				
+			})
+		})
 	}
 	hiddenNotes(){
 		this.load = false;
