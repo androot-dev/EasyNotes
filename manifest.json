@@ -13,6 +13,22 @@
       "128":"src/img/logo128.png"
     }
   },
+  "commands":{
+    "showHiddenNotes":{
+      "suggested-key":{
+        "default":"Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "Muestra notas ocultas en la pestaña activa"
+    },
+     "createNote":{
+        "suggested-key":{
+          "default":"Ctrl+Shift+A",
+          "mac": "Command+Shift+A"
+        },
+        "description": "Crea una nueva nota en la pestaña activa"
+      }
+  },
   "icons":{
     "16": "src/img/logo16.png",
     "24": "src/img/logo24.png",
@@ -20,7 +36,14 @@
     "128":"src/img/logo128.png"
   },
 
-  "permissions":["tabs","storage", "activeTab"],
+  "permissions":[
+    "tabs",
+    "storage", 
+    "activeTab",
+    "https://*/*",
+    "http://*/*",
+    "file:///*/*"
+  ],
   "background":{
 		"scripts":["background/background.js"], 
 		"persistent": false 

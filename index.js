@@ -34,13 +34,10 @@ class popupComunication{
 					if(val){
 						if(val.hiddenNotes){
 							resolve(val.hiddenNotes);
-							console.log('a toggle se envio, resolve: '+val.hiddenNotes)
 						}else{
-							console.log('a toggle se envio, reject: '+val.hiddenNotes)
 							reject('show');
 						}
 					}else{
-						console.log('a toggle se envio, reject: '+val.hiddenNotes)
 						reject('show');
 					}
 				});
@@ -51,7 +48,9 @@ class popupComunication{
  		let plural = msg>1 || msg==0 ? "s": "";
  		this.showBubbleMessage(+msg+' nota'+plural+' eliminada'+plural);
  	});
-
+ 	this.catchMessage('respond', (msg)=>{
+ 		
+ 	});
  }
 
  showBubbleMessage(msg, time=2500){
@@ -88,6 +87,9 @@ class popupComunication{
  	 chrome.runtime.onMessage.addListener(async (response, _, sendResponse) =>  {
  	 	if(response[name]){
  	 		fn(response[name])
+ 	 	}
+ 	 	if(response.respond){
+ 	 		sendResponse(this[response.response]);
  	 	}
  	 });
  }
