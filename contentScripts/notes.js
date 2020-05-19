@@ -1,31 +1,48 @@
 class note extends storage {
   constructor(){
     super();
-    this.class ="Ex0A";
     this.id = this.getID();
     this.temp = [];
   }
-  getID(){
+  async getID(request){
     let notes = document.querySelectorAll('.noteEx0A');
+    let id ;
     if(notes.length > 0){
-    	 let id = notes[notes.length-1].idnote;
+    	 id = notes[notes.length-1].idnote;
     	 id++;
-    	 return id;
     }else{
-		return 1;	
+		  id = 1;	
+    }
+    if(request){
+      let repeat = true;
+      let key = id;
+      return await new Promise(async(resolve, reject)=>{
+          do{
+            let res = await new Promise((resolve, reject)=>{
+                chrome.storage.sync.get([request.url+key], function(res){
+                    if(res[request.url+key]){
+                      reject();
+                    }else{
+                      resolve(key);
+                    }
+                });     
+            }).then( function(ID){ 
+              repeat = false; 
+              resolve(ID);
+            }, () =>{ key++ });
+          } while (repeat == true);
+      });
+    }else{
+      return id;
     }
   }
-  createNoteFrameset(){
-
-  }
-  createNote(request, control_id ='auto' ,position="center"){
+ async createNote(request, control_id ='auto', position = "center"){
       let id;
       if(control_id == 'auto'){
-        id=this.getID();
+        id= await this.getID(request);
       }else{
         id = control_id;
       }
-      
       this.id = id;
       function requestApply(noteModel, request){
         noteModel.note.style.background = request.noteColor;
@@ -34,10 +51,11 @@ class note extends storage {
       let appendNote = (note) =>{
         note.style.height = document.body.clientHeight+'px';
         let referenceNode = () =>{
-          if(this.getID() == 1){
+          let ID = this.getID();
+          if(ID == 1){
           	return document.body.children[0];
           }else{
-          	return document.body.children[this.getID()];
+          	return document.body.children[ID];
           }
         }
         document.body.insertBefore(note, referenceNode());
@@ -58,7 +76,7 @@ class note extends storage {
       }
       let create=(tag, name)=>{
         let el = document.createElement(tag);
-        el.classList+= name+this.class;
+        el.classList+= name+'Ex0A';
         el.id = name+"Ex"+id;  
         return el;
       }
@@ -114,6 +132,7 @@ class note extends storage {
               }   
               this.temp[id] = setTimeout(()=>{
                 let id = model.note.idnote;
+  
                   this.save(request.url+id, {
                     fontColor:request.fontColor,
                     noteColor:request.noteColor,

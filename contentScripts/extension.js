@@ -14,7 +14,6 @@ class extension extends note{
 		const note = await new Promise( (resolve, reject) => {
 		notes.forEach( async (element, index) => {
 			if(remove == true){
-				
 		     	await chrome.storage.sync.remove([element.idExtension], ()=>{
 	            	element.delete();
 	            	count++;
@@ -32,10 +31,10 @@ class extension extends note{
 }
 let noteasy = new extension();
 
-noteasy.cathMessage( (request)=>{
+noteasy.cathMessage( async(request)=>{
 
 	if(typeof noteasy[request.action] == 'function'){
-		let val = noteasy[request.action](request);
+		let val = await noteasy[request.action](request);
 		noteasy.onDrag();
 		return val;
 	}

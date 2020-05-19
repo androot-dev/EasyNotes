@@ -23,11 +23,11 @@
 .noteEx0A .paperEx0A{
   position: relative !important;
   border: none !important;
-  font-size: 1.7em !important;
+  font-size:  0.8cm !important;
   font-family: /*"Comic Neue",*/ "Comic Sans", cursive !important;
   font-weight: 700 !important;
-  width: 17vh!important;
-  height: 17vh !important;
+  width: 4cm!important;
+  height: 4cm !important;
   min-height: 175px;
   min-width: 180px;
   background: transparent !important;

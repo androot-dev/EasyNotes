@@ -3,7 +3,7 @@ class storage extends comunicationContentScript{
 		super();
 	}
 	save(name, data){
-	 chrome.storage.sync.set({[name]:data});    
+		chrome.storage.sync.set({[name]:data}); 
 	}
 	load(name, fn){
 	  chrome.storage.sync.get([name], function(res){

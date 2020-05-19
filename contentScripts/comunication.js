@@ -12,7 +12,7 @@ class comunicationContentScript extends DragDrop{
   	  let retorno = false;
       const res = await new Promise(async (resolve, reject) => {
         let response = await fn(request);
-
+       
         if(response && response.notesDelete){
           resolve(response);
         }else{

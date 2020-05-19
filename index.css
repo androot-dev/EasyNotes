@@ -6,10 +6,10 @@
 	align-items: flex-start;
 	font-family: 'NeueR';
 	overflow: hidden;
-	padding: 5px;
+	width: 2.8cm;
+	height: 3.6cm;
 }
 #hiddenButton{
-	width: 26px;
 	transition: all .1s ease-in-out;
 	background: transparent;
 }
@@ -17,11 +17,11 @@ i{
 	color: white;
 }
 button{
-	width: 23px;
-	height: 23px;
+	width: 25%;
+	height: 90%;
 	border: none;
 	border-radius: 50%;
-	padding: 3px;
+	padding: 3.5%;
 	outline:none !important;
 	outline-width: 0 !important;
 	box-shadow: none !important;
@@ -33,74 +33,64 @@ button{
 	width: 100%;
 	height: auto;
 	background:#353b48;
-	margin-bottom: 10px;
 	font-stretch: expanded;
 	font-size: 15px;
 	color: white;
-	padding: 2px;
+	padding: 2%;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 	position: absolute;
 	top: 0;
-	border-bottom: solid 1.5px #353b48;
 	z-index: 10;
 }
 #miniNote{
-	width: 70px;
-	height: 70px;
+	width: 1.89cm;
+	height: 1.84cm;
 	background: #f1c40f;
 	font-family: 'NeueB';
 	display: flex;
 	justify-content: center;
+	flex-direction: row;
 	align-items: center;
 	position: relative;
 	box-shadow: 0px 5px 8px -5px black;
 	transition: all .1s ease-in-out;
 	list-style: none;
-	margin-top: 35px;
+	cursor: pointer;
+	margin-top: 50%;
+	flex-wrap: wrap;
 }
 #miniNote .tack{
-	width: 5px;
-	height: 5px;
+	width: 0.12cm;
+	height: 0.12cm;
 	background: #E50909;
 	border-radius: 50%;
 	position:absolute;
-	top: 5px;
+	top: 7%;
+}
+#miniNote .content {
+	width: 100%;
+	height: 65%;
+	margin-top: 3%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 .falseLetter{
 	width: 70%;
-	height: 4px;
+	height: 0.115cm;
 	background: #000;
-	top: 18px;
-	position: absolute;
-}
-.firstFL{
-	top: 28px;
-}
-.twoFL{
-	top: 36px;
-}
-.thirdFL{
-	top: 44px;
-}
-.fourFL{
-	top: 52px;
-	width: 40%;
-	left: 11px;
 }
 #styleNote{
 	display: flex;
-	padding: 10px 0 0 0;
+	padding: 10% 0 0 0;
 	justify-content:center;
 	align-items: center;
 	list-style: none;
 }
-#miniNote:hover{
-	transition: all .1s ease-in-out;
-	cursor: pointer;
-	transform: rotate(-3deg);
-}
+
 #miniNote:active{
 	transform: scale(1.05);
 }
@@ -110,18 +100,12 @@ button{
 .prefered{
 	border-radius: 50%;
 	border:solid 1px black;
-	width: 10px;
-	height: 10px;
-	margin: 2px;
+	width: 0.266cm;
+	height: 0.266cm;
+	margin: 0.056cm;
 	flex-shrink: 0;
-	margin-bottom: 5px;
+	margin-bottom: 0.4cm;
 	cursor: pointer;
-}
-#styleNote .tack{
-	width: 5px;
-	height: 5px;
-	background: #E50909;
-	border-radius: 50%;
 }
 .prefered:hover{
 	transform: scale(1.4);
@@ -151,11 +135,11 @@ button{
 	justify-content: flex-start;
 	align-items: flex-start;
 	text-align: left;
-	padding-left: 8px;
-	padding-top: 5px;
+	padding-left: 9%;
+	padding-top: 3.5%;
 }
 #deleteMenu .opt label{
-	margin: 0 5px;
+	margin: 0 4%;
 }
 #deleteConfirm{
 	font-size: 11px;
@@ -164,7 +148,7 @@ button{
 	justify-content: center;
 	width: auto;
 	height: auto;
-	padding: 3.5px;
+	padding: 3%;
 	background: black;
 	border-radius: 3px;
 	box-shadow: 0px 5px 8px -5px black;
@@ -176,40 +160,31 @@ button{
 .mini-btn i{
 	margin:0 2px;
 }
-.mini-btn{
-	text-align: center;
-	font-size: 11px;
-	color: white;
-	display: flex;
-	justify-content: space-around;
-	width: auto;
-	height: auto;
-	padding: 3px;
-	background: red;
-	border-radius: 3px;
-}
 #upMenu{
 	background:transparent;
 	color: black;
 } 
-
 #contentDeleteButtons{
 	width: 100%;
 	display:flex;
 	align-items: center; 
 	justify-content: center;
-	padding: 3px;
-	margin-left: -5px;
+	padding: 3%;
+	margin-left: -4%;
 }
 #barOptions #bubbleInfo{
 	text-align: center;
 	width: 90%;
 	height: 0;
-	background: #EA2027;
+	background: #f1c40f;
 	position: absolute;
 	border-radius: 10px;
 	font-size: 10px;
-	right: 3px;
+	right: 3.5%;
 	transition: all .1s ease-in-out;
-	padding: 0px;
+	color: black;
+	font-family: 'NeueB';
+	font-weight: 900;
+	font-style: bold;
+
 }

@@ -1,9 +1,10 @@
 'use strict';
+
+
 class comunicationBackground {
 	/* Esta clase comunica el background con el popup y el contentScript */
-	constructor(){
-		
-	}
+	constructor(){}
+
 	async requestIndex(req){
 		return await new Promise(async(resolve, reject)=>{
 			let response = await chrome.runtime.sendMessage({respond:req});
@@ -22,23 +23,31 @@ class comunicationBackground {
 	
 }
 class APIchrome extends comunicationBackground{
-	constructor(){super()}
-
-	async getTab(request = {}){
-		let filterTab = (tab, filter)=>{
-
-			for(let i =0; i<tab.length; i++){
-				if(tab[i].url.substring(0, filter.length) == filter){
-					let end = i == 0 ? 1 : i;
-					tab.splice(i, end);
+	constructor(){
+		super()
+		this.filterTab= [
+			'chrome',
+			'https://chrome.google.com/webstore/'
+		]
+		this.filter = (tabs)=>{
+			for(let i in tabs){
+				for (let a in this.filterTab){
+					if(tabs[i].url.substring(0, this.filterTab[a].length) == 
+						this.filterTab[a]){
+						let end = i == 0 ? 1 : i;
+						tabs.splice(i, end);
+					}
 				}
 			}
-			return tab;
+			return tabs;
 		}
-		return await new Promise (async(resolve, reject)=>{
+	}
+	async getTab(request = {}){
+		return await new Promise ((resolve, reject)=>{
 			if(typeof(request)=='number'){
 				chrome.tabs.get(request, (tab)=>{
-					let tabs = filterTab([tab], 'chrome');
+					
+				let tabs = this.filter([tab]);
 					if(tabs && tabs.length > 0){
 					 	resolve( tabs );
 					}else{
@@ -47,7 +56,8 @@ class APIchrome extends comunicationBackground{
 				});
 			}else{
 				chrome.tabs.query(request, (tab)=>{
-					let tabs = filterTab(tab, 'chrome');
+					
+					let tabs = this.filter(tab);
 					if(tabs && tabs.length > 0){
 					 	resolve( tabs );
 					}else{
@@ -68,7 +78,8 @@ class APIchrome extends comunicationBackground{
 			});
 		});
 	}
-	onUpdated(actions){
+	async onUpdated(actions){
+
 		let action = (name, param, fn) =>{
 			if(fn!=null){
 				fn(this[name](param))
@@ -77,11 +88,12 @@ class APIchrome extends comunicationBackground{
 			}
 		}
 		chrome.tabs.onUpdated.addListener( (tabId , info)=> {
-			  for(let key in actions){
-			  	action(key, {tabId:tabId, info:info}, actions[key]);
-			  }
-			  
-	    });
+			if(info.status == "complete"){
+				for(let key in actions){
+			  		action(key, {tabId:tabId, info:info}, actions[key]);
+				}
+			}	
+		});
 	}
 	onMessages(messages){
 		//No se utilizan respuestas en este oyente
@@ -111,7 +123,6 @@ class APIchrome extends comunicationBackground{
 			)
 			if(cmd=="createNote"){
 				let selection = await this.requestIndex('selection');
-				alert(selection)
 				this.sendContentScript({
 
 				})
@@ -123,13 +134,22 @@ class APIchrome extends comunicationBackground{
 class notesController extends APIchrome{
 	constructor(){
 		super();
+		this.load = true;
+
+		this.onUpdated({
+			loadNotes:null
+		});
+		
 		this.onMessages({
 			hiddenNotes:null,
 			showNotes:  null,
-			deleteAll: function(()=>{
-				
-			})
+			deleteAll: function(res){
+				res.then((result)=>{
+					chrome.runtime.sendMessage(result);
+				})
+			}
 		})
+		this.onCommand();
 	}
 	hiddenNotes(){
 		this.load = false;
@@ -143,7 +163,7 @@ class notesController extends APIchrome{
 		let tab = await this.getTab();
 		if(tab!='empty'){
 			for(let i =0; i<tab.length; i++){
-				this.loadNotes(tab[i].id, tab[i].status);
+				this.loadNotes({tabId:tab[i].id, status:tab[i].status});
 			}
 		}
 	}
@@ -162,9 +182,9 @@ class notesController extends APIchrome{
 				}
 			}
 			let tab = await this.getTab();	
+	
 			if(tab!='empty'){
 				for(let i =0; i<tab.length; i++){
-	
 					chrome.tabs.executeScript(tab[i].id,{
 						code:'noteasy.deleteAllHere({}, false);'
 					})
@@ -175,13 +195,9 @@ class notesController extends APIchrome{
 		});
 	}
 	async loadNotes(param){
-
 		if( this.load == true ) {
-
 			let tab = await this.getTab(param.tabId);
-			
 			if(tab != "empty"){
-				
 				let url = tab[0].url;
 			    this.sendContentScript(param.tabId, {
 				    action:'cleanNotesPageDynamic', 
@@ -196,4 +212,5 @@ class notesController extends APIchrome{
 		}
 	}
 }
+
 new notesController();

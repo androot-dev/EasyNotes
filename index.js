@@ -60,7 +60,7 @@ class popupComunication{
  	} 
  	bubble.style.height = 'auto';
  	bubble.textContent = msg;
- 	bubble.style.padding = '4px 2px';
+ 	bubble.style.padding = '5px 2px';
  	this.toggles.bubble = setTimeout(function(){
  		bubble.style.height = '0';
  		bubble.textContent = "";
@@ -105,13 +105,17 @@ class colors extends popupComunication{
 		super();
 	}
 	setDarkNote(key){
+
 		if(key == 0 /* black */){
+			let bubble = $('#bubbleInfo');
+			bubble.style.background = "#EEEEEE";
 			$('.falseLetter').forEach( 
 				(element, index) => {
 				element.style.background = '#EEEEEE';
 				this.selection.font = 'white';
 			});
 		}else{
+			
 			$('.falseLetter').forEach( 
 				(element, index) => {
 				element.style.background = 'black';
@@ -121,13 +125,15 @@ class colors extends popupComunication{
 	}
 	setColorNote(keySelect, auto = false){
 		let prefered = $('.prefered')
-
+		let bubble = $('#bubbleInfo');
 		prefered.forEach( function(element, index) {
 			element.style.transform = 'scale(1)';
 		});
-		this.setDarkNote(keySelect);
+		
 		$('#colorNote-'+keySelect).style.transform = 'scale(1.4)';
 		$('#miniNote').style.background = this.prefereds[keySelect];
+		bubble.style.background = this.prefereds[keySelect];
+		this.setDarkNote(keySelect);
 		this.selection.note = this.prefereds[keySelect];
 		if(auto!=true){
 			chrome.storage.sync.set({key: keySelect});
