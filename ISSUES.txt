@@ -4,8 +4,12 @@
 
 #3 (RESOLVE) cambiar color de la burbuja en el popup, se ve fea
 
-#4 verificar al ejecutar loadNotes si hidden esta activado
+#4 (RESOLVE) verificar al ejecutar loadNotes si hidden esta activado
 
-#5 Eliminar las notas en la pagina actual, no elimina las notas ocultas.
+#5 (RESOLVE) Eliminar las notas en la pagina actual, no elimina las notas ocultas.
 
-#6 si se oculta una nota vacia esta no vuelve a aparecer
+#6 (RESOLVE) si se oculta una nota vacia esta no vuelve a aparecer
+
+#7 mostrar un mensaje de error cuando se trata de agregar una nota en una pagina de chrome o en la webstore
+
+#8 cuando se borran todas las notas. se borran las notas vacias pero no se cuentan

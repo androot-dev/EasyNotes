@@ -11,4 +11,15 @@ class storage extends comunicationContentScript{
 	  	return res;
 	  });
 	}
+	async getStorage(request = null){
+		return await new Promise (async(resolve, reject)=>{
+			chrome.storage.sync.get(request, (items)=>{
+				if(items){
+					resolve( items );
+				}else{
+					resolve( 'empty' );
+				}
+			});
+		});
+	}
 }

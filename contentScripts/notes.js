@@ -175,7 +175,10 @@ class note extends storage {
   }
   cleanNotesPageDynamic(){
     document.querySelectorAll('.removeEx0A').forEach( function(element, index) {
-     element.delete();
+     let text = document.querySelector('#paperEx'+element.id.replace('removeEx', ""))
+     if(text.textContent!=""){
+        element.delete();
+     }
     });
   }
   async loadNotes(request){

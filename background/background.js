@@ -30,33 +30,47 @@ class APIchrome extends comunicationBackground{
 			'https://chrome.google.com/webstore/'
 		]
 		this.filter = (tabs)=>{
+			let borrar = [];
 			for(let i in tabs){
 				for (let a in this.filterTab){
 					if(tabs[i].url.substring(0, this.filterTab[a].length) == 
 						this.filterTab[a]){
-						let end = i == 0 ? 1 : i;
-						tabs.splice(i, end);
+						borrar.push(i);
 					}
 				}
 			}
-			return tabs;
+			let newTabs = [];
+			for(let i in tabs){
+				let add = true;
+				for(let a in borrar){
+					if(borrar[a] == i){
+						add = false;
+					}
+				}
+				if (add == true ) {
+					newTabs.push(tabs[i]);
+				}
+			}	
+			return newTabs;
 		}
 	}
 	async getTab(request = {}){
 		return await new Promise ((resolve, reject)=>{
 			if(typeof(request)=='number'){
 				chrome.tabs.get(request, (tab)=>{
-					
-				let tabs = this.filter([tab]);
-					if(tabs && tabs.length > 0){
-					 	resolve( tabs );
-					}else{
-						resolve('empty');
+					if(tab){
+						let tabs = this.filter([tab]);
+							
+							if(tabs && tabs.length > 0){
+							 	resolve( tabs );
+							}else{
+								resolve('empty');
+							}
 					}
 				});
+				
 			}else{
 				chrome.tabs.query(request, (tab)=>{
-					
 					let tabs = this.filter(tab);
 					if(tabs && tabs.length > 0){
 					 	resolve( tabs );
@@ -186,7 +200,7 @@ class notesController extends APIchrome{
 			if(tab!='empty'){
 				for(let i =0; i<tab.length; i++){
 					chrome.tabs.executeScript(tab[i].id,{
-						code:'noteasy.deleteAllHere({}, false);'
+						code:'noteasy.deleteAllHere({}, false, true);'
 					})
 				}
 				count = count>0 ? count : '0';
@@ -197,7 +211,9 @@ class notesController extends APIchrome{
 	async loadNotes(param){
 		if( this.load == true ) {
 			let tab = await this.getTab(param.tabId);
-			if(tab != "empty"){
+			let optionHidden = await this.getStorage('hiddenNotes');
+
+			if(tab != "empty" && optionHidden.hiddenNotes == "show"){
 				let url = tab[0].url;
 			    this.sendContentScript(param.tabId, {
 				    action:'cleanNotesPageDynamic', 
