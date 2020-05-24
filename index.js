@@ -269,8 +269,6 @@ class popup extends colors{
 			menu.style.visibility = 'visible';
 			menu.style.height = '80%';
 
-			$("#hiddenButton").style.color = 'red';
-			$("#configButton").style.visible = 'hidden';
 			this.toggles.menuDelete = true;
 		}else{
 			$('#deleteButton').style.background = "transparent";

@@ -25,16 +25,21 @@ class comunicationBackground {
 class APIchrome extends comunicationBackground{
 	constructor(){
 		super();
-		let filterRules= [
-			'chrome',
-			'https://chrome.google.com/webstore/'
-		]
+		let filterRules= {
+			protocol:'chrome:',
+			hostname:'chrome.google.com'
+		}
 		this.filter = (tab)=>{
+			let url = new URL(tab.url);
+			
+			if(tab.title == url.hostname){
+				//sin conexion
+				return false;
+			}
 			for (let a in filterRules){
-					let cutString = tab.url.substring(0, filterRules[a].length);
-					if(cutString == filterRules[a]){
-						return false;			
-					}
+				if(url[a] == filterRules[a]){
+					return false;
+				}
 			}
 			return true;
 		}
@@ -216,15 +221,18 @@ class notesController extends APIchrome{
 					if( this.filter(tab[i]) ){
 						if(tab[i].status == "complete"){
 							let id = tab[i].id;
-							
-							await this.exeScript(id, {
-								code:'noteasy.removeNotesHere({action:"'+action+'",'+
-								'url:"'+tab[i].url+'", tabId:"'+id+'"})'
-							})	
+							try {
+								await this.exeScript(id, {
+									code:'noteasy.removeNotesHere({action:"'+action+'",'+
+									'url:"'+tab[i].url+'", tabId:"'+id+'"})'
+								});
+							} catch(e) {
+								console.log('ERROR: es posible que deba cargar nuevamente la pestaña '+id+' para usar noteEasy.('+tab[i].url+') ');
+							}
+
 						}
 					}
 				}
-			}	
 			let valueStorage = await this.getStorage();
 			if(action == "deleteAll" && valueStorage!='empty'){
 				for (let key in valueStorage){
