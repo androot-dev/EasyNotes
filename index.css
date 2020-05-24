@@ -178,7 +178,7 @@ button{
 	height: 0;
 	background: #f1c40f;
 	position: absolute;
-	border-radius: 10px;
+	border-radius: 8px;
 	font-size: 10px;
 	right: 3.5%;
 	transition: all .1s ease-in-out;

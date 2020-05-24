@@ -51,9 +51,10 @@ class popupComunication{
  	this.catchMessage('respond', (msg)=>{
  		
  	});
+ 
  }
 
- showBubbleMessage(msg, time=2500){
+ showBubbleMessage(msg, time=2500, color = {background:'auto' , font:'auto'}){
  	let bubble = $('#bubbleInfo');
  	if(this.toggles.bubble){
  		clearTimeout(this.toggles.bubbles);
@@ -61,6 +62,12 @@ class popupComunication{
  	bubble.style.height = 'auto';
  	bubble.textContent = msg;
  	bubble.style.padding = '5px 2px';
+ 	if(color.background && color.background != 'auto'){
+ 		bubble.style.background = color.background;
+ 	}
+ 	if(color.font && color.font != 'auto'){
+ 		bubble.style.color = color.font;
+ 	}
  	this.toggles.bubble = setTimeout(function(){
  		bubble.style.height = '0';
  		bubble.textContent = "";
@@ -115,7 +122,7 @@ class colors extends popupComunication{
 				this.selection.font = 'white';
 			});
 		}else{
-			
+	
 			$('.falseLetter').forEach( 
 				(element, index) => {
 				element.style.background = 'black';
@@ -214,11 +221,11 @@ class popup extends colors{
 			(res)=> actions[action](res)
 		);
 	}
-	deleteNotes(){
+	async deleteNotes(){
 		let radioButtonsDelete = {
 			allHere: function(){
 				let el = $('#allHere');
-				el.bind = 'deleteAllHere';
+				el.bind = 'removeNotesHere';
 				return el;
 			},
 			allPages: function(){
@@ -231,16 +238,28 @@ class popup extends colors{
 			}
 		}
 		let checked = radioButtonsDelete.checked().bind;
-		if(checked == 'deleteAll'){
-			chrome.runtime.sendMessage({
-				action: checked
-			});
-		}else{
-			this.sendContentScript({
-				action:checked
-			});
-		}
+		switch (checked) {
+
+			case 'deleteAll':
+				chrome.runtime.sendMessage({
+					action:checked
+				});
+				break;
+
+			case 'removeNotesHere':
+				let tab = await new Promise((resolve, reject)=>{
+					chrome.tabs.query({'active': true, lastFocusedWindow: true}, (tab)=>{
+						resolve(tab);
+					});
+				});
 		
+				this.sendContentScript({
+					action:checked,
+					url:tab[0].url,
+					idTab:tab[0].id
+				});
+				break;
+		}
 	}
 	menuDelete(){
 		let menu = $('#deleteMenu');
@@ -268,6 +287,21 @@ class popup extends colors{
 			fontColor:this.selection.font,
 			action:'createNote'
 		});
+		chrome.runtime.sendMessage({action: 'verifyURL'});
+		this.catchMessage('negate', (val)=>{
+
+	 		if(val == 'stop'){
+	 			this.showBubbleMessage('!Pagina no permitida');
+	 		}else if(val.negate == 'start'){
+
+	 			this.sendContentScript({
+					noteColor:this.selection.note, 
+					fontColor:this.selection.font,
+					action:'createNote'
+				});
+	 		}
+ 	});
+
 	}
 }
 new popup(

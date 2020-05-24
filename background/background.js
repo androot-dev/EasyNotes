@@ -24,18 +24,22 @@ class comunicationBackground {
 }
 class APIchrome extends comunicationBackground{
 	constructor(){
-		super()
+		super();
 		this.filterTab= [
 			'chrome',
 			'https://chrome.google.com/webstore/'
 		]
-		this.filter = (tabs)=>{
+		this.filter = (tabs, msgBox = false)=>{
 			let borrar = [];
+
 			for(let i in tabs){
 				for (let a in this.filterTab){
-					if(tabs[i].url.substring(0, this.filterTab[a].length) == 
-						this.filterTab[a]){
+					let cutString = tabs[i].url.substring(0, this.filterTab[a].length);
+					if(cutString == this.filterTab[a]){
 						borrar.push(i);
+						if(msgBox == true){
+							return false;
+						}
 					}
 				}
 			}
@@ -54,13 +58,28 @@ class APIchrome extends comunicationBackground{
 			return newTabs;
 		}
 	}
+	async addScript(tabId, script){
+		return new Promise((resolve, reject)=>{
+			chrome.tabs.executeScript(tabId,script , function(res){
+				resolve(res);
+			});
+		})
+	}
 	async getTab(request = {}){
+		if(request == 'active'){
+			request = {
+				'active': true, 
+				lastFocusedWindow: true
+			}
+		}
 		return await new Promise ((resolve, reject)=>{
 			if(typeof(request)=='number'){
 				chrome.tabs.get(request, (tab)=>{
 					if(tab){
 						let tabs = this.filter([tab]);
-							
+						if(tabs == false){
+							resolve(false);
+						}
 							if(tabs && tabs.length > 0){
 							 	resolve( tabs );
 							}else{
@@ -72,6 +91,9 @@ class APIchrome extends comunicationBackground{
 			}else{
 				chrome.tabs.query(request, (tab)=>{
 					let tabs = this.filter(tab);
+					if(tabs == false){
+						resolve(false);
+					}
 					if(tabs && tabs.length > 0){
 					 	resolve( tabs );
 					}else{
@@ -92,6 +114,19 @@ class APIchrome extends comunicationBackground{
 			});
 		});
 	}
+	async setStorage(key, value){
+		let exist = await this.getStorage(key);
+		return new Promise ((resolve, reject)=>{
+			chrome.storage.sync.set({[key]:value}, function(){
+				if(exist == {}){
+					resolve('setted')
+				}else{
+					resolve('modified')
+				}
+			}); 
+		});
+		
+	}
 	async onUpdated(actions){
 
 		let action = (name, param, fn) =>{
@@ -111,6 +146,7 @@ class APIchrome extends comunicationBackground{
 	}
 	onMessages(messages){
 		//No se utilizan respuestas en este oyente
+		
 		if(messages){
 			let action = (value, name, fn) =>{
 				if(value.action == name){
@@ -124,6 +160,13 @@ class APIchrome extends comunicationBackground{
 			chrome.runtime.onMessage.addListener(async (response, 
 				sender, sendResponse) =>  {
 			 	 	for(let key in messages){
+			 	 		if(messages[key] == 'indexResponseAsync'){
+			 	 			messages[key] = function(res){
+			 	 				res.then((result)=>{
+									chrome.runtime.sendMessage(result);
+								});
+			 	 			}
+			 	 		}
 			 	 		action(response, key, messages[key]);
 			 	 	}
 			});
@@ -131,10 +174,7 @@ class APIchrome extends comunicationBackground{
 	}
 	async onCommand(){
 		chrome.commands.onCommand.addListener(async(cmd)=> {
-			let tab = await this.getTab(
-				{'active': true, 
-				lastFocusedWindow: true}
-			)
+			let tab = await this.getTab('active')
 			if(cmd=="createNote"){
 				let selection = await this.requestIndex('selection');
 				this.sendContentScript({
@@ -157,17 +197,22 @@ class notesController extends APIchrome{
 		this.onMessages({
 			hiddenNotes:null,
 			showNotes:  null,
-			deleteAll: function(res){
-				res.then((result)=>{
-					chrome.runtime.sendMessage(result);
-				})
-			}
+			deleteAll: 'indexResponseAsync',
+			verifyURL: 'indexResponseAsync'
 		})
 		this.onCommand();
 	}
+	async verifyURL(){
+		let tab = await this.getTab('active', true);
+		if(tab == false){
+			return {negate: 'stop'}
+		}else{
+			return {negate: 'start'}
+		}
+	}
 	hiddenNotes(){
 		this.load = false;
-		this.deleteAll(false);
+		this.deleteAll('hiddenNotes');
 	}
 	showNotes(){
 		this.load = true;
@@ -181,39 +226,44 @@ class notesController extends APIchrome{
 			}
 		}
 	}
-	async deleteAll(remove = true){
+	async deleteAll(action = "deleteAll"){
 		return await new Promise(async(resolve, reject) => {
-			let valueStorage = await this.getStorage();
 			let count = 0;
-			if(remove == true && valueStorage!='empty'){
+			let tab = await this.getTab();	
+			if(tab!='empty'){
+				for(let i =0; i<tab.length; i++){
+					let id = tab[i].id;
+					await this.addScript(id, {
+						code:'noteasy.removeNotesHere({action:"'+action+'",'+
+						'url:"'+tab[i].url+'", tabId:"'+id+'"})'
+					})
+				}
+			}	
+			let valueStorage = await this.getStorage();
+			if(action == "deleteAll" && valueStorage!='empty'){
 				for (let key in valueStorage){
 					if (key.substring(0, 4) == 'http' || 
 						key.substring(0, 4) == 'file' ||
 						key.substring(0, 5) == 'https' ){
-							chrome.storage.sync.remove([key]);
+							await chrome.storage.sync.remove([key]);
 							count++;
 					}
 				}
 			}
-			let tab = await this.getTab();	
-	
-			if(tab!='empty'){
-				for(let i =0; i<tab.length; i++){
-					chrome.tabs.executeScript(tab[i].id,{
-						code:'noteasy.deleteAllHere({}, false, true);'
-					})
-				}
-				count = count>0 ? count : '0';
-				resolve({notesDelete:count});
-			}	
+			count = count>0 ? count : '0';
+			resolve({notesDelete:count});
+			
 		});
 	}
 	async loadNotes(param){
+
+
 		if( this.load == true ) {
+			
 			let tab = await this.getTab(param.tabId);
 			let optionHidden = await this.getStorage('hiddenNotes');
 
-			if(tab != "empty" && optionHidden.hiddenNotes == "show"){
+			if(tab != "empty" && tab !=false && optionHidden.hiddenNotes == "show"){
 				let url = tab[0].url;
 			    this.sendContentScript(param.tabId, {
 				    action:'cleanNotesPageDynamic', 

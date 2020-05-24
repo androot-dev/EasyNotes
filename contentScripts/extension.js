@@ -3,60 +3,47 @@ class extension extends note{
 		super();
 	}
 	
-	async deleteAllHere(rq, remove = true, deleteAll =false){
-		let count = 0;
-		let el = document.querySelectorAll('.removeEx0A');
+	async removeNotesHere(rq){
+		let countNote = 0;
+		let notesInDOM = document.querySelectorAll('.removeEx0A');
+		notesInDOM = notesInDOM.length > 0 ? notesInDOM : notesInDOM[0];
 
-		let notes = el.length > 0 ? el : el[0];
-		let nrNotes = notes ? notes.length: false;
 		let storage = await this.getStorage();
-		if(remove == true){
-			for(let i in storage){
-				let nr=0;
-				await new Promise(async(resolve, reject)=>{
-					if(storage[i].url && storage[i].url == rq.url){
-						await chrome.storage.sync.remove([rq.url+storage[i].id], ()=>{
-			            	resolve(1);
-		          		});
-					}else{
-						resolve(0);
-					}
-
-				}).then((res)=>{
-					count+=res;
-				});	
-			}
-		}
-		if(nrNotes == false && count==0){
-			return {notesDelete: '0'}
-		}
-		if(!notes){
-			return {notesDelete: count}
-		}
-		await new Promise( async(resolve, reject) => {
-			notes.forEach( async (element, index) => {
-				await new Promise( async(resolve, reject) => {
-					if(remove == true){
-				     	await chrome.storage.sync.remove([element.idExtension], ()=>{	
-			            	resolve();	
-		          		});
-		          	}else{
-		          		let text = document.querySelector('#paperEx'+element.id.replace('removeEx', ""))
-		          		if( text.textContent!="" && deleteAll==false){
-		          			element.delete();
-		          		}
-		          		if( deleteAll==true ){
-		          			element.delete();
-		          		}
-		          	}
-		    	}).then((res)=>{
-		    		element.delete();
-			        count++;
-		    		resolve();
-		    	});
+		let notesHere = async function(fn){
+			let notes = await new Promise(async(resolve, reject)=>{
+				let countDeleteHere = 0;
+				for(let i in storage){
+					await new Promise(async(resolve, reject)=>{
+						if(storage[i].url && storage[i].url == rq.url){
+							resolve(fn(storage[i]));
+						}else{
+							resolve(0)
+						}
+					}).then((res)=>{
+						countDeleteHere+=res;
+					});	
+				}
+				resolve(countDeleteHere);
 			});
-		});
-		return {notesDelete:count};
+			return notes;
+		}	
+		if(rq.action == 'removeNotesHere' || rq.action == 'deleteAll' 
+			|| rq.action =='hiddenNotes'){
+
+			
+			let deleteNotes = await notesHere( async (storage) =>{
+				if(rq.action == 'removeNotesHere'){
+				
+					await this.deleteStorage(storage.url+storage.id);
+				}
+				let elDOM = document.querySelector('#removeEx'+storage.id);
+				if(elDOM){ elDOM.delete() } 
+
+
+				return 1;
+			});
+			return {notesDelete: deleteNotes}
+		}
 	}
 }
 let noteasy = new extension();

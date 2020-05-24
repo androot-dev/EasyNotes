@@ -125,14 +125,13 @@ class note extends storage {
       model.area.saveAuto = (time) =>{
         model.text.addEventListener('keyup', (e) =>save(e, 2000));
         model.note.addEventListener('dragend', (e) =>save(e, 0));
-          let save = (e, time)=>{
+          let save = async(e, time)=>{    
             if( model.text.textContent != "" ){
               if(this.temp[id]){
                 clearTimeout(this.temp[id]);
               }   
               this.temp[id] = setTimeout(()=>{
                 let id = model.note.idnote;
-  
                   this.save(request.url+id, {
                     fontColor:request.fontColor,
                     noteColor:request.noteColor,
@@ -164,12 +163,14 @@ class note extends storage {
         addProps(model);
         activeProps(model);
         appendNote( model.fusion() );
+        //model.text.focus();
         if (position == 'center') {
           centerNote(model);
         }else{
           setPosition(request.x, request.y);
         }
 
+        
 	    
 	    return id;
   }

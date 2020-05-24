@@ -10,6 +10,8 @@
 
 #6 (RESOLVE) si se oculta una nota vacia esta no vuelve a aparecer
 
-#7 mostrar un mensaje de error cuando se trata de agregar una nota en una pagina de chrome o en la webstore
+#7 (RESOLVE) mostrar un mensaje de error cuando se trata de agregar una nota en una pagina de chrome o en la webstore
 
-#8 cuando se borran todas las notas. se borran las notas vacias pero no se cuentan
+#8 (RESOLVE) cuando se borran todas las notas. se borran las notas vacias pero no se cuentan
+
+#9 hacer foco en la nota al agregarla

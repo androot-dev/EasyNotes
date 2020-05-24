@@ -11,6 +11,13 @@ class storage extends comunicationContentScript{
 	  	return res;
 	  });
 	}
+	async deleteStorage(key){
+		new Promise((resolve, reject)=>{
+			chrome.storage.sync.remove([key], ()=>{
+				resolve();
+			})
+		})
+	}
 	async getStorage(request = null){
 		return await new Promise (async(resolve, reject)=>{
 			chrome.storage.sync.get(request, (items)=>{
@@ -21,5 +28,18 @@ class storage extends comunicationContentScript{
 				}
 			});
 		});
+	}
+	async setStorage(key, value){
+		let exist = await this.getStorage(key);
+		return new Promise ((resolve, reject)=>{
+			chrome.storage.sync.set({[key]:value}, function(){
+				if(exist == {}){
+					resolve('setted')
+				}else{
+					resolve('modified')
+				}
+			}); 
+		});
+		
 	}
 }
