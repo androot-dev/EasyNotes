@@ -25,44 +25,31 @@ class comunicationBackground {
 class APIchrome extends comunicationBackground{
 	constructor(){
 		super();
-		this.filterTab= [
+		let filterRules= [
 			'chrome',
 			'https://chrome.google.com/webstore/'
 		]
-		this.filter = (tabs, msgBox = false)=>{
-			let borrar = [];
-
-			for(let i in tabs){
-				for (let a in this.filterTab){
-					let cutString = tabs[i].url.substring(0, this.filterTab[a].length);
-					if(cutString == this.filterTab[a]){
-						borrar.push(i);
-						if(msgBox == true){
-							return false;
-						}
+		this.filter = (tab)=>{
+			for (let a in filterRules){
+					let cutString = tab.url.substring(0, filterRules[a].length);
+					if(cutString == filterRules[a]){
+						return false;			
 					}
-				}
 			}
-			let newTabs = [];
-			for(let i in tabs){
-				let add = true;
-				for(let a in borrar){
-					if(borrar[a] == i){
-						add = false;
-					}
-				}
-				if (add == true ) {
-					newTabs.push(tabs[i]);
-				}
-			}	
-			return newTabs;
+			return true;
 		}
 	}
-	async addScript(tabId, script){
+	async exeScript(tabId, script, cancelTime = 100){
 		return new Promise((resolve, reject)=>{
+			let timeout;
 			chrome.tabs.executeScript(tabId,script , function(res){
+				timeout = null;
 				resolve(res);
 			});
+
+			timeout = setTimeout(function(){
+				resolve('timeout');
+			}, cancelTime);
 		})
 	}
 	async getTab(request = {}){
@@ -75,27 +62,16 @@ class APIchrome extends comunicationBackground{
 		return await new Promise ((resolve, reject)=>{
 			if(typeof(request)=='number'){
 				chrome.tabs.get(request, (tab)=>{
-					if(tab){
-						let tabs = this.filter([tab]);
-						if(tabs == false){
-							resolve(false);
-						}
-							if(tabs && tabs.length > 0){
-							 	resolve( tabs );
-							}else{
-								resolve('empty');
-							}
+					if(tab && tab.url){
+						resolve( tab );
+					}else{
+						resolve('empty');
 					}
 				});
-				
 			}else{
 				chrome.tabs.query(request, (tab)=>{
-					let tabs = this.filter(tab);
-					if(tabs == false){
-						resolve(false);
-					}
-					if(tabs && tabs.length > 0){
-					 	resolve( tabs );
+					if(tab && tab.length > 0){
+					 	resolve( tab );
 					}else{
 						resolve('empty');
 					}
@@ -174,7 +150,8 @@ class APIchrome extends comunicationBackground{
 	}
 	async onCommand(){
 		chrome.commands.onCommand.addListener(async(cmd)=> {
-			let tab = await this.getTab('active')
+			//let tab = await this.getTab('active');
+
 			if(cmd=="createNote"){
 				let selection = await this.requestIndex('selection');
 				this.sendContentScript({
@@ -203,8 +180,8 @@ class notesController extends APIchrome{
 		this.onCommand();
 	}
 	async verifyURL(){
-		let tab = await this.getTab('active', true);
-		if(tab == false){
+		let tab = await this.getTab('active');
+		if(this.filter(tab[0]) == false){
 			return {negate: 'stop'}
 		}else{
 			return {negate: 'start'}
@@ -222,7 +199,9 @@ class notesController extends APIchrome{
 		let tab = await this.getTab();
 		if(tab!='empty'){
 			for(let i =0; i<tab.length; i++){
-				this.loadNotes({tabId:tab[i].id, status:tab[i].status});
+				if( this.filter(tab[i]) ){
+					this.loadNotes({tabId:tab[i].id, status:tab[i].status});
+				}
 			}
 		}
 	}
@@ -230,13 +209,20 @@ class notesController extends APIchrome{
 		return await new Promise(async(resolve, reject) => {
 			let count = 0;
 			let tab = await this.getTab();	
+
 			if(tab!='empty'){
 				for(let i =0; i<tab.length; i++){
-					let id = tab[i].id;
-					await this.addScript(id, {
-						code:'noteasy.removeNotesHere({action:"'+action+'",'+
-						'url:"'+tab[i].url+'", tabId:"'+id+'"})'
-					})
+
+					if( this.filter(tab[i]) ){
+						if(tab[i].status == "complete"){
+							let id = tab[i].id;
+							
+							await this.exeScript(id, {
+								code:'noteasy.removeNotesHere({action:"'+action+'",'+
+								'url:"'+tab[i].url+'", tabId:"'+id+'"})'
+							})	
+						}
+					}
 				}
 			}	
 			let valueStorage = await this.getStorage();
@@ -256,15 +242,14 @@ class notesController extends APIchrome{
 		});
 	}
 	async loadNotes(param){
-
-
 		if( this.load == true ) {
-			
 			let tab = await this.getTab(param.tabId);
 			let optionHidden = await this.getStorage('hiddenNotes');
 
-			if(tab != "empty" && tab !=false && optionHidden.hiddenNotes == "show"){
-				let url = tab[0].url;
+			if(tab != "empty" && optionHidden.hiddenNotes == "show"
+				&& this.filter(tab) ){
+
+				let url = tab.url;
 			    this.sendContentScript(param.tabId, {
 				    action:'cleanNotesPageDynamic', 
 				    url: url
