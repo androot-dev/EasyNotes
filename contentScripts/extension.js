@@ -115,7 +115,7 @@ class feedback extends extension{
 							<div class="areaEx1A"><div class="noteEx1A"  style="background: #f1c40f;"><span class="messageEx1A"></span><div class="tackEx1A" ><span class="removeEx1A"></span>
 								<i id="noteeasyEx0A"></i><span id="tituloEx0A">NoteEasy</span> 
 								<span id="msg-donateEx0A">
-									<strong style="font-size: 18px;">¿Te a parecido util?</strong> <br><br>Puedes apoyarme con una pequeña donación.
+									<strong style="color:black !important; font-size: 18px;">¿Te a parecido util?</strong> <br><br>Puedes apoyarme con una pequeña donación.
 								</span>
 								<form id="donativesEx0A" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 								

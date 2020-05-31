@@ -218,19 +218,19 @@ class popup extends colors{
 				let newValue = varCondition == 'hidden' ? 'show': 'hidden';
 				if(varCondition == 'hidden'){
 					chrome.runtime.sendMessage({action:'showNotes'})
-					hidden_.style.background="transparent";
+					hidden_.style.backgroundColor="transparent";
 					chrome.storage.sync.set({['hiddenNotes']: newValue});
 				}else if(varCondition == 'show'){	
 					chrome.runtime.sendMessage({action:'hiddenNotes'})
-					hidden_.style.background="#636e72";
+					hidden_.style.backgroundColor="#636e72";
 					chrome.storage.sync.set({['hiddenNotes']: newValue});				
 				}
 			},
 			show: (varCondition)=>{
 				if(varCondition == 'hidden'){
-					hidden_.style.background="#636e72";
+					hidden_.style.backgroundColor="#636e72";
 				}else{
-					hidden_.style.background="transparent";
+					hidden_.style.backgroundColor="transparent";
 				}
 			}
 		}
@@ -283,13 +283,13 @@ class popup extends colors{
 		let menu = $('#deleteMenu');
 		
 		if(this.toggles.menuDelete == false){
-			$('#deleteButton').style.background = "#636e72";
+			$('#deleteButton').style.backgroundColor = "#636e72";
 			menu.style.visibility = 'visible';
 			menu.style.height = '80%';
 
 			this.toggles.menuDelete = true;
 		}else{
-			$('#deleteButton').style.background = "transparent";
+			$('#deleteButton').style.backgroundColor = "transparent";
 			menu.style.height = '0';
 			menu.style.visibility = 'hidden';
 			this.toggles.menuDelete =false;

@@ -24,7 +24,6 @@
     "src/img/trash.svg",
     "src/img/comment-dots.svg",
     "src/img/exclamation-triangle.svg"
-
   ],
   "commands":{
     "showHiddenNotes":{
@@ -58,20 +57,16 @@
     "file:///*/*"
   ],
   "background":{
-		"scripts":["background/background.js"], 
-		"persistent": false 
-	},
+    "scripts":["background/background.js"], 
+    "persistent": false 
+  },
   "content_scripts": [
    {
      "matches":["<all_urls>"],
      "js":[
-      "contentScripts/dragDrop.js", 
-      "contentScripts/comunication.js",
-      "contentScripts/storage.js",
-      "contentScripts/notes.js",
-      "contentScripts/extension.js"
+      "contentScript/contentScript.js"
     ],
-     "css":["contentScripts/style.css","contentScripts/feedback.css"]
+     "css":["contentScript/contentScript.css"]
    }
  ]
 }

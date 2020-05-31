@@ -4,21 +4,23 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: flex-start;
-	font-family: 'NeueR';
+	font-family: cursive, "arial";
 	overflow: hidden;
 	width: 3cm;
-	height: 3.7cm;
+	height: 3.8cm;
 }
 #hiddenButton{
 	transition: all .1s ease-in-out;
-	background: transparent;
+	background-color: transparent;
+	background-size: 18px;
+}
+#feedbackButton{
+	background-size: 16px;
 }
 i{
 	color: white;
 }
 button{
-	width: 25%;
-	height: 90%;
 	border: none;
 	border-radius: 50%;
 	padding: 3.5%;
@@ -27,6 +29,22 @@ button{
 	box-shadow: none !important;
 	cursor: pointer;
 	background: none;
+	background-position: center !important;
+	background-size: 13px ;
+	background-attachment: scroll !important;
+	background-repeat: no-repeat !important;
+	width: 28px;
+	height: 25px;
+	padding: 2px;
+}
+button i{
+	background-position: center !important;
+	background-size: 13px;
+	background-attachment: scroll !important;
+	background-repeat: no-repeat !important;
+	width: 13px;
+	height: 13px;
+	margin-left: 3px;
 }
 #barOptions{
 	transition: all 1s ease-in-out !important;
@@ -34,7 +52,7 @@ button{
 	height: auto;
 	background:#353b48;
 	font-stretch: expanded;
-	font-size: 15px;
+	font-size: 13px;
 	color: white;
 	padding: 2%;
 	display: flex;
@@ -48,7 +66,7 @@ button{
 	width: 1.89cm;
 	height: 1.84cm;
 	background: #f1c40f;
-	font-family: 'NeueB';
+	font-family: cursive, "arial";
 	display: flex;
 	justify-content: center;
 	flex-direction: row;
@@ -58,7 +76,7 @@ button{
 	transition: all .1s ease-in-out;
 	list-style: none;
 	cursor: pointer;
-	margin-top: 50%;
+	margin-top: 57%;
 	flex-wrap: wrap;
 }
 #miniNote .tack{
@@ -115,8 +133,8 @@ button{
 	display: flex;
 	height: 0;
 	visibility: hidden;
-	font-family: "NeueB";
-	font-size: 12px;
+	font-family: "consolas", "arial";
+	font-size: 11px;
 	justify-content: space-around;
 	align-items: center;
 	flex-wrap: wrap;
@@ -183,7 +201,7 @@ button{
 	right: 3.5%;
 	transition: all .2s ease-in-out;
 	color: black;
-	font-family: 'NeueB', cursive;
+	font-family: cursive, "arial";
 	font-weight: 900;
 	font-style: bold;
 

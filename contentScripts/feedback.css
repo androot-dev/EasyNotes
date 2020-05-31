@@ -1,4 +1,8 @@
-
+	#donativesEx0A, #donativesEx0A input, #donativesEx0A img {
+		background-color: transparent !important;
+		border:none !important;
+		outline: none !important;
+	}
 	#tituloEx0A{
 		position: absolute !important;
 		top: -90px !important;
