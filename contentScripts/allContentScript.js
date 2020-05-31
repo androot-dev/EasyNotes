@@ -38,6 +38,7 @@ class DragDrop{
     $(drag).on('dragend')
     $(drag).on('dragstart');
     $(drop).on('dragover');
+    
    // $(drag).on('drop');
   }
   dragstart(evt){
@@ -51,6 +52,7 @@ class DragDrop{
         },
         css_start:()=>{
           this.getData('areaDrop').style.visibility = 'visible';
+          this.getData('areaDrop').style.height = document.body.clientHeight;
         },
         preventGhost:() =>{
           let img = document.createElement('img');
@@ -65,10 +67,12 @@ class DragDrop{
     }else{
       evt.preventDefault()
     }
+
   }
   dragend(evt){
     this.getData('areaDrop').style.visibility = 'hidden';
   }
+
   dragover(evt){
     
     let over = {
