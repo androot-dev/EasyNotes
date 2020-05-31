@@ -58,7 +58,8 @@ class popupComunication{
  	let bubble = $('#bubbleInfo');
  	if(this.toggles.bubble){
  		clearTimeout(this.toggles.bubbles);
- 	} 
+ 	}
+ 	bubble.style.opacity = '1';
  	bubble.style.height = 'auto';
  	bubble.textContent = msg;
  	bubble.style.padding = '5px 2px';
@@ -72,6 +73,7 @@ class popupComunication{
  		bubble.style.height = '0';
  		bubble.textContent = "";
  		bubble.style.padding = '0';
+ 		bubble.style.opacity = '0';
  	}, time);
  	
  }
@@ -192,11 +194,22 @@ class popup extends colors{
 			this.menuHidden('toggle');
 		});
 		$("#feedbackButton").on('click', ()=>{
-			this.sendContentScript({
-				action:'createFeedback'
-			})
+			this.createFeedback();
 		});
 		
+	}
+	createFeedback(){
+		chrome.runtime.sendMessage({action: 'verifyURL'});
+		this.catchMessage('negate', (val)=>{
+
+	 		if(val == 'stop'){
+	 			this.showBubbleMessage('Pagina no accesible');
+	 		}else if(val == 'start'){
+	 			this.sendContentScript({
+					action:'createFeedback'
+				})
+	 		}
+ 		});
 	}
 	menuHidden(action){
 		let hidden_ = $("#hiddenButton");
@@ -285,17 +298,13 @@ class popup extends colors{
 	
 	}
 	insertNote(){
-		this.sendContentScript({
-			noteColor:this.selection.note, 
-			fontColor:this.selection.font,
-			action:'createNote'
-		});
+
 		chrome.runtime.sendMessage({action: 'verifyURL'});
 		this.catchMessage('negate', (val)=>{
 
 	 		if(val == 'stop'){
-	 			this.showBubbleMessage('!Pagina no permitida');
-	 		}else if(val.negate == 'start'){
+	 			this.showBubbleMessage('Pagina no accesible');
+	 		}else if(val == 'start'){
 
 	 			this.sendContentScript({
 					noteColor:this.selection.note, 
@@ -303,7 +312,7 @@ class popup extends colors{
 					action:'createNote'
 				});
 	 		}
- 	});
+ 		});
 
 	}
 }
