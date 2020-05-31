@@ -227,12 +227,13 @@ class notesController extends APIchrome{
 									'url:"'+tab[i].url+'", tabId:"'+id+'"})'
 								});
 							} catch(e) {
-								console.log('ERROR: es posible que deba cargar nuevamente la pestaña '+id+' para usar noteEasy.('+tab[i].url+') ');
+								console.log('ERROR: es posible que deba cargar nuevamente la pestaña'+ 
+									id+' para usar noteEasy.('+tab[i].url+') ');
 							}
-
 						}
 					}
 				}
+			}
 			let valueStorage = await this.getStorage();
 			if(action == "deleteAll" && valueStorage!='empty'){
 				for (let key in valueStorage){

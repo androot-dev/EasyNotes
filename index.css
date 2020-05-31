@@ -6,8 +6,8 @@
 	align-items: flex-start;
 	font-family: 'NeueR';
 	overflow: hidden;
-	width: 2.8cm;
-	height: 3.6cm;
+	width: 3cm;
+	height: 3.7cm;
 }
 #hiddenButton{
 	transition: all .1s ease-in-out;

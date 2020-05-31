@@ -1,0 +1,179 @@
+
+	#tituloEx0A{
+		position: absolute !important;
+		top: -90px !important;
+		left: 50px !important;
+		color: white !important;
+		font-size: 40px !important;
+		font-style: italic !important;
+		font-family: cursive !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		width: auto !important;
+		height: auto !important;
+		line-height: 40px !important;
+	}
+	 #noteeasyEx0A{
+		background-position: center !important;
+		background-size: cover !important;
+		background-attachment: scroll !important;
+		background-repeat: no-repeat !important;
+
+		width: 80px !important;
+		height: 80px !important;
+		position: absolute !important;
+		top: -100px !important;
+		left: -40px !important;
+	}
+
+	#feedbackEx0A #social-barEx0A{
+		width: 100% !important;
+		height: 30px !important;
+		position: absolute !important;
+		bottom:0 !important;
+		display: flex !important;
+		justify-content: space-around !important;
+		align-items: center !important;
+	}
+	#feedbackEx0A #social-barEx0A .social-iconEx0A{
+		width: 30px !important;
+		height: 30px !important;
+		border-radius: 50% !important;
+		background-position: center !important;
+		background-size: 25px !important;
+		background-attachment: scroll !important;
+		background-repeat: no-repeat !important;
+		border: none !important;
+		cursor: pointer !important;
+		margin-top: -10px;
+	}
+	#social-barEx0A button{
+		outline: none !important;
+		background-color: #f1c40f !important;
+		margin: 0 !important;
+	}
+	#donativesEx0A{
+		visibility: hidden;
+		transition: all .2s ease-in-out !important;
+	}
+	#msgDonateEx0A{
+		height:40px !important;
+		width:250px !important;
+		padding: 0px 0px 0 0 !important;
+		display: flex !important;
+		justify-content: center !important;
+		align-items: center !important;
+		transition: all .2s ease-in !important;
+		margin: 0 0px !important;
+		z-index: 99999999 !important;
+	}
+	#msgDonateEx0A #messageEx0A{
+		margin-top: 0px !important;
+		font-family: cursive !important;
+		font-size: 0px ;
+		font-weight: 900 !important;
+		color: white !important;
+	}
+	#feedbackEx0A{
+		width: 100vw !important;
+		height: 100vh !important;
+		background: rgba(0,0,0, 0.7) !important;
+		position: absolute !important;
+		top: 0 ;
+		left: 0 ;
+		z-index: 999999999 !important;
+		display: flex !important;
+		justify-content: center !important;
+		align-items: center !important;
+	}
+	#feedbackEx0A #contentEx0A{
+		display: flex !important;
+		justify-content: center !important;
+		align-items: center !important;
+		flex-wrap: wrap !important;
+
+	}
+	#contentEx0A #sendFeedbackEx0A{
+		width: 350px !important;
+		height: 370px !important;
+		padding: 5px !important;
+		text-align: center !important;
+		background: transparent !important;
+		font-family: cursive !important;
+		display: flex !important;
+		flex-wrap: wrap !important;
+		justify-content: center !important;
+		align-items: center !important;
+		color: white !important;
+
+	}
+	#sendFeedbackEx0A #titleEx0A{
+		width: 100% !important;
+		margin-top: -60px !important;
+	}
+	#sendFeedbackEx0A .paperEx1A{
+		line-height: 20px !important;
+		overflow:hidden !important;
+	}
+	#mailEx0A{
+		font-size: 0.35cm !important;
+		color: blue !important;
+		cursor: pointer !important;
+		text-decoration: none !important;
+	}
+	#sendFeedbackEx0A #donateEx0A, #sendFeedbackEx0A #sendEmailEx0A{
+		border-radius: 50% !important;
+		border:none !important;
+		box-shadow: none !important;
+		cursor: pointer !important;
+		outline: none !important;
+		background-color: #bdc3c7 ;
+		height: 44px !important;
+		width:44px !important;
+		align-self: flex-end !important;
+		font-size: 25px !important;
+		z-index: 9999999 !important;
+		margin: 0px 6px !important;
+		background-position: center !important;
+		background-size: 25px !important;
+		background-attachment: scroll !important;
+		background-repeat: no-repeat !important;
+	}
+	#donativesEx0A{
+		position: absolute !important;
+		bottom: 10% !important;
+	}
+	#msg-donateEx0A{
+		color: black !important;
+		font-weight: 900 !important;
+		width:90% !important;
+		margin-top: 30% !important;
+		position: absolute !important;
+		visibility: hidden;
+	}
+	#sendFeedbackEx0A #sendEmailEx0A{
+		background-color:#ecf0f1 ;
+	}
+	#msgDonateEx0A #messageEx0A{
+	  animation-duration: 8s !important;
+	  animation-name: coffeRequest !important;
+	}
+
+	@keyframes coffeRequest {
+		  from {
+		    font-size: 0 ;
+		  }
+		  30%{
+		  	font-size: 0 ;
+		  }
+		  35%{
+		  	font-size: 18px;
+		  }
+		  95%{
+		  	font-size: 18px ;
+		  }
+		  to {
+
+		   font-size: 0 ;
+		 }
+	}

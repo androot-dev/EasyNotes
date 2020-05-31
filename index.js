@@ -191,6 +191,11 @@ class popup extends colors{
 		$("#hiddenButton").on('click', () =>{
 			this.menuHidden('toggle');
 		});
+		$("#feedbackButton").on('click', ()=>{
+			this.sendContentScript({
+				action:'createFeedback'
+			})
+		});
 		
 	}
 	menuHidden(action){

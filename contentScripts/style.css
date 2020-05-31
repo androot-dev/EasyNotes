@@ -1,4 +1,4 @@
-.noteEx0A{
+.noteEx0A, .noteEx1A{
   display: flex !important;
   position: relative ;
   padding: 5px 15px 25px 15px !important;
@@ -8,7 +8,8 @@
   box-shadow: 3px 6px 9px -5px rgba(0,0,0,0.75) !important;
   transform: skew(0.2deg) !important;
 }
-.areaEx0A{
+
+.areaEx0A, .areaEx1A{
   position: absolute !important;
   width: 100% !important;
   height: 100% !important;
@@ -16,14 +17,16 @@
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  z-index: 8000 !important;
+  z-index: 99999 !important;
   top: 0 !important;
   left: 0 !important;
 }
 .noteEx0A .paperEx0A{
+  font-size: 0.8cm !important;
+}
+.noteEx0A .paperEx0A, .noteEx1A .paperEx1A{
   position: relative !important;
   border: none !important;
-  font-size:  0.8cm !important;
   font-family: /*"Comic Neue",*/ "Comic Sans", cursive !important;
   font-weight: 700 !important;
   width: 4cm!important;
@@ -37,31 +40,34 @@
   outline:none !important;
   outline-width: 0 !important;
   box-shadow: none !important;
-  cursor: pointer !important;
-  line-height: 28px !important;
 }
-.noteEx0A .paperEx0A::-webkit-scrollbar {
+.noteEx0A .paperEx0A{
+    line-height: 28px !important;
+}
+.noteEx0A .paperEx0A{
+  cursor: pointer !important;
+}
+.noteEx0A .paperEx0A::-webkit-scrollbar, .noteEx1A .paperEx1A::-webkit-scrollbar {
     width: 2px !important;     /* Tamaño del scroll en vertical */
     height: 2px !important;    /* Tamaño del scroll en horizontal */
-    margin-right: -2px !important;
-
+    margin-left: -19px !important;
       /* Ocultar scroll */
 }
-.noteEx0A .paperEx0A::-webkit-scrollbar-thumb {
-    background: #EEEEEE !important;
+.noteEx0A .paperEx0A::-webkit-scrollbar-thumb, .noteEx1A .paperEx1A::-webkit-scrollbar-thumb {
+    background: rgba(255, 255,255, 0.5) !important;
     border-radius: 4px !important;
-    margin-left: 0px !important;
+    margin-left: -9px !important;
 }
 /* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
-.noteEx0A .paperEx0A::-webkit-scrollbar-thumb:hover {
+.noteEx0A .paperEx0A::-webkit-scrollbar-thumb:hover, .noteEx1A .paperEx1A::-webkit-scrollbar-thumb:hover {
     background: white !important;
     box-shadow: 0 0 2px 1px rgba(0, 44, 33, 0) !important;
 }
 /* Cambiamos el fondo cuando esté en active */
-.noteEx0A .paperEx0A::-webkit-scrollbar-thumb:active {
+.noteEx0A .paperEx0A::-webkit-scrollbar-thumb:active, .noteEx1A .paperEx1A::-webkit-scrollbar-thumb:active {
     background-color: #333 !important;
 }
-.noteEx0A .tackEx0A{
+.noteEx0A .tackEx0A, .noteEx1A .tackEx1A{
   margin-bottom: 2px !important;
   width: 20px !important;
   height: 20px !important;
@@ -74,7 +80,7 @@
   box-shadow: 0px 5px 8px -5px black !important;
   background: #EA2027 !important;
 } 
-.noteEx0A .removeEx0A{
+.noteEx0A .removeEx0A, .noteEx1A .removeEx1A{
   width: 40px !important;
   height: 30px !important;
   text-align: center !important;
@@ -90,7 +96,7 @@
   font-weight: 500 !important;
   font-family: arial !important;
 } 
-.noteEx0A .removeEx0A:hover::after{
+.noteEx0A .removeEx0A:hover::after, .noteEx1A .removeEx1A:hover::after{
   width: 40px !important;
   height: 30px !important;
   cursor: pointer !important;
@@ -100,7 +106,7 @@
   line-height: 30px !important;
   text-align: center !important;
 }
-.noteEx0A .messageEx0A{
+.noteEx0A .messageEx0A, .noteEx1A .messageEx1A{
   transition: all .1s ease-in-out !important;
   position: absolute !important;
   top: 7px !important;

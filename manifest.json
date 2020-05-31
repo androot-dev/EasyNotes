@@ -13,6 +13,15 @@
       "128":"src/img/logo128.png"
     }
   },
+  "web_accessible_resources":[
+    "src/img/facebook.svg",
+    "src/img/instagram.svg",
+    "src/img/github.svg",
+    "src/img/logo128.png",
+    "src/img/envelope.svg",
+    "src/img/coins.svg"
+
+  ],
   "commands":{
     "showHiddenNotes":{
       "suggested-key":{
@@ -56,9 +65,10 @@
       "contentScripts/comunication.js",
       "contentScripts/storage.js",
       "contentScripts/notes.js",
+      "contentScripts/feedback.js",
       "contentScripts/extension.js"
     ],
-     "css":["contentScripts/style.css"]
+     "css":["contentScripts/style.css","contentScripts/feedback.css"]
    }
  ]
 }
