@@ -12,14 +12,13 @@
 .areaEx0A, .areaEx1A{
   position: absolute !important;
   width: 100% !important;
-  height: 100% ;
   background: transparent !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   z-index: 9999 !important;
-  top: 0 !important;
-  left: 0 !important;
+  top: 0;
+  left: 0;
 }
 .noteEx0A .paperEx0A{
   font-size: 0.8cm !important;

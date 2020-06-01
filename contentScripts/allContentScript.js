@@ -2,6 +2,8 @@
 class DragDrop{
   constructor(){
       this.dataEvents = {};
+      this.principalElement = document.body;
+      this.searchPrincial = false;
   }
   setData(name, val){
      this.dataEvents[name] = val;
@@ -41,9 +43,26 @@ class DragDrop{
     
    // $(drag).on('drop');
   }
+  searchPrincialElement(){
+    let heightPrincipal = document.body.clientHeight;
+    let el = document.body;
+    let elements = document.querySelectorAll('body > *');
+    elements.forEach( function(element, index) {
+       if(element.clientHeight && element.clientHeight > heightPrincipal &&
+        element.classList[0] != "areaEx0A"){
+          heightPrincipal = element.clientHeight;
+          el = element;
+       }
+    });
+    return el;
+  }
   dragstart(evt){
     this.clearData();
     if(evt.target.mouseX){
+      if(this.searchPrincial == false){
+        this.principalElement = this.searchPrincialElement();
+        this.searchPrincial = true;
+      }
       let drag ={
         props_global:() =>{
            this.setData('drag', evt.target);
@@ -52,7 +71,7 @@ class DragDrop{
         },
         css_start:()=>{
           this.getData('areaDrop').style.visibility = 'visible';
-          this.getData('areaDrop').style.height = document.body.clientHeight;
+          this.getData('areaDrop').style.height = this.principalElement.clientHeight+'px';
         },
         preventGhost:() =>{
           let img = document.createElement('img');
