@@ -9,7 +9,7 @@
   transform: skew(0.2deg) !important;
 }
 
-.areaEx0A, .areaEx1A{
+.areaEx0A{
   position: absolute !important;
   width: 100% !important;
   background: transparent !important;
@@ -17,7 +17,7 @@
   justify-content: center !important;
   align-items: center !important;
   z-index: 9999 !important;
-  top: 0;
+  top: 45vh;
   left: 0;
 }
 .noteEx0A .paperEx0A{

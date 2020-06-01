@@ -143,13 +143,17 @@ class feedback extends extension{
 										<button class="social-iconEx0A" id="facebookEx0A"></button>
 									</a>
 								</div>
+
 							 </div>
-							</div></div>
-							<button id="sendEmailEx0A" class="select buttonEx0A"></button>
+								<button id="sendEmailEx0A" class="select buttonEx0A"></button>
 
 							<button id="donateEx0A" class="buttonEx0A">
 								<div class="coffeRequest" id="msgDonateEx0A"><h3 id="messageEx0A">Invitame un café!</h3></div>
 							</button>
+							</div>
+							 
+							</div>
+							
 
 						</div>
 

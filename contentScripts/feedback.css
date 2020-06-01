@@ -22,7 +22,6 @@
 		background-size: cover !important;
 		background-attachment: scroll !important;
 		background-repeat: no-repeat !important;
-
 		width: 80px !important;
 		height: 80px !important;
 		position: absolute !important;
@@ -90,6 +89,9 @@
 		justify-content: center !important;
 		align-items: center !important;
 	}
+	.areaEx1A{
+
+	}
 	#feedbackEx0A #contentEx0A{
 		display: flex !important;
 		justify-content: center !important;
@@ -109,7 +111,6 @@
 		justify-content: center !important;
 		align-items: center !important;
 		color: white !important;
-
 	}
 	#sendFeedbackEx0A #titleEx0A{
 		width: 100% !important;
@@ -155,8 +156,17 @@
 		position: absolute !important;
 		visibility: hidden;
 	}
+	#sendFeedbackEx0A #donateEx0A{
+		position: absolute !important;
+		bottom: -50px !important;
+		left: 110px !important;
+	}
 	#sendFeedbackEx0A #sendEmailEx0A{
-		background-color:#ecf0f1 ;
+		position: absolute !important;
+		bottom: -50px !important;
+		left: 50px !important;
+		background-color:#ecf0f1;
+
 	}
 	#msgDonateEx0A #messageEx0A{
 	  animation-duration: 8s !important;
