@@ -1,113 +1,46 @@
-var $ = (sel)=>{
-	let el = document.querySelectorAll(sel).length > 1 ?
-	document.querySelectorAll(sel) : document.querySelectorAll(sel)[0];
-	if(el){
-		if(el.tagName){
-			el.on = function(evt, fn){
-				el.addEventListener(evt, fn, false);
-			}
-		}else{
-			el.forEach( function(el, index){
-				el.on = function(evt, fn){
-					el.addEventListener(evt, fn, false);
-				}
-			});
-		}
-		return el;
-	}else{
-		console.log('no se encontro el selector: '+ sel);
-		return undefined;
-	}
-}
+import $ from './src/js/methods.js';
+import { APIchrome } from './src/js/chromeAPI.js';
 
-class popupComunication{
- /*
- Esta clase se encarga de comnicar el popup con los script de contenido
-  y el background.js 
- */
+class popupComunication extends APIchrome{
+
  constructor(){ 
+ 	super();
  	this.toggles = {
 		menuDelete:false,
-		menuHidden:async function(){
+		menuHidden:async ()=>{
 			return await new Promise(async (resolve, reject) =>{
-				return await chrome.storage.sync.get(['hiddenNotes'], (val)=>{
-					if(val){
-						if(val.hiddenNotes){
-							resolve(val.hiddenNotes);
-						}else{
-							reject('show');
-						}
-					}else{
-						reject('show');
-					}
-				});
+				let value = await this.getStorage('hiddenNotes');
+
+				return value!='empty' ? resolve(value) 
+				: reject('show');
+
 			});
 		}
 	}
- 	this.catchMessage('notesDelete', (msg)=>{
- 		let plural = msg>1 || msg==0 ? "s": "";
- 		this.showBubbleMessage(+msg+' nota'+plural+' eliminada'+plural);
- 	});
- 	this.catchMessage('respond', (msg)=>{
- 		
- 	});
- 
+	this.onMessages({
+		notesDelete:(msg)=>{
+			msg = msg.notesDelete; 
+			let plural = msg>1 || msg==0 ? "s": "";
+ 			this.showBubbleMessage(+msg+' nota'+plural+' eliminada'+plural);
+		},
+		accessUrlBloked: ()=>{
+			this.showBubbleMessage('Página no accesible');
+		}
+	});
  }
 
- showBubbleMessage(msg, time=2500, color = {background:'auto' , font:'auto'}){
+showBubbleMessage(msg, time=2500, color = {background:'auto' , font:'auto'}){
  	let bubble = $('#bubbleInfo');
- 	if(this.toggles.bubble){
- 		clearTimeout(this.toggles.bubbles);
- 	}
- 	bubble.style.opacity = '1';
- 	bubble.style.height = 'auto';
+
  	bubble.textContent = msg;
- 	bubble.style.padding = '5px 2px';
  	if(color.background && color.background != 'auto'){
  		bubble.style.background = color.background;
  	}
  	if(color.font && color.font != 'auto'){
  		bubble.style.color = color.font;
  	}
- 	this.toggles.bubble = setTimeout(function(){
- 		bubble.style.height = '0';
- 		bubble.textContent = "";
- 		bubble.style.padding = '0';
- 		bubble.style.opacity = '0';
- 	}, time);
- 	
+ 	bubble.animate({opacity:'1'},{opacity:'0'}, 2000);
  }
- sendContentScript(msg ,fn){
- 	chrome.tabs.query({'active': true, lastFocusedWindow: true},(tab)=>{
- 		 if(tab[0]){
-	 		var url = new URL (tab[0].url);
-	    	msg.url = url;
-	 		if(fn == null){
-				chrome.tabs.sendMessage (tab[0].id, msg);
-			}else{
-				chrome.tabs.sendMessage (tab[0].id, msg, function(res){
-					fn(res)
-				});
-			}
-		}
- 	});
- }
- catchMessage(name, fn){
- 	 chrome.runtime.onMessage.addListener(async (response, _, sendResponse) =>  {
- 	 	if(response[name]){
- 	 		fn(response[name])
- 	 	}
- 	 	if(response.respond){
- 	 		sendResponse(this[response.response]);
- 	 	}
- 	 });
- }
- send(msg, destination, action){
- 	msg.action = action;
- 	msg.destination = destination;
-	return chrome.runtime.sendMessage(msg);
- }
-
 }
 class colors extends popupComunication{
 	constructor(){
@@ -173,6 +106,7 @@ class colors extends popupComunication{
 class popup extends colors{
 	constructor(notesColors, fontColor='#000'){
 		super();
+
 		this.prefereds = notesColors;
 		this.fontColor = fontColor;
 		this.selection = {};
@@ -194,22 +128,8 @@ class popup extends colors{
 			this.menuHidden('toggle');
 		});
 		$("#feedbackButton").on('click', ()=>{
-			this.createFeedback();
-		});
-		
-	}
-	createFeedback(){
-		chrome.runtime.sendMessage({action: 'verifyURL'});
-		this.catchMessage('negate', (val)=>{
-
-	 		if(val == 'stop'){
-	 			this.showBubbleMessage('Pagina no accesible');
-	 		}else if(val == 'start'){
-	 			this.sendContentScript({
-					action:'createFeedback'
-				})
-	 		}
- 		});
+			this.send({verifyURL: 'createFeedback'});
+		});	
 	}
 	menuHidden(action){
 		let hidden_ = $("#hiddenButton");
@@ -271,11 +191,12 @@ class popup extends colors{
 					});
 				});
 		
-				this.sendContentScript({
+				this.send({
 					action:checked,
-					url:tab[0].url,
-					idTab:tab[0].id
-				});
+					url:tab[0].url
+
+				}, tab[0].id);
+
 				break;
 		}
 	}
@@ -294,26 +215,14 @@ class popup extends colors{
 			menu.style.visibility = 'hidden';
 			this.toggles.menuDelete =false;
 		}
-		
-	
 	}
 	insertNote(){
 
-		chrome.runtime.sendMessage({action: 'verifyURL'});
-		this.catchMessage('negate', (val)=>{
-
-	 		if(val == 'stop'){
-	 			this.showBubbleMessage('Pagina no accesible');
-	 		}else if(val == 'start'){
-
-	 			this.sendContentScript({
-					noteColor:this.selection.note, 
-					fontColor:this.selection.font,
-					action:'createNote'
-				});
-	 		}
- 		});
-
+		this.send({
+			verifyURL: 'createNote',
+			noteColor: this.selection.note,
+			fontColor: this.selection.font
+		});
 	}
 }
 new popup(

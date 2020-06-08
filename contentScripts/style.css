@@ -11,13 +11,13 @@
 
 .areaEx0A{
   position: absolute !important;
-  width: 100% !important;
+  width: 100%;
   background: transparent !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   z-index: 9999 !important;
-  top: 45vh;
+  top: 0;
   left: 0;
 }
 .noteEx0A .paperEx0A{

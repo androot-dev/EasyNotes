@@ -42,7 +42,7 @@ class extension extends note{
 
 				return 1;
 			});
-			return {notesDelete: deleteNotes}
+			return {action:'notesDelete', notesDelete: deleteNotes}
 		}
 	}
 }
@@ -115,7 +115,7 @@ class feedback extends extension{
 							<div class="areaEx1A"><div class="noteEx1A"  style="background: #f1c40f;"><span class="messageEx1A"></span><div class="tackEx1A" ><span class="removeEx1A"></span>
 								<i id="noteeasyEx0A"></i><span id="tituloEx0A">NoteEasy</span> 
 								<span id="msg-donateEx0A">
-									<strong style="color:black !important; font-size: 18px;">¿Te a parecido util?</strong> <br><br>Puedes apoyarme con una pequeña donación.
+									<strong style="color:black !important; font-size: 18px;">¿Te a parecido útil?</strong> <br><br>Puedes apoyarme con una pequeña donación.
 								</span>
 								<form id="donativesEx0A" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 								
@@ -126,12 +126,12 @@ class feedback extends extension{
 								</form>
 
 							</div>
-							<div class="paperEx1A notranslate" style=" font-size: 0.45cm;pointer-events:auto;color: black;">Comunicate con nosotros a través de: <a id="mailEx0A" href="mailto:andros.noteeasy@gmail.com">andros.noteeasy@gmail.com</a>
+							<div class="paperEx1A notranslate" style=" font-size: 0.45cm;pointer-events:auto;color: black;">Comunícate con nosotros a través de: <a id="mailEx0A" href="mailto:andros.noteeasy@gmail.com">andros.noteeasy@gmail.com</a>
 								<br>
 								<br>
 								<br>
 	
-								Siguenos en: 
+								Síguenos en: 
 								<div id="social-barEx0A">
 									<a target="_blank" href="https://github.com/andros-code">
 										<button class="social-iconEx0A" id="githubEx0A"></button>
@@ -177,10 +177,11 @@ class feedback extends extension{
 	let noteasy = new feedback();
 
 	noteasy.cathMessage( async(request)=>{
-
+		
 		if(typeof noteasy[request.action] == 'function'){
 			let val = await noteasy[request.action](request);
 			noteasy.onDrag();
 			return val;
+			
 		}
 	});

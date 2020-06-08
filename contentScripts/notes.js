@@ -37,6 +37,7 @@ class note extends storage {
     }
   }
  async createNote(request, control_id ='auto', position = "center"){
+
       let id;
       if(control_id == 'auto'){
         id= await this.getID(request);

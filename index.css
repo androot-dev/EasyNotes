@@ -193,7 +193,7 @@ button i{
 #barOptions #bubbleInfo{
 	text-align: center;
 	width: 90%;
-	height: 0;
+	height: auto;
 	background: #f1c40f;
 	position: absolute;
 	border-radius: 8px;
@@ -204,5 +204,8 @@ button i{
 	font-family: cursive, "arial";
 	font-weight: 900;
 	font-style: bold;
+	padding: 5px 2px;
+	pointer-events: none;
+	opacity: 0;
 
 }

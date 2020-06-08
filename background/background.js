@@ -1,6 +1,3 @@
-'use strict';
-
-
 class comunicationBackground {
 	/* Esta clase comunica el background con el popup y el contentScript */
 	constructor(){}
@@ -126,29 +123,20 @@ class APIchrome extends comunicationBackground{
 		});
 	}
 	onMessages(messages){
-		//No se utilizan respuestas en este oyente
-		
 		if(messages){
-			let action = (value, name, fn) =>{
-				if(value.action == name){
-					if(fn!=null){
-						fn(this[name]())
-					}else{
-						this[name]();
-					}
-		 	 	}
-			}
 			chrome.runtime.onMessage.addListener(async (response, 
 				sender, sendResponse) =>  {
 			 	 	for(let key in messages){
-			 	 		if(messages[key] == 'indexResponseAsync'){
-			 	 			messages[key] = function(res){
-			 	 				res.then((result)=>{
-									chrome.runtime.sendMessage(result);
-								});
+			 	 		let action = response.action ? 'action' : 'verifyURL';
+			 	 		
+			 	 		if(action == 'verifyURL'){
+			 	 			this.verifyURL(response);
+			 	 			break;
+			 	 		}else{
+			 	 			if(response.action == key){
+			 	 				messages[key](response);
 			 	 			}
 			 	 		}
-			 	 		action(response, key, messages[key]);
 			 	 	}
 			});
 		}
@@ -166,7 +154,6 @@ class APIchrome extends comunicationBackground{
 		})
 	}
 }
-
 class notesController extends APIchrome{
 	constructor(){
 		super();
@@ -177,19 +164,26 @@ class notesController extends APIchrome{
 		});
 		
 		this.onMessages({
-			hiddenNotes:null,
-			showNotes:  null,
-			deleteAll: 'indexResponseAsync',
-			verifyURL: 'indexResponseAsync'
+			hiddenNotes: ()=>{ this.hiddenNotes() },
+			showNotes:   ()=>{ this.showNotes()   },
+			deleteAll: async (res)=>{ 
+				let prom = await this.deleteAll();
+				chrome.runtime.sendMessage( prom );
+			},
+			verifyURL: (res)=>{ this.verifyURL(res)}
 		})
 		this.onCommand();
 	}
-	async verifyURL(){
+	async verifyURL(response){
 		let tab = await this.getTab('active');
 		if(this.filter(tab[0]) == false){
-			return {negate: 'stop'}
+			delete(response.verifyURL)
+			chrome.runtime.sendMessage( {action:'accessUrlBloked'} );
 		}else{
-			return {negate: 'start'}
+			response.action = response.verifyURL;
+			delete(response.verifyURL)
+			response.url = tab[0].url;
+			chrome.tabs.sendMessage( tab[0].id, response);
 		}
 	}
 	hiddenNotes(){
@@ -246,7 +240,7 @@ class notesController extends APIchrome{
 				}
 			}
 			count = count>0 ? count : '0';
-			resolve({notesDelete:count});
+			resolve({action: 'notesDelete', notesDelete:count});
 			
 		});
 	}
