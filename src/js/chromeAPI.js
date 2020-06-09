@@ -1,4 +1,4 @@
-export class APIchrome{
+export default class APIchrome{
 	constructor(){
 		let filterRules= {
 			protocol:'chrome:',

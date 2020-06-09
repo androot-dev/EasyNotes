@@ -10,9 +10,7 @@ class pallete {
 			if(!arrayColors[key].select){arrayColors[key].select = false};
 		}
 		this.colors = arrayColors;
-
 	}
-
 	generatePallete(){
 		let newStyle = document.createElement('ul');
 		newStyle.classList = "styleNote";

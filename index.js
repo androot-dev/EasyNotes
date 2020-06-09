@@ -1,46 +1,38 @@
 import $ from './src/js/methods.js';
-import { APIchrome } from './src/js/chromeAPI.js';
+import APIchrome from './src/js/chromeAPI.js';
 import defaultPallete from './src/js/palletes.js';
 
 class popupComunication extends APIchrome{
+ 	constructor(){ 
+	 	super();
+	 	this.toggles = {
+			menuDelete:false,
+			menuHidden:async ()=>{
+				return await new Promise(async (resolve, reject) =>{
+					let value = await this.getStorage('hiddenNotes');
 
- constructor(){ 
- 	super();
- 	this.toggles = {
-		menuDelete:false,
-		menuHidden:async ()=>{
-			return await new Promise(async (resolve, reject) =>{
-				let value = await this.getStorage('hiddenNotes');
+					return value!='empty' ? resolve(value) 
+					: reject('show');
 
-				return value!='empty' ? resolve(value) 
-				: reject('show');
-
-			});
+				});
+			}
 		}
+		this.onMessages({
+			notesDelete:(msg)=>{
+				msg = msg.notesDelete; 
+				let plural = msg>1 || msg==0 ? "s": "";
+	 			this.showBubbleMessage(+msg+' nota'+plural+' eliminada'+plural);
+			},
+			accessUrlBloked: ()=>{
+				this.showBubbleMessage('Página no accesible');
+			}
+		});
+ 	}
+	showBubbleMessage(msg ,time=2500){
+	 	let bubble = $('#bubbleInfo');
+	 	bubble.textContent = msg;
+	 	bubble.animate({opacity:'1'},{opacity:'0'}, 2000);
 	}
-	this.onMessages({
-		notesDelete:(msg)=>{
-			msg = msg.notesDelete; 
-			let plural = msg>1 || msg==0 ? "s": "";
- 			this.showBubbleMessage(+msg+' nota'+plural+' eliminada'+plural);
-		},
-		accessUrlBloked: ()=>{
-			this.showBubbleMessage('Página no accesible');
-		}
-	});
- }
-showBubbleMessage(msg, color = {background:'auto' , font:'auto'} ,time=2500){
- 	let bubble = $('#bubbleInfo');
-
- 	bubble.textContent = msg;
- 	if(color.background && color.background != 'auto'){
- 		bubble.style.background = color.background;
- 	}
- 	if(color.font && color.font != 'auto'){
- 		bubble.style.color = color.font;
- 	}
- 	bubble.animate({opacity:'1'},{opacity:'0'}, 2000);
- }
 }
 class colors extends popupComunication{
 	constructor(){
@@ -81,7 +73,6 @@ class colors extends popupComunication{
 		this.setStorage('defaultConfigNote', {pallete:key, color:keyColor});
 	}
 }
-
 class popup extends colors{
 	constructor(arrayPalletes){
 		super();
@@ -170,7 +161,7 @@ class popup extends colors{
 
 			case 'removeNotesHere':
 				let tab = await this.getTab('active');
-				
+
 				this.send({
 					action:checked,
 					url:tab[0].url
@@ -186,7 +177,6 @@ class popup extends colors{
 			$('#deleteButton').style.backgroundColor = "#636e72";
 			menu.style.visibility = 'visible';
 			menu.style.height = '80%';
-
 			this.toggles.menuDelete = true;
 		}else{
 			$('#deleteButton').style.backgroundColor = "transparent";
