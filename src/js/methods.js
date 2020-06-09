@@ -6,8 +6,10 @@ var $ = (sel)=>{
 		el.on = function(evt, fn){
 				el.addEventListener(evt, fn, false);
 		}
-		el.animate = function(start, end, time=2000){
-
+		el.animate = function(start, end, time=2000, transition=200){
+			transition = transition /1000;
+			
+			el.style.transition = 'all '+transition+'s ease-in-out';
 			for(let key in start){
 				el.style[key] = start[key]; 
 			}
@@ -26,6 +28,11 @@ var $ = (sel)=>{
 		if(el.tagName){
 			addMethods(el);
 		}else{
+			el.on = function(evt, fn){
+				el.forEach( function(element, index) {
+					element.addEventListener(evt,(evt)=> fn(evt), false);
+				});
+			}
 			el.forEach( function(el, index){
 				addMethods(el);
 			});

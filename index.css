@@ -7,7 +7,8 @@
 	font-family: cursive, "arial";
 	overflow: hidden;
 	width: 3cm;
-	height: 3.8cm;
+	height: auto;
+	padding-bottom: 5px;
 }
 #hiddenButton{
 	transition: all .1s ease-in-out;
@@ -77,6 +78,7 @@ button i{
 	list-style: none;
 	cursor: pointer;
 	margin-top: 57%;
+	margin-bottom: 20%;
 	flex-wrap: wrap;
 }
 #miniNote .tack{
@@ -101,18 +103,18 @@ button i{
 	height: 0.110cm;
 	background: #000;
 }
-#styleNote{
+.styleNote{
 	display: flex;
-	padding: 10% 0 0 0;
 	justify-content:center;
 	align-items: center;
 	list-style: none;
+	margin-bottom: -12px;
 }
 
 #miniNote:active{
 	transform: scale(1.05);
 }
-#styleNote li{
+.styleNote li{
 	background: #000;
 }
 .prefered{
@@ -199,7 +201,6 @@ button i{
 	border-radius: 8px;
 	font-size: 10px;
 	right: 3.5%;
-	transition: all .2s ease-in-out;
 	color: black;
 	font-family: cursive, "arial";
 	font-weight: 900;

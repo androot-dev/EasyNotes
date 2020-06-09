@@ -1,5 +1,6 @@
 import $ from './src/js/methods.js';
 import { APIchrome } from './src/js/chromeAPI.js';
+import defaultPallete from './src/js/palletes.js';
 
 class popupComunication extends APIchrome{
 
@@ -28,8 +29,7 @@ class popupComunication extends APIchrome{
 		}
 	});
  }
-
-showBubbleMessage(msg, time=2500, color = {background:'auto' , font:'auto'}){
+showBubbleMessage(msg, color = {background:'auto' , font:'auto'} ,time=2500){
  	let bubble = $('#bubbleInfo');
 
  	bubble.textContent = msg;
@@ -46,76 +46,58 @@ class colors extends popupComunication{
 	constructor(){
 		super();
 	}
-	setDarkNote(key){
+	async onSelectionColor(defaultColor){
+		let toolbar = $('#toolbar');
+		let arrayPalletes = this.palletes;
+		let storageConfig = await this.getStorage('defaultConfigNote');
+		 
+		for(let key in arrayPalletes){
+			let styleNote = arrayPalletes[key].generatePallete();
+			toolbar.appendChild( styleNote );
 
-		if(key == 0 /* black */){
-			let bubble = $('#bubbleInfo');
-			bubble.style.background = "#EEEEEE";
-			$('.falseLetter').forEach( 
-				(element, index) => {
-				element.style.background = '#EEEEEE';
-				this.selection.font = 'white';
-			});
+			$('#'+styleNote.id+' li').on('click', (evt)=>{
+				let keyColor = evt.target.id.replace('colorNote-', "");
+				this.selectColor(key, keyColor, styleNote.id);
+			})
+		}
+		if(storageConfig != 'empty'){
+			this.selectColor(storageConfig.pallete, storageConfig.color);
 		}else{
-	
-			$('.falseLetter').forEach( 
-				(element, index) => {
-				element.style.background = 'black';
-				this.selection.font = "black";
-			});
+			this.selectColor(defaultColor.pallete, defaultColor.color);
 		}
 	}
-	setColorNote(keySelect, auto = false){
-		let prefered = $('.prefered')
-		let bubble = $('#bubbleInfo');
-		prefered.forEach( function(element, index) {
+	selectColor(key, keyColor){
+		let el = this.palletes[key].colors[keyColor];
+		$('.prefered').forEach( function(element, index) {
 			element.style.transform = 'scale(1)';
 		});
-		
-		$('#colorNote-'+keySelect).style.transform = 'scale(1.4)';
-		$('#miniNote').style.background = this.prefereds[keySelect];
-		bubble.style.background = this.prefereds[keySelect];
-		this.setDarkNote(keySelect);
-		this.selection.note = this.prefereds[keySelect];
-		if(auto!=true){
-			chrome.storage.sync.set({key: keySelect});
-		}
-	}
-	getSelectedColor(defaultKey){
-		chrome.storage.sync.get(['key'], (result) => {
-			
-			if(result.key === 0 || result.key){
-				this.setColorNote(result.key, true);
-				return this.prefereds[result.key];
-			}else{
-				this.setColorNote(defaultKey, true);
-				return this.prefereds[defaultKey];
-			}	
-        });
-	}
-	setListPreferedColor(){
-		for(let i=0; i <= 5; i++){
-			let el = $('#colorNote-'+i);
-			el.style.background = this.prefereds[i];
-			el.addEventListener('click',()=>{
-				this.setColorNote(i);
-			}, false);
-		}
+		$('#styleNote'+key+' > #colorNote-'+keyColor).style.transform = 'scale(1.4)';
+		$('#miniNote').style.background = el.color;
+		$('#bubbleInfo').style.background = el.color;
+		$('#bubbleInfo').style.color = el.font;
+		$('.falseLetter').forEach( function(element, index) {
+			element.style.background = el.font;
+		});
+		this.setStorage('defaultConfigNote', {pallete:key, color:keyColor});
 	}
 }
-class popup extends colors{
-	constructor(notesColors, fontColor='#000'){
-		super();
 
-		this.prefereds = notesColors;
-		this.fontColor = fontColor;
-		this.selection = {};
-		this.setListPreferedColor();
-		this.getSelectedColor(2);
+class popup extends colors{
+	constructor(arrayPalletes){
+		super();
+		this.palletes = arrayPalletes;
+		this.onSelectionColor({pallete:0, color:2});
+		
 		this.menuHidden('show');
 		
-		$('#miniNote').on('click', ()=> {
-			this.insertNote();
+		$('#miniNote').on('click', async ()=> {
+			let config = await this.getStorage('defaultConfigNote');
+			let note=this.palletes[config.pallete].colors[config.color];
+			this.send({
+				verifyURL: 'createNote',
+				noteColor: note.color,
+				fontColor: note.font
+			});
 		} );
 		$('#deleteButton').on('click', ()=> {
 			this.menuDelete();
@@ -130,21 +112,25 @@ class popup extends colors{
 		$("#feedbackButton").on('click', ()=>{
 			this.send({verifyURL: 'createFeedback'});
 		});	
+		
 	}
 	menuHidden(action){
 		let hidden_ = $("#hiddenButton");
 		let actions = {
 			toggle: (varCondition)=>{ 
 				let newValue = varCondition == 'hidden' ? 'show': 'hidden';
+
 				if(varCondition == 'hidden'){
-					chrome.runtime.sendMessage({action:'showNotes'})
+					this.send({action:'showNotes'})
 					hidden_.style.backgroundColor="transparent";
-					chrome.storage.sync.set({['hiddenNotes']: newValue});
+					this.setStorage('hiddenNotes', newValue);
+
 				}else if(varCondition == 'show'){	
-					chrome.runtime.sendMessage({action:'hiddenNotes'})
+					this.send({action:'hiddenNotes'})
 					hidden_.style.backgroundColor="#636e72";
-					chrome.storage.sync.set({['hiddenNotes']: newValue});				
+					this.setStorage('hiddenNotes', newValue);				
 				}
+
 			},
 			show: (varCondition)=>{
 				if(varCondition == 'hidden'){
@@ -179,22 +165,15 @@ class popup extends colors{
 		switch (checked) {
 
 			case 'deleteAll':
-				chrome.runtime.sendMessage({
-					action:checked
-				});
+				this.send({action:checked});
 				break;
 
 			case 'removeNotesHere':
-				let tab = await new Promise((resolve, reject)=>{
-					chrome.tabs.query({'active': true, lastFocusedWindow: true}, (tab)=>{
-						resolve(tab);
-					});
-				});
-		
+				let tab = await this.getTab('active');
+				
 				this.send({
 					action:checked,
 					url:tab[0].url
-
 				}, tab[0].id);
 
 				break;
@@ -216,15 +195,5 @@ class popup extends colors{
 			this.toggles.menuDelete =false;
 		}
 	}
-	insertNote(){
-
-		this.send({
-			verifyURL: 'createNote',
-			noteColor: this.selection.note,
-			fontColor: this.selection.font
-		});
-	}
 }
-new popup(
-	['#2f3640', '#fd9644', '#f1c40f', '#26de81', '#2bcbba', '#9c88ff']
-);
+new popup([defaultPallete]);
