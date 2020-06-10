@@ -3,15 +3,20 @@ class note extends storage {
     super();
     this.id = this.getID();
     this.temp = [];
+    this.default = {
+      position: 'center',
+      width: '4.3cm',
+      height: '4.3cm'
+    }
   }
   async getID(request){
     let notes = document.querySelectorAll('.noteEx0A');
     let id ;
     if(notes.length > 0){
-    	 id = notes[notes.length-1].idnote;
-    	 id++;
+       id = notes[notes.length-1].idnote;
+       id++;
     }else{
-		  id = 1;	
+      id = 1; 
     }
     if(request){
       let repeat = true;
@@ -36,7 +41,11 @@ class note extends storage {
       return id;
     }
   }
- async createNote(request, control_id ='auto', position = "center"){
+ async createNote(request, 
+  control_id ='auto', 
+  position = "center", 
+  width = this.default.width, 
+  height = this.default.height){
 
       let id;
       if(control_id == 'auto'){
@@ -48,15 +57,17 @@ class note extends storage {
       function requestApply(noteModel, request){
         noteModel.note.style.background = request.noteColor;
         noteModel.text.style.color = request.fontColor;
+        noteModel.text.style.width = width;
+        noteModel.text.style.height = height;
       }
       let appendNote = (note) =>{
         note.style.height = document.body.clientHeight+'px';
         let referenceNode = () =>{
           let ID = this.getID();
           if(ID == 1){
-          	return document.body.children[0];
+            return document.body.children[0];
           }else{
-          	return document.body.children[ID];
+            return document.body.children[ID];
           }
         }
         document.body.insertBefore(note, referenceNode());
@@ -69,8 +80,8 @@ class note extends storage {
         model.note.style.visibility = 'visible';
       }
       let setPosition = (x, y) =>{
-      	model.note.style.position = 'absolute';
-      	model.note.style.top = y;
+        model.note.style.position = 'absolute';
+        model.note.style.top = y;
         model.note.style.left = x; 
         model.area.style.visibility = 'hidden';
         model.note.style.visibility = 'visible';
@@ -87,7 +98,7 @@ class note extends storage {
           span: create('span', 'remove'),
           tack: create('div', 'tack'),
           info: create('span', 'message'),
-          text: create('div', 'paper'),
+          text: create('textarea', 'paper'),
 
           fusion: function(){
             this.tack.appendChild(this.span);
@@ -100,8 +111,7 @@ class note extends storage {
       }
       let addProps = (model) =>{
         model.text.classList+=" notranslate";
-        model.note.fontColor = request.fontColor;
-        model.note.backColor = request.noteColor;
+
         for(let key in model){
           if(model[key]!='fusion'){
             model[key].idnote = model.note.id.replace('noteEx', "");
@@ -124,10 +134,9 @@ class note extends storage {
             },time)
       }
       model.area.saveAuto = (time) =>{
-        model.text.addEventListener('keyup', (e) =>save(e, 2000));
-        model.note.addEventListener('dragend', (e) =>save(e, 0));
-          let save = async(e, time)=>{    
-            if( model.text.textContent != "" ){
+          let save = async(e, time)=>{  
+
+            if( model.text.value != "" ){
               if(this.temp[id]){
                 clearTimeout(this.temp[id]);
               }   
@@ -136,20 +145,35 @@ class note extends storage {
                   this.save(request.url+id, {
                     fontColor:request.fontColor,
                     noteColor:request.noteColor,
-                    text: model.text.textContent,
+                    text: model.text.value,
                     id: id,
                     url:request.url,
                     x: model.note.style.left,
-                    y: model.note.style.top
+                    y: model.note.style.top,
+                    width: model.text.clientWidth+'px',
+                    height: model.text.clientHeight+'px'
                 });
                   model.info.show('Guardado');
               }, time);
             }
           }
+          function eventResize(fn,  time){
+            var width = model.text.clientWidth, height = model.text.clientHeight
+            model.text.addEventListener("mouseup", function(){
+              if(model.text.clientWidth != width || model.text.clientHeight != height){
+                  fn(null, time);
+              }
+              width = model.text.clientWidth;
+              height = model.text.clientHeight;
+            });
+          }
+          model.text.addEventListener('keyup', (e) =>save(e, 2000));
+          model.note.addEventListener('dragend', (e) =>save(e, 50));
+          eventResize(save, 50);
         }
       }
       let activeProps = function(model){
-        model.text.textContent = request.text;
+        model.text.value = request.text;
         model.span.idExtension = request.url+model.span.idnote;
         model.area.saveAuto(2000);
         model.span.addEventListener('click',function(){
@@ -157,9 +181,9 @@ class note extends storage {
             this.delete();
           });
         }, false);
-        model.text.contentEditable= "true";
+
       }
-    	if(!request.text){request.text = ""}
+      if(!request.text){request.text = ""}
         requestApply(model, request);
         addProps(model);
         activeProps(model);
@@ -169,36 +193,36 @@ class note extends storage {
           centerNote(model);
         }else{
           setPosition(request.x, request.y);
-        }
-
-        
-	    
-	    return id;
+        }      
+      return id;
   }
   cleanNotesPageDynamic(){
     document.querySelectorAll('.removeEx0A').forEach( function(element, index) {
      let text = document.querySelector('#paperEx'+element.id.replace('removeEx', ""))
-     if(text.textContent!=""){
+     if(text.value!=""){
         element.delete();
      }
     });
   }
   async loadNotes(request){
     for (let i = 1; i < 100; i++) {
-	    const note = await new Promise((resolve, reject) => {
-	     	this.load(request.url+i, (res)=>{
-		     	if(res){
-		    		resolve(res);
-		      }
-	    	})
-	    });
-	    if(note[request.url+i]){
+      const note = await new Promise((resolve, reject) => {
+        this.load(request.url+i, (res)=>{
+          if(res){
+            resolve(res);
+          }
+        })
+      });
+      if(note[request.url+i]){
         let exist = document.getElementById('noteEx'+note[request.url+i].id);
         if(!exist){
-          this.createNote(note[request.url+i], i, false);
+          this.createNote(note[request.url+i], i, false, 
+            note[request.url+i].width, 
+            note[request.url+i].height);
+
           this.onDrag();
         }
-	    }
+      }
     }
   }
 }

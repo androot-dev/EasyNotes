@@ -211,7 +211,6 @@ class notesController extends APIchrome{
 
 			if(tab!='empty'){
 				for(let i =0; i<tab.length; i++){
-
 					if( this.filter(tab[i]) ){
 						if(tab[i].status == "complete"){
 							let id = tab[i].id;
@@ -248,7 +247,6 @@ class notesController extends APIchrome{
 		if( this.load == true ) {
 			let tab = await this.getTab(param.tabId);
 			let optionHidden = await this.getStorage('hiddenNotes');
-
 			if(tab != "empty" && optionHidden.hiddenNotes == "show"
 				&& this.filter(tab) ){
 

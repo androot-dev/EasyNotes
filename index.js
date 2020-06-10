@@ -10,7 +10,7 @@ class popupComunication extends APIchrome{
 			menuHidden:async ()=>{
 				return await new Promise(async (resolve, reject) =>{
 					let value = await this.getStorage('hiddenNotes');
-
+					
 					return value!='empty' ? resolve(value) 
 					: reject('show');
 
@@ -21,7 +21,7 @@ class popupComunication extends APIchrome{
 			notesDelete:(msg)=>{
 				msg = msg.notesDelete; 
 				let plural = msg>1 || msg==0 ? "s": "";
-	 			this.showBubbleMessage(+msg+' nota'+plural+' eliminada'+plural);
+	 			this.showBubbleMessage(msg+' nota'+plural+' eliminada'+plural);
 			},
 			accessUrlBloked: ()=>{
 				this.showBubbleMessage('Página no accesible');
@@ -80,7 +80,7 @@ class popup extends colors{
 		this.onSelectionColor({pallete:0, color:2});
 		
 		this.menuHidden('show');
-		
+
 		$('#miniNote').on('click', async ()=> {
 			let config = await this.getStorage('defaultConfigNote');
 			let note=this.palletes[config.pallete].colors[config.color];
@@ -125,8 +125,10 @@ class popup extends colors{
 			},
 			show: (varCondition)=>{
 				if(varCondition == 'hidden'){
+					this.setStorage('hiddenNotes', 'hidden');
 					hidden_.style.backgroundColor="#636e72";
-				}else{
+				}else{		
+					this.setStorage('hiddenNotes', 'show');
 					hidden_.style.backgroundColor="transparent";
 				}
 			}

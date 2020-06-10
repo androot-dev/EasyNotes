@@ -88,13 +88,13 @@ class feedback extends extension{
 		} ,false)
 	}
 	addImgs(){
-		let instagram, facebook, github, noteeasyImg, donate, email;
+		let instagram, facebook, github, easynotesImg, donate, email;
 		let $ = (sel)=>{return document.getElementById(sel)}
 
 		 instagram = $('instagramEx0A');
 		 facebook = $('facebookEx0A');
 		 github = $('githubEx0A');
-		 noteeasyImg = $("noteeasyEx0A");
+		 easynotesImg = $("easynotesEx0A");
 		 email = $("sendEmailEx0A");
 		 donate = $("donateEx0A");
 
@@ -103,7 +103,7 @@ class feedback extends extension{
 		 instagram.style.backgroundImage = "url("+chrome.runtime.getURL('src/img/instagram.svg')+")";
 		 facebook.style.backgroundImage = "url("+chrome.runtime.getURL('src/img/facebook.svg')+")";
 		 github.style.backgroundImage = "url("+chrome.runtime.getURL('src/img/github.svg')+")";
-		 noteeasyImg.style.backgroundImage = "url("+chrome.runtime.getURL('src/img/logo128.png')+")";
+		 easynotesImg.style.backgroundImage = "url("+chrome.runtime.getURL('src/img/logo128.png')+")";
 	}
 	createFeedback(){
 		let feedback = document.createElement('div');
@@ -113,7 +113,7 @@ class feedback extends extension{
 						
 						<div id="sendFeedbackEx0A">
 							<div class="areaEx1A"><div class="noteEx1A"  style="background: #f1c40f;"><span class="messageEx1A"></span><div class="tackEx1A" ><span class="removeEx1A"></span>
-								<i id="noteeasyEx0A"></i><span id="tituloEx0A">NoteEasy</span> 
+								<i id="easynotesEx0A"></i><span id="tituloEx0A">EasyNotes</span> 
 								<span id="msg-donateEx0A">
 									<strong style="color:black !important; font-size: 18px;">¿Te a parecido útil?</strong> <br><br>Puedes apoyarme con una pequeña donación.
 								</span>
@@ -126,7 +126,7 @@ class feedback extends extension{
 								</form>
 
 							</div>
-							<div class="paperEx1A notranslate" style=" font-size: 0.45cm;pointer-events:auto;color: black;">Comunícate con nosotros a través de: <a id="mailEx0A" href="mailto:andros.noteeasy@gmail.com">andros.noteeasy@gmail.com</a>
+							<div class="paperEx1A notranslate" style=" font-size: 0.45cm;pointer-events:auto;color: black;">Comunícate con nosotros a través de: <a id="mailEx0A" href="mailto:andros.principal@gmail.com">andros.principal@gmail.com</a>
 								<br>
 								<br>
 								<br>

@@ -28,14 +28,13 @@
   border: none !important;
   font-family: /*"Comic Neue",*/ "Comic Sans", cursive !important;
   font-weight: 700 !important;
-  width: 4cm!important;
-  height: 4cm !important;
-  min-height: 175px;
-  min-width: 180px;
+  width: 4.3cm;
+  height: 4.3cm ;
+  min-height: 100px !important;
+  min-width: 100px !important;
   background: transparent !important;
   overflow: auto !important;
   overflow-x: hidden !important;
-  resize: none !important;
   outline:none !important;
   outline-width: 0 !important;
   box-shadow: none !important;
@@ -93,7 +92,7 @@
   padding: 0 !important;
   line-height: 20px !important;
   font-weight: 500 !important;
-  font-family: arial !important;
+  font-family: "arial" !important;
 } 
 .noteEx0A .removeEx0A:hover::after, .noteEx1A .removeEx1A:hover::after{
   width: 40px !important;
@@ -105,7 +104,7 @@
   line-height: 30px !important;
   text-align: center !important;
 }
-.noteEx0A .messageEx0A, .noteEx1A .messageEx1A{
+.noteEx0A .messageEx0A{
   transition: all .1s ease-in-out !important;
   position: absolute !important;
   top: 7px !important;
