@@ -22,6 +22,7 @@ class notesController{
 		})
 		Chrome.onCommand();
 	}
+	
 	async verifyURL(response){
 		let tab = await Chrome.getTab('active');
 		if(Chrome.filter(tab[0]) == false){
@@ -64,7 +65,7 @@ class notesController{
 							let id = tab[i].id;
 							try {
 								await Chrome.exeScript(id, {
-									code:'noteasy.removeNotesHere({action:"'+action+'",'+
+									code:'EasyNotes.removeNotesHere({action:"'+action+'",'+
 									'url:"'+tab[i].url+'", tabId:"'+id+'"})'
 								});
 							} catch(e) {

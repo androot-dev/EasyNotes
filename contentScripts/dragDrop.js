@@ -1,5 +1,6 @@
-class DragDrop{
+class dragDrop extends APIchrome{
   constructor(){
+    super();
       this.dataEvents = {};
       this.principalElement = document.body;
       this.searchPrincial = false;
@@ -13,9 +14,10 @@ class DragDrop{
   clearData(){
     this.dataEvents = {};
   }
-  onDrag(){
-    let drag = '.noteEx0A';
-    let drop = '.areaEx0A';
+  onDrag(drag$ = ".noteEx0A", drop$ = ".areaEx0A"){
+    let drag = drag$;
+    let drop = drop$;
+
     const $ = (sel) => { 
       let el = document.querySelectorAll(sel); //selecciona lista de elementos
       el.on = (evt) =>{ // añade un evento a todos los elementos de una lista 

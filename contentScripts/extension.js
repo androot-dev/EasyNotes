@@ -2,7 +2,6 @@ class extension extends note{
 	constructor(){
 		super();
 	}
-	
 	async removeNotesHere(rq){
 		let countNote = 0;
 		let notesInDOM = document.querySelectorAll('.removeEx0A');
@@ -34,7 +33,7 @@ class extension extends note{
 			let deleteNotes = await notesHere( async (storage) =>{
 				if(rq.action == 'removeNotesHere'){
 				
-					await this.deleteStorage(storage.url+storage.id);
+					await this.removeStorage(storage.url+storage.id);
 				}
 				let elDOM = document.querySelector('#removeEx'+storage.id);
 				if(elDOM){ elDOM.delete() } 
@@ -174,14 +173,15 @@ class feedback extends extension{
 	}
 }
 
-	let noteasy = new feedback();
-
-	noteasy.cathMessage( async(request)=>{
-		
-		if(typeof noteasy[request.action] == 'function'){
-			let val = await noteasy[request.action](request);
-			noteasy.onDrag();
-			return val;
-			
+	let EasyNotes = new feedback();
+	EasyNotes.onMessages({
+		default: async(request)=>{
+			if(typeof EasyNotes[request.action] == 'function'){
+				let val = await EasyNotes[request.action](request);
+	
+				if(val && val.notesDelete){
+					EasyNotes.send(val);  
+				}
+			}
 		}
-	});
+	})

@@ -1,4 +1,4 @@
-class note extends storage {
+class note  extends dragDrop{
   constructor(){
     super();
     this.id = this.getID();
@@ -142,7 +142,7 @@ class note extends storage {
               }   
               this.temp[id] = setTimeout(()=>{
                 let id = model.note.idnote;
-                  this.save(request.url+id, {
+                  this.setStorage(request.url+id, {
                     fontColor:request.fontColor,
                     noteColor:request.noteColor,
                     text: model.text.value,
@@ -188,6 +188,7 @@ class note extends storage {
         addProps(model);
         activeProps(model);
         appendNote( model.fusion() );
+        this.onDrag("#"+model.note.id, "#"+model.area.id);
         //model.text.focus();
         if (position == 'center') {
           centerNote(model);
@@ -205,22 +206,19 @@ class note extends storage {
     });
   }
   async loadNotes(request){
-    for (let i = 1; i < 100; i++) {
-      const note = await new Promise((resolve, reject) => {
-        this.load(request.url+i, (res)=>{
-          if(res){
-            resolve(res);
-          }
-        })
-      });
-      if(note[request.url+i]){
-        let exist = document.getElementById('noteEx'+note[request.url+i].id);
+    let marginFail = 50;
+    let count = 0;
+    for (let i = 1; i < 200; i++) {
+      const note = await this.getStorage(request.url+i);
+      count = note!="empty" ?  0 : count++;
+      if(count>marginFail){break}
+      
+      if(note!="empty"){
+        let exist = document.getElementById('noteEx'+note.id);
         if(!exist){
-          this.createNote(note[request.url+i], i, false, 
-            note[request.url+i].width, 
-            note[request.url+i].height);
-
-          this.onDrag();
+          this.createNote(note, i, false, 
+            note.width, 
+            note.height);
         }
       }
     }

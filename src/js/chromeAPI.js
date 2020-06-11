@@ -78,6 +78,19 @@ export default class APIchrome{
 			});
 		});
 	}
+	async removeStorage(array = null){
+		return new Promise ((resolve, reject)=>{
+			if(array){
+				chrome.storage.sync.remove(array, function(){
+					resolve();
+				});
+			}else{
+				chrome.storage.sync.clean(function(){
+					resolve();
+				});
+			}
+		});
+	}
 	async setStorage(key, value){
 		let exist = await this.getStorage(key);
 		return new Promise ((resolve, reject)=>{
@@ -106,18 +119,25 @@ export default class APIchrome{
 
 			chrome.runtime.onMessage.addListener(async (response, 
 				sender, sendResponse) =>  {
-				
+
+				let defaultAction = true;
 			 	 	for(let key in messages){
 			 	 		if(response.action){
 			 	 			if(response.action == key){
 			 	 				messages[key](response);
+			 	 				defaultAction = false;
 			 	 				break;
 			 	 			}
 			 	 		}else if(response.verifyURL){
 			 	 			messages['verifyURL'](response);
+			 	 			defaultAction = false;
 			 	 			break;
 			 	 		}
 			 	 	}
+			 	 	if(defaultAction = true && messages['default']){
+			 	 		messages['default'](response);
+			 	 	}
+
 			});
 		}
 	}
