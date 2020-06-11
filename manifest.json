@@ -58,7 +58,7 @@
     "file:///*/*"
   ],
   "background":{
-		"scripts":["background/background.js"], 
+		"scripts":["background/APIchrome.js","background/background.js"], 
 		"persistent": false 
 	},
   "content_scripts": [

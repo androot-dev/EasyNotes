@@ -3,6 +3,10 @@
 		border:none !important;
 		outline: none !important;
 	}
+	.noteEx1A .paperEx1A{
+		width: 4.7cm;
+  		height: 4.7cm ;
+	}
 	#tituloEx0A{
 		position: absolute !important;
 		top: -90px !important;

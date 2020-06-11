@@ -1,4 +1,4 @@
-export default class APIchrome{
+class APIchrome{
 	constructor(){
 		let filterRules= {
 			protocol:'chrome:',
@@ -90,6 +90,19 @@ export default class APIchrome{
 			}); 
 		});
 		
+	}
+	async removeStorage(array = null){
+		return new Promise ((resolve, reject)=>{
+			if(key){
+				chrome.storage.sync.remove(array, function(){
+					resolve();
+				});
+			}else{
+				chrome.storage.sync.clean(function(){
+					resolve();
+				});
+			}
+		});
 	}
 	async onUpdated(actions){
 		chrome.tabs.onUpdated.addListener( (tabId , info)=> {

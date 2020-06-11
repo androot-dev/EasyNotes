@@ -1,17 +1,1 @@
-#1 (RESOLVE) Al agregar una nota, ocultarla, agrgar otra, la nota oculta desaparce. porque ambas obtienen el mismo id. 
-
-#2 (RESOLVE) al ocultar se genera el error de Cannot access a chrome:// URL si esta abierta una pagina de chrome
-
-#3 (RESOLVE) cambiar color de la burbuja en el popup, se ve fea
-
-#4 (RESOLVE) verificar al ejecutar loadNotes si hidden esta activado
-
-#5 (RESOLVE) Eliminar las notas en la pagina actual, no elimina las notas ocultas.
-
-#6 (RESOLVE) si se oculta una nota vacia esta no vuelve a aparecer
-
-#7 (RESOLVE) mostrar un mensaje de error cuando se trata de agregar una nota en una pagina de chrome o en la webstore
-
-#8 (RESOLVE) cuando se borran todas las notas. se borran las notas vacias pero no se cuentan
-
 #9 hacer foco en la nota al agregarla

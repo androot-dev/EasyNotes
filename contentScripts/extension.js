@@ -126,7 +126,7 @@ class feedback extends extension{
 								</form>
 
 							</div>
-							<div class="paperEx1A notranslate" style=" font-size: 0.45cm;pointer-events:auto;color: black;">Comunícate con nosotros a través de: <a id="mailEx0A" href="mailto:andros.principal@gmail.com">andros.principal@gmail.com</a>
+							<div class="paperEx1A notranslate" style=" font-size: 0.45cm;pointer-events:auto;color: black;">Comunícate con nosotros: <a id="mailEx0A" href="mailto:andros.principal@gmail.com">andros.principal@gmail.com</a>
 								<br>
 								<br>
 								<br>
