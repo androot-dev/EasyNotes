@@ -19,11 +19,20 @@ class APIchrome{
 			return true;
 		}
 	}
-	send(msg, tabId = null){
+	send(msg, tabId = null, fn =null){
 		if(tabId == null){
 			chrome.runtime.sendMessage(msg);
 		}else{
 			chrome.tabs.sendMessage(tabId, msg);
+		}
+		if(msg.response){
+			this.onMessages({
+				[msg.response]: (res)=>{
+					if(fn!=null){
+						fn(res);
+					}
+				}
+			});
 		}
 	}
 	async exeScript(tabId, script, cancelTime = 100){
@@ -119,7 +128,7 @@ class APIchrome{
 
 			chrome.runtime.onMessage.addListener(async (response, 
 				sender, sendResponse) =>  {
-
+				
 				let defaultAction = true;
 			 	 	for(let key in messages){
 			 	 		if(response.action){
@@ -134,6 +143,7 @@ class APIchrome{
 			 	 			break;
 			 	 		}
 			 	 	}
+
 			 	 	if(defaultAction = true && messages['default']){
 			 	 		messages['default'](response);
 			 	 	}
@@ -146,10 +156,7 @@ class APIchrome{
 			//let tab = await this.getTab('active');
 
 			if(cmd=="createNote"){
-				let selection = await this.requestIndex('selection');
-				this.sendContentScript({
-
-				})
+			
 			}
 		})
 	}

@@ -8,7 +8,86 @@
   box-shadow: 3px 6px 9px -5px rgba(0,0,0,0.75) !important;
   transform: skew(0.2deg) !important;
 }
+.saveIconEx0A{
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: all .2s ease-in-out;
 
+}
+.configEx0A{
+  width: 13px;
+  height: 13px;
+  background: none;
+  outline: none;
+  border:none;
+  box-shadow: none;
+  cursor: pointer;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background-repeat: no-repeat;
+}
+.configEx0A:active{
+  transition: all .2s ease-in-out;
+  transform: rotate(60deg);
+}
+.menuConfigEx0A{
+  position: absolute !important;
+  bottom: 0px ;
+  left: -115px ;
+  width: 100px ;
+  height: 70px ;
+  margin: 0 !important;
+  padding: 5px !important;
+  transition: all .1s ease-in-out;
+  visibility: visible ;
+  font-family: cursive;
+  font-size: 12px;
+  font-weight: 900;
+  opacity: 0;
+}
+.menuConfigEx0A > span{
+  font-family: cursive;
+  font-size: 11px;
+  font-weight: 900;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.menuConfigEx0A input{
+  width: 40px;
+  height: 20px;
+  color: black;
+  font-family: cursive;
+  font-weight: 900;
+  border:none;
+  outline: none;
+}
+.menuConfigEx0A .colorsEx0A{
+  display: inline-flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+.menuConfigEx0A .colorsEx0A div{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: solid 1px black;
+  cursor: pointer;
+}
+.menuConfigEx0A .colorsEx0A div:hover{
+  transition: all .2s ease-in-out;
+  transform: scale(1.2);
+}
 .areaEx0A{
   position: absolute !important;
   width: 100%;
@@ -21,7 +100,7 @@
   left: 0;
 }
 .noteEx0A .paperEx0A{
-  font-size: 0.8cm !important;
+  font-size: 29px;
 }
 .noteEx0A .paperEx0A, .noteEx1A .paperEx1A{
   position: relative !important;
@@ -40,7 +119,7 @@
   box-shadow: none !important;
 }
 .noteEx0A .paperEx0A{
-    line-height: 28px !important;
+    line-height: 28px;
 }
 .noteEx0A .paperEx0A{
   cursor: pointer !important;
@@ -109,12 +188,10 @@
   position: absolute !important;
   top: 7px !important;
   right: 7px !important; 
-  width: auto !important;
   padding: 0px 0px !important;
   font-size: 10px !important;
   text-align: center !important;
   border-radius: 10px !important;
-  background: transparent ;
   z-index: 9000 !important;
   color: white !important;
   font-family: "Comic Sans", cursive !important;

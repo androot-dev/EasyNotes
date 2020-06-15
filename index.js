@@ -13,7 +13,6 @@ class popupComunication extends APIchrome{
 					
 					return value!='empty' ? resolve(value) 
 					: reject('show');
-
 				});
 			}
 		}
@@ -70,7 +69,7 @@ class colors extends popupComunication{
 		$('.falseLetter').forEach( function(element, index) {
 			element.style.background = el.font;
 		});
-		this.setStorage('defaultConfigNote', {pallete:key, color:keyColor});
+		this.setStorage('defaultConfigNote', {pallete:key, color:keyColor, colors:this.palletes[key].colors[keyColor]});
 	}
 }
 class popup extends colors{
@@ -78,7 +77,6 @@ class popup extends colors{
 		super();
 		this.palletes = arrayPalletes;
 		this.onSelectionColor({pallete:0, color:2});
-		
 		this.menuHidden('show');
 
 		$('#miniNote').on('click', async ()=> {

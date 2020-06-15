@@ -20,12 +20,35 @@ class notesController{
 			},
 			verifyURL: (res)=>{ this.verifyURL(res)}
 		})
-		Chrome.onCommand();
+		Chrome.onCommand({
+			createNote: async()=>{
+				let colorDefault = await Chrome.getStorage('defaultConfigNote');
+
+
+				this.verifyURL({
+					verifyURL:'createNote',
+					noteColor:colorDefault.colors.color, 
+					fontColor: colorDefault.colors.font
+				});
+			},
+			showHidden: async () =>{
+				let hidden = await Chrome.getStorage('hiddenNotes');
+				console.log(hidden)
+				if(hidden == 'show'){
+					this.hiddenNotes();
+					Chrome.setStorage('hiddenNotes', 'hidden')
+				}else if(hidden == 'hidden'){
+					this.showNotes();
+					Chrome.setStorage('hiddenNotes', 'show')
+				}
+			}
+		});
 	}
 	
 	async verifyURL(response){
 		let tab = await Chrome.getTab('active');
-		if(Chrome.filter(tab[0]) == false){
+
+		if(tab == 'empty' || Chrome.filter(tab[0]) == false){
 			delete(response.verifyURL)
 			Chrome.send( {action:'accessUrlBloked'} );
 		}else{

@@ -23,7 +23,8 @@
     "src/img/eye-slash.svg",
     "src/img/trash.svg",
     "src/img/comment-dots.svg",
-    "src/img/exclamation-triangle.svg"
+    "src/img/exclamation-triangle.svg",
+    "src/img/cog.svg"
   ],
   "commands":{
     "showHiddenNotes":{
@@ -52,9 +53,7 @@
     "tabs",
     "storage", 
     "activeTab",
-    "https://*/*",
-    "http://*/*",
-    "file:///*/*"
+    "<all_urls>"
   ],
   "background":{
     "scripts":["background/background.js"], 

@@ -141,15 +141,12 @@ class APIchrome{
 			});
 		}
 	}
-	async onCommand(){
+	async onCommand(cmds){
 		chrome.commands.onCommand.addListener(async(cmd)=> {
-			//let tab = await this.getTab('active');
-
-			if(cmd=="createNote"){
-				let selection = await this.requestIndex('selection');
-				this.sendContentScript({
-
-				})
+			for (let i in cmds){
+				if(cmd == i){
+					cmds[i]();
+				}
 			}
 		})
 	}

@@ -177,6 +177,7 @@ class feedback extends extension{
 	EasyNotes.onMessages({
 		default: async(request)=>{
 			if(typeof EasyNotes[request.action] == 'function'){
+				console.log('se esta creando una nota')
 				let val = await EasyNotes[request.action](request);
 	
 				if(val && val.notesDelete){
