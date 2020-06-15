@@ -55,7 +55,7 @@ class notesController{
 			response.action = response.verifyURL;
 			delete(response.verifyURL)
 			response.url = tab[0].url;
-			Chrome.send(response,  tab[0].id);
+			Chrome.send(response,  tab[0].id);		
 		}
 	}
 	hiddenNotes(){

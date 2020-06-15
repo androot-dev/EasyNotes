@@ -5,6 +5,7 @@ import defaultPallete from './src/js/palletes.js';
 class popupComunication extends APIchrome{
  	constructor(){ 
 	 	super();
+
 	 	this.toggles = {
 			menuDelete:false,
 			menuHidden:async ()=>{
