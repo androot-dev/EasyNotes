@@ -144,20 +144,10 @@ class APIchrome{
 			 	 		}
 			 	 	}
 
-			 	 	if(defaultAction = true && messages['default']){
+			 	 	if(defaultAction == true && messages['default']){
 			 	 		messages['default'](response);
 			 	 	}
-
 			});
 		}
-	}
-	async onCommand(){
-		chrome.commands.onCommand.addListener(async(cmd)=> {
-			//let tab = await this.getTab('active');
-
-			if(cmd=="createNote"){
-			
-			}
-		})
 	}
 }

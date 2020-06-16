@@ -134,7 +134,7 @@ class APIchrome{
 			 	 			break;
 			 	 		}
 			 	 	}
-			 	 	if(defaultAction = true && messages['default']){
+			 	 	if(defaultAction == true && messages['default']){
 			 	 		messages['default'](response);
 			 	 	}
 

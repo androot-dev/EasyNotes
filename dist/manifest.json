@@ -1,6 +1,6 @@
 {
   "manifest_version":2,
-  "name":"NoteEasy",
+  "name":"EasyNotes: The best sticky notes!",
   "description":"Crea notas en las webs que visitas.",
   "version":"1.0",
   "browser_action":{
@@ -24,10 +24,13 @@
     "src/img/trash.svg",
     "src/img/comment-dots.svg",
     "src/img/exclamation-triangle.svg",
-    "src/img/cog.svg"
+    "src/img/cog.svg",
+    "src/img/cog-light.svg",
+    "src/img/save.svg",
+    "src/img/save-light.svg"
   ],
   "commands":{
-    "showHiddenNotes":{
+    "showHidden":{
       "suggested-key":{
         "default":"Ctrl+Shift+E",
         "mac": "Command+Shift+E"
@@ -53,19 +56,24 @@
     "tabs",
     "storage", 
     "activeTab",
-    "<all_urls>"
+    "https://*/*",
+    "http://*/*",
+    "file:///*/*"
   ],
   "background":{
-    "scripts":["background/background.js"], 
-    "persistent": false 
-  },
+		"scripts":["background/APIchrome.js","background/background.js"], 
+		"persistent": false 
+	},
   "content_scripts": [
    {
      "matches":["<all_urls>"],
      "js":[
-      "contentScript/contentScript.js"
-    ],
-     "css":["contentScript/contentScript.css"]
+        "contentScripts/APIchrome.js",
+        "contentScripts/dragDrop.js", 
+        "contentScripts/notes.js",
+        "contentScripts/extension.js"
+      ],
+     "css":["contentScripts/style.css","contentScripts/feedback.css"]
    }
  ]
 }

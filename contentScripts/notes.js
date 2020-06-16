@@ -252,11 +252,8 @@ class note  extends dragDrop{
                 this.style.setProperty('height', 'auto', 'important');
                 this.style.setProperty('padding', '2px 4px', 'important');
               }else{
-
                 model.save.style.opacity = '1';
               }
-              
-              
               return setTimeout(()=>{
                 this.textContent = "";
                 this.style.setProperty('height', '0', 'important');

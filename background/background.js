@@ -23,8 +23,6 @@ class notesController{
 		Chrome.onCommand({
 			createNote: async()=>{
 				let colorDefault = await Chrome.getStorage('defaultConfigNote');
-
-
 				this.verifyURL({
 					verifyURL:'createNote',
 					noteColor:colorDefault.colors.color, 
