@@ -1,7 +1,7 @@
 .noteEx0A, .noteEx1A{
   display: flex !important;
   position: relative ;
-  padding: 5px 15px 25px 15px !important;
+  padding: 5px 15px 15px 15px !important;
   flex-direction: column !important;
   justify-content: center !important;
   align-items: center !important;
@@ -9,29 +9,29 @@
   transform: skew(0.2deg) !important;
 }
 .saveIconEx0A{
-  width: 15px;
-  height: 15px;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background-size: cover;
-  background-position: center;
+  width: 15px !important;
+  height: 15px !important;
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
+  background-size: cover !important;
+  background-position: center !important;
   opacity: 0;
-  transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out !important;
 
 }
 .configEx0A{
-  width: 13px;
-  height: 13px;
-  background: none;
-  outline: none;
-  border:none;
-  box-shadow: none;
-  cursor: pointer;
-  position: absolute;
-  bottom: 5px;
-  left: 5px;
-  background-repeat: no-repeat;
+  width: 13px !important;
+  height: 13px !important;
+  background: none ;
+  outline: none !important;
+  border:none !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  position: absolute !important;
+  bottom: 5px !important;
+  left: 5px !important;
+  background-repeat: no-repeat !important;
 }
 .configEx0A:active{
   transition: all .2s ease-in-out;
@@ -39,50 +39,51 @@
 }
 .menuConfigEx0A{
   position: absolute !important;
-  bottom: 0px ;
+  bottom: 0px !important;
   left: -115px ;
   width: 100px ;
-  height: 70px ;
+  height: auto !important;
   margin: 0 !important;
   padding: 5px !important;
   transition: all .1s ease-in-out;
   visibility: visible ;
-  font-family: cursive;
-  font-size: 12px;
-  font-weight: 900;
+  font-family: cursive !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
   opacity: 0;
 }
 .menuConfigEx0A > span{
-  font-family: cursive;
-  font-size: 11px;
-  font-weight: 900;
-  width: 100%;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  position: relative;
+  font-family: cursive !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  width: 100% !important;
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
 }
 .menuConfigEx0A input{
-  width: 40px;
-  height: 20px;
-  color: black;
-  font-family: cursive;
-  font-weight: 900;
-  border:none;
-  outline: none;
+  width: 40px !important;
+  height: 20px !important;
+  color: black !important;
+  font-family: cursive !important;
+  font-weight: 900 !important;
+  border:none !important;
+  outline: none !important;
 }
 .menuConfigEx0A .colorsEx0A{
-  display: inline-flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
+  display: inline-flex !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 0 !important;
 }
 .menuConfigEx0A .colorsEx0A div{
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: solid 1px black;
-  cursor: pointer;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  border: solid 1px black !important;
+  cursor: pointer !important;
 }
 .menuConfigEx0A .colorsEx0A div:hover{
   transition: all .2s ease-in-out;

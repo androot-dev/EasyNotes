@@ -31,7 +31,6 @@ class notesController{
 			},
 			showHidden: async () =>{
 				let hidden = await Chrome.getStorage('hiddenNotes');
-				console.log(hidden)
 				if(hidden == 'show'){
 					this.hiddenNotes();
 					Chrome.setStorage('hiddenNotes', 'hidden')
