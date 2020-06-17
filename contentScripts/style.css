@@ -7,6 +7,7 @@
   align-items: center !important;
   box-shadow: 3px 6px 9px -5px rgba(0,0,0,0.75) !important;
   transform: skew(0.2deg) !important;
+  margin: 0 !important;
 }
 .saveIconEx0A{
   width: 15px !important;
@@ -18,7 +19,7 @@
   background-position: center !important;
   opacity: 0;
   transition: all .2s ease-in-out !important;
-
+  margin: 0 !important;
 }
 .configEx0A{
   width: 13px !important;
@@ -32,6 +33,7 @@
   bottom: 5px !important;
   left: 5px !important;
   background-repeat: no-repeat !important;
+  margin: 0 !important;
 }
 .configEx0A:active{
   transition: all .2s ease-in-out;
@@ -70,6 +72,7 @@
   font-weight: 900 !important;
   border:none !important;
   outline: none !important;
+  margin: 0 !important;
 }
 .menuConfigEx0A .colorsEx0A{
   display: inline-flex !important;
@@ -84,6 +87,7 @@
   border-radius: 50% !important;
   border: solid 1px black !important;
   cursor: pointer !important;
+  margin: 0 !important;
 }
 .menuConfigEx0A .colorsEx0A div:hover{
   transition: all .2s ease-in-out;
@@ -99,6 +103,7 @@
   z-index: 9999 !important;
   top: 0;
   left: 0;
+  margin: 0 !important;
 }
 .noteEx0A .paperEx0A{
   font-size: 29px;
@@ -118,12 +123,13 @@
   outline:none !important;
   outline-width: 0 !important;
   box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .noteEx0A .paperEx0A{
     line-height: 28px;
-}
-.noteEx0A .paperEx0A{
-  cursor: pointer !important;
+    cursor: pointer !important;
+    resize: both !important;
 }
 .noteEx0A .paperEx0A::-webkit-scrollbar, .noteEx1A .paperEx1A::-webkit-scrollbar {
     width: 2px !important;     /* Tamaño del scroll en vertical */
@@ -146,6 +152,7 @@
     background-color: #333 !important;
 }
 .noteEx0A .tackEx0A, .noteEx1A .tackEx1A{
+  margin: 0 !important;
   margin-bottom: 2px !important;
   width: 20px !important;
   height: 20px !important;
@@ -157,6 +164,7 @@
   align-items: center !important;
   box-shadow: 0px 5px 8px -5px black !important;
   background: #EA2027 !important;
+  padding: 0 !important;
 } 
 .noteEx0A .removeEx0A, .noteEx1A .removeEx1A{
   width: 40px !important;

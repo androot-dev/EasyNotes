@@ -38,6 +38,9 @@ class notesController{
 					this.showNotes();
 					Chrome.setStorage('hiddenNotes', 'show')
 				}
+			},
+			createImageNote : ()=>{
+				
 			}
 		});
 	}
