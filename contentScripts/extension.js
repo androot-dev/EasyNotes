@@ -147,7 +147,7 @@ class feedback extends extension{
 								<button id="sendEmailEx0A" class="select buttonEx0A"></button>
 
 							<button id="donateEx0A" class="buttonEx0A">
-								<div class="coffeRequest" id="msgDonateEx0A"><h3 id="messageEx0A">Invitame un café!</h3></div>
+								<div class="coffeRequest" id="msgDonateEx0A"><h3 id="messageEx0A"> ¿Quieres invitarme un café?</h3></div>
 							</button>
 							</div>
 							 

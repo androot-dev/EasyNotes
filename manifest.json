@@ -35,15 +35,22 @@
         "default":"Ctrl+Shift+E",
         "mac": "Command+Shift+E"
       },
-      "description": "Muestra notas ocultas en la pestaña activa"
-    },
+      "description": "Muestra y oculta las notas"},
      "createNote":{
         "suggested-key":{
           "default":"Ctrl+Shift+A",
           "mac": "Command+Shift+A"
         },
         "description": "Crea una nueva nota en la pestaña activa"
+      },
+      "createImageNote":{
+        "suggested-key":{
+          "default":"Ctrl+Shift+I",
+          "mac": "Command+Shift+I"
+        },
+        "description": "Agrega una imagen"
       }
+
   },
   "icons":{
     "16": "src/img/logo16.png",

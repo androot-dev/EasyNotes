@@ -9,10 +9,10 @@
 	}
 	#tituloEx0A{
 		position: absolute !important;
-		top: -90px !important;
+		top: -50px !important;
 		left: 50px !important;
 		color: white !important;
-		font-size: 40px !important;
+		font-size: 30px !important;
 		font-style: italic !important;
 		font-family: cursive !important;
 		margin: 0 !important;
@@ -29,7 +29,7 @@
 		width: 80px !important;
 		height: 80px !important;
 		position: absolute !important;
-		top: -100px !important;
+		top: -50px !important;
 		left: -40px !important;
 	}
 
@@ -92,9 +92,6 @@
 		display: flex !important;
 		justify-content: center !important;
 		align-items: center !important;
-	}
-	.areaEx1A{
-
 	}
 	#feedbackEx0A #contentEx0A{
 		display: flex !important;
@@ -159,6 +156,7 @@
 		margin-top: 30% !important;
 		position: absolute !important;
 		visibility: hidden;
+
 	}
 	#sendFeedbackEx0A #donateEx0A{
 		position: absolute !important;
@@ -173,6 +171,9 @@
 
 	}
 	#msgDonateEx0A #messageEx0A{
+	  font-weight: 500 !important;
+	  font-family:  cursive !important;
+	  font-style: italic !important;
 	  animation-duration: 8s !important;
 	  animation-name: coffeRequest !important;
 	}
@@ -185,10 +186,10 @@
 		  	font-size: 0 ;
 		  }
 		  35%{
-		  	font-size: 18px;
+		  	font-size: 13px;
 		  }
 		  95%{
-		  	font-size: 18px ;
+		  	font-size: 13px ;
 		  }
 		  to {
 
