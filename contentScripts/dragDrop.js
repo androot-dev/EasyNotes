@@ -1,118 +1,111 @@
-class dragDrop extends APIchrome{
-  constructor(){
+class dragDrop extends APIchrome {
+  constructor() {
     super();
-      this.dataEvents = {};
-      this.principalElement = document.body;
-      this.searchPrincial = false;
+    this.dataEvents = {};
+    this.principalElement = document.body;
+    this.searchPrincial = false;
   }
-  setData(name, val){
-     this.dataEvents[name] = val;
+  setData(name, val) {
+    this.dataEvents[name] = val;
   }
-  getData(nameProp){
+  getData(nameProp) {
     return this.dataEvents[nameProp];
   }
-  clearData(){
+  clearData() {
     this.dataEvents = {};
   }
-  onDrag(drag$ = ".noteEx0A", drop$ = ".areaEx0A"){
+  onDrag(drag$ = ".noteEx0A", drop$ = ".areaEx0A") {
     let drag = drag$;
     let drop = drop$;
-
-    const $ = (sel) => { 
+    const $ = (sel) => {
       let el = document.querySelectorAll(sel); //selecciona lista de elementos
-      el.on = (evt) =>{ // añade un evento a todos los elementos de una lista 
-        el.forEach( (element, index) => {
-
-          if(evt == 'dragstart'){element.setAttribute('draggable', 'true')}
-            element.mouseX = function(evt){ //obtiene la posicion x del mouse
+      el.on = (evt) => { // añade un evento a todos los elementos de una lista 
+        el.forEach((element, index) => {
+          if (evt == 'dragstart') {
+            element.setAttribute('draggable', 'true')
+          }
+          element.mouseX = function(evt) { //obtiene la posicion x del mouse
               let ClientRect = this.getBoundingClientRect();
               return Math.round(evt.clientX - ClientRect.left)
             },
-            element.mouseY = function(evt){
+            element.mouseY = function(evt) {
               let ClientRect = this.getBoundingClientRect();
               return Math.round(evt.clientY - ClientRect.top)
             }
-
-            element.addEventListener(evt, (e) => 
-            this[evt](e), false);
+          element.addEventListener(evt, (e) => this[evt](e), false);
         });
       }
-      return el; }
+      return el;
+    }
     $(drag).on('dragend')
     $(drag).on('dragstart');
     $(drop).on('dragover');
-    
-   // $(drag).on('drop');
+    // $(drag).on('drop');
   }
-  searchPrincialElement(){
+  searchPrincialElement() {
     let heightPrincipal = document.body.clientHeight;
     let el = document.body;
     let elements = document.querySelectorAll('body > *');
-    elements.forEach( function(element, index) {
-       if(element.clientHeight && element.clientHeight > heightPrincipal &&
-        element.classList[0] != "areaEx0A"){
-          heightPrincipal = element.clientHeight;
-          el = element;
-       }
+    elements.forEach(function(element, index) {
+      if (element.clientHeight && element.clientHeight > heightPrincipal && element.classList[0] != "areaEx0A") {
+        heightPrincipal = element.clientHeight;
+        el = element;
+      }
     });
     return el;
   }
-  dragstart(evt){
+  dragstart(evt) {
     this.clearData();
-    if(evt.target.mouseX){
-      if(this.searchPrincial == false){
+    if (evt.target.mouseX) {
+      if (this.searchPrincial == false) {
         this.principalElement = this.searchPrincialElement();
         this.searchPrincial = true;
       }
-      let drag ={
-        props_global:() =>{
-           this.setData('drag', evt.target);
-           this.setData('areaDrop', 
-           document.getElementById("areaEx"+evt.target.id.replace('noteEx', '')));
+      let drag = {
+        props_global: () => {
+          this.setData('drag', evt.target);
+          this.setData('areaDrop', document.getElementById("areaEx" + evt.target.id.replace('noteEx', '')));
         },
-        css_start:()=>{
+        css_start: () => {
           this.getData('areaDrop').style.visibility = 'visible';
-          this.getData('areaDrop').style.height = this.principalElement.clientHeight+'px';
+          this.getData('areaDrop').style.height = this.principalElement.clientHeight + 'px';
         },
-        preventGhost:() =>{
+        preventGhost: () => {
           let img = document.createElement('img');
           evt.dataTransfer.setDragImage(img, 0, 0);
         }
-     }
+      }
       drag.props_global();
-      drag.css_start(); 
+      drag.css_start();
       this.setData('x', evt.target.mouseX(evt))
       this.setData('y', evt.target.mouseY(evt))
       drag.preventGhost();
-    }else{
+    }
+    else {
       evt.preventDefault()
     }
-
   }
-  dragend(evt){
+  dragend(evt) {
     this.getData('areaDrop').style.visibility = 'hidden';
   }
-
-  dragover(evt){
-    
+  dragover(evt) {
     let over = {
-
       area: this.getData('areaDrop'),
-      move: (area)=>{
-        this.getData('drag').style.top =area.mouseY(evt)-this.getData('y') + 'px';
-        this.getData('drag').style.left =area.mouseX(evt)-this.getData('x') + 'px';
+      move: (area) => {
+        this.getData('drag').style.top = area.mouseY(evt) - this.getData('y') + 'px';
+        this.getData('drag').style.left = area.mouseX(evt) - this.getData('x') + 'px';
       },
-      setDropZones(arrayClass){
+      setDropZones(arrayClass) {
         //solo funciona si el dropzone tiene una sola clase
         let drop = false;
-        for (let i in arrayClass){
-          if(arrayClass[i] == evt.target.classList[0]){
+        for (let i in arrayClass) {
+          if (arrayClass[i] == evt.target.classList[0]) {
             drop = true;
             break;
           }
         }
-        if(drop == true){
-           evt.preventDefault();
+        if (drop == true) {
+          evt.preventDefault();
         }
       }
     }

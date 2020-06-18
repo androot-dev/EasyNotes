@@ -1,86 +1,56 @@
 {
-  "manifest_version":2,
-  "name":"EasyNotes: The best sticky notes!",
-  "description":"Crea notas en las webs que visitas.",
-  "version":"2.0",
-  "browser_action":{
-    "default_popup":"index.html",
-    "default_title":"NoteEasy",
-    "default-icon":{
+  "manifest_version": 2,
+  "name": "EasyNotes: The best sticky notes!",
+  "description": "Crea notas en las webs que visitas.",
+  "version": "2.1",
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_title": "NoteEasy",
+    "default-icon": {
       "16": "src/img/logo16.png",
       "24": "src/img/logo24.png",
       "32": "src/img/logo32.png",
-      "128":"src/img/logo128.png"
+      "128": "src/img/logo128.png"
     }
   },
-  "web_accessible_resources":[
-    "src/img/facebook.svg",
-    "src/img/instagram.svg",
-    "src/img/github.svg",
-    "src/img/logo128.png",
-    "src/img/envelope.svg",
-    "src/img/coins.svg",
-    "src/img/eye-slash.svg",
-    "src/img/trash.svg",
-    "src/img/comment-dots.svg",
-    "src/img/exclamation-triangle.svg",
-    "src/img/cog.svg",
-    "src/img/cog-light.svg",
-    "src/img/save.svg",
-    "src/img/save-light.svg"
-  ],
-  "commands":{
-    "showHidden":{
-      "suggested-key":{
-        "default":"Ctrl+Shift+E",
+  "web_accessible_resources": ["src/img/facebook.svg", "src/img/instagram.svg", "src/img/github.svg", "src/img/logo128.png", "src/img/envelope.svg", "src/img/coins.svg", "src/img/eye-slash.svg", "src/img/trash.svg", "src/img/comment-dots.svg", "src/img/exclamation-triangle.svg", "src/img/cog.svg", "src/img/cog-light.svg", "src/img/save.svg", "src/img/save-light.svg"],
+  "commands": {
+    "showHidden": {
+      "suggested-key": {
+        "default": "Ctrl+Shift+E",
         "mac": "Command+Shift+E"
       },
-      "description": "Muestra y oculta las notas"},
-     "createNote":{
-        "suggested-key":{
-          "default":"Ctrl+Shift+A",
-          "mac": "Command+Shift+A"
-        },
-        "description": "Crea una nueva nota en la pestaña activa"
+      "description": "Muestra y oculta las notas"
+    },
+    "createNote": {
+      "suggested-key": {
+        "default": "Ctrl+Shift+A",
+        "mac": "Command+Shift+A"
       },
-      "createImageNote":{
-        "suggested-key":{
-          "default":"Ctrl+Shift+I",
-          "mac": "Command+Shift+I"
-        },
-        "description": "Agrega una imagen"
-      }
-
+      "description": "Crea una nueva nota en la pestaña activa"
+    },
+    "createImageNote": {
+      "suggested-key": {
+        "default": "Ctrl+Shift+I",
+        "mac": "Command+Shift+I"
+      },
+      "description": "Agrega una imagen"
+    }
   },
-  "icons":{
+  "icons": {
     "16": "src/img/logo16.png",
     "24": "src/img/logo24.png",
     "32": "src/img/logo32.png",
-    "128":"src/img/logo128.png"
+    "128": "src/img/logo128.png"
   },
-
-  "permissions":[
-    "tabs",
-    "storage", 
-    "activeTab",
-    "https://*/*",
-    "http://*/*",
-    "file:///*/*"
-  ],
-  "background":{
-		"scripts":["background/APIchrome.js","background/background.js"], 
-		"persistent": false 
-	},
-  "content_scripts": [
-   {
-     "matches":["<all_urls>"],
-     "js":[
-        "contentScripts/APIchrome.js",
-        "contentScripts/dragDrop.js", 
-        "contentScripts/notes.js",
-        "contentScripts/extension.js"
-      ],
-     "css":["contentScripts/style.css","contentScripts/feedback.css"]
-   }
- ]
+  "permissions": ["tabs", "storage", "activeTab", "<all_urls>"],
+  "background": {
+    "scripts": ["background/APIchrome.js", "background/background.js"],
+    "persistent": false
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["contentScripts/APIchrome.js", "contentScripts/dragDrop.js", "contentScripts/notes.js", "contentScripts/extension.js"],
+    "css": ["contentScripts/style.css", "contentScripts/feedback.css"]
+  }]
 }
