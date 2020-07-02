@@ -105,6 +105,22 @@ class APIchrome extends easyMethods {
 			});
 		}
 	}
+	sendReceive(msg, tabId = null){
+		return new Promise((resolve, reject) => {
+			msg.response = 'await';
+			if (tabId == null) {
+				chrome.runtime.sendMessage(msg, function(response){
+					resolve(response);
+				});
+			}
+			else {
+				chrome.tabs.sendMessage(tabId, msg, function(response){
+					resolve(response);
+				});
+			}
+		});
+
+	}
 	async exeScript(tabId, script, cancelTime = 100) {
 		return new Promise((resolve, reject) => {
 			let timeout;

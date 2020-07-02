@@ -129,7 +129,13 @@ export default class APIchrome {
 				for (let key in messages) {
 					if (response.action) {
 						if (response.action == key) {
-							messages[key](response);
+							if(response.response == 'await'){
+								let req = messages[key](response);
+								sendResponse(req)
+							}else{
+								messages[key](response);
+								return true;
+							}
 							defaultAction = false;
 							break;
 						}

@@ -13,12 +13,28 @@
       "128": "src/img/logo128.png"
     }
   },
-  "web_accessible_resources": ["src/img/facebook.svg", "src/img/instagram.svg", "src/img/github.svg", "src/img/logo128.png", "src/img/envelope.svg", "src/img/coins.svg", "src/img/eye-slash.svg", "src/img/trash.svg", "src/img/comment-dots.svg", "src/img/exclamation-triangle.svg", "src/img/cog.svg", "src/img/cog-light.svg", "src/img/save.svg", "src/img/save-light.svg"],
+  "web_accessible_resources": ["src/img/facebook.svg", 
+    "src/img/instagram.svg", 
+    "src/img/github.svg", 
+    "src/img/logo128.png", 
+    "src/img/envelope.svg", 
+    "src/img/coins.svg", 
+    "src/img/eye-slash.svg", 
+    "src/img/trash.svg", 
+    "src/img/ellipsis-v.svg", 
+    "src/img/exclamation-triangle.svg"],
+  
   "commands": {
+  	"_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      }
+    },
     "showHidden": {
       "suggested-key": {
-        "default": "Ctrl+Shift+E",
-        "mac": "Command+Shift+E"
+        "default":"Ctrl+Shift+E",
+        "mac":"Command+Shift+E"
       },
       "description": "Muestra y oculta las notas"
     },
@@ -28,13 +44,6 @@
         "mac": "Command+Shift+A"
       },
       "description": "Crea una nueva nota en la pestaña activa"
-    },
-    "createImageNote": {
-      "suggested-key": {
-        "default": "Ctrl+Shift+I",
-        "mac": "Command+Shift+I"
-      },
-      "description": "Agrega una imagen"
     }
   },
   "icons": {
@@ -51,6 +60,6 @@
   "content_scripts": [{
     "matches": ["<all_urls>"],
     "js": ["contentScripts/APIchrome.js", "contentScripts/dragDrop.js", "contentScripts/notes.js", "contentScripts/extension.js"],
-    "css": ["contentScripts/style.css", "contentScripts/feedback.css"]
+    "css": ["contentScripts/style.css"]
   }]
 }

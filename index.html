@@ -11,6 +11,19 @@
     </head>
     <body>
         <div id="toolbar">
+
+            <div id="optionsMenu">
+                <ul>
+                   <li id="newStyle">Nuevo estilo</li> 
+                   <li>Configuración</li>
+                   <li>Ayuda</li>
+                   <li><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="9XTUYJ6RTMRMW">
+                    <button id= "donativeButton" type="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" alt="PayPal - The safer, easier way to pay online!">Donación</button>
+                    </form></li>
+                </ul>
+            </div>
             <div id="deleteMenu">
                 <div class="opt">
                     <input id="allPages" name="selnotes" type="radio" value="En todas la paginas">
@@ -24,54 +37,86 @@
                 <div class="opt">
                     <input checked="" id="allHere" name="selnotes" type="radio" value="Solo en esta pagina">
                         <label for="allHere">
-                            Solo en esta página
+                            Solo en esta
+                            <br>
+                                página
+                            </br>
                         </label>
                         <br>
                         </br>
                     </input>
                 </div>
                 <div id="contentDeleteButtons">
-                    <button id="deleteConfirm">
-                        Borrar
-                        <i style="background-image:url('src/img/exclamation-triangle.svg')">
-                        </i>
+                    <button id="deleteConfirm" style="background-image:url('src/img/exclamation-triangle.svg')">
+                        <span>
+                            Borrar
+                        </span>
                     </button>
                 </div>
             </div>
             <div id="barOptions">
-                <button id="deleteButton" style="background-image:url('src/img/trash.svg')" title="Eliminar notas">
+                <button class="buttonIcon" id="deleteButton" style="background-image:url('src/img/trash.svg')" title="Eliminar notas">
                 </button>
-                <button id="hiddenButton" style="background-image:url('src/img/eye-slash.svg');" title="Ocultar/ mostrar (Ctrl+Shift+E)">
+                <button class="buttonIcon" id="hiddenButton" style="background-image:url('src/img/eye-slash.svg');" title="Ocultar/ mostrar">
                 </button>
-                <button id="feedbackButton" style="background-image:url('src/img/comment-dots.svg')" title="Contacto">
+                <button class="buttonIcon" id="optionButton" style="background-image:url('src/img/ellipsis-v.svg')" title="Contacto">
                 </button>
                 <div id="bubbleInfo">
                 </div>
             </div>
+             
             <div id="noteNew">
-                <div id="miniNote" title="Nueva nota (Ctrl+Shift+A)">
-                    <div class="tack" id="tackOriginal">
+                <div id="miniNote" style="background-color: #f1c40f;" title="Nueva nota">
+                    <div class="tack" id="miniTack" style="background-color:#E50909;">
                     </div>
                     <div class="content">
-                        <div class="falseLetter">
+                        <div style="background-color:black;" class="falseLetter">
                         </div>
-                        <div class="falseLetter">
+                        <div  style="background-color:black;"class="falseLetter">
                         </div>
-                        <div class="falseLetter">
+                        <div style="background-color:black;" class="falseLetter">
                         </div>
-                        <div class="falseLetter">
+                        <div style="background-color:black;" class="falseLetter">
                         </div>
-                        <div class="falseLetter " style="width: 50%; margin-left: -19%;">
+                        <div style="background-color:black;" class="falseLetter " style="width: 50%; margin-left: -19%;">
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="allPalletes">
+            </div>
+
+            <ul class="configLine">
+                <li class="newStyle" style="visibility: 'hidden';">
+                    
+                <button id="closeNewStyle"></button>
+                <ul id="selectColors">
+                    <li id="noteColor">
+                        <input class="icolor" id="colorInputNote" type="color" style = "opacity:0; cursor: pointer; " name="">
+                    </li>
+                    <li id="fontColor">
+                         <input class="icolor" id="colorInputFont" type="color" style = "opacity:0; cursor: pointer; " name="">
+                    </li>
+                    <li id="tackColor">
+                        <input class="icolor" id="colorInputTack" type="color" style = "opacity:0; cursor: pointer; " name="">
+                    </li>
+                </ul>
+              
+                <button id="btn-guardarEstilo">Agregar</button>
+
+                </li>
+                <li id="config-domainGroup" title="Agrega las notas en todas las paginas del mismo dominio">
+                    Anclar al dominio
+                    <input type="checkbox"/>
+                </li>
+            </ul>
         </div>
+
         <script src="index.js" type="module">
         </script>
     </body>
     <style type="text/css">
-        *{
+    *{
       margin: 0;
       padding: 0;
     }

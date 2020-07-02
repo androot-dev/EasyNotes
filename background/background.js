@@ -21,6 +21,9 @@ class notesController {
 			},
 			verifyURL: (res) => {
 				this.verifyURL(res)
+			},
+			cmd:(res) =>{
+				console.log(res)
 			}
 		})
 		Chrome.onCommand({
@@ -42,12 +45,6 @@ class notesController {
 					this.showNotes();
 					Chrome.setStorage('hiddenNotes', 'show')
 				}
-			},
-			createImageNote: async () => {
-				let tab = await Chrome.getTab('active');
-				Chrome.send({
-					action: 'createImageNote'
-				}, tab.id);
 			}
 		});
 	}

@@ -1,57 +1,166 @@
 #toolbar {
-    background: #ecf0f1;
+    background: #f5f6fa;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
     align-items: flex-start;
     font-family: cursive, "arial";
     overflow: hidden;
-    width: 3cm;
+    width: 3.5cm;
     height: auto;
-    padding-bottom: 5px;
 }
 #hiddenButton {
     transition: all .1s ease-in-out;
     background-color: transparent;
     background-size: 18px;
 }
-#feedbackButton {
-    background-size: 16px;
+.newStyle {
+    width: 100%;
+    padding-right: 4px;
+    align-items: center;
+    justify-content: center;
+    display: inline-flex;
+    height: 0;
+    visibility: hidden;
+    transition: all .2s ease-in-out;
 }
-i {
-    color: white;
-}
-button {
+.newStyle #closeNewStyle {
+    height: 100%;
+    margin-bottom: 13px;
     border: none;
-    border-radius: 50%;
-    padding: 3.5%;
-    outline: none !important;
-    outline-width: 0 !important;
-    box-shadow: none !important;
-    cursor: pointer;
     background: none;
-    background-position: center !important;
-    background-size: 13px;
-    background-attachment: scroll !important;
-    background-repeat: no-repeat !important;
-    width: 28px;
-    height: 25px;
-    padding: 2px;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
 }
-button i {
-    background-position: center !important;
-    background-size: 13px;
-    background-attachment: scroll !important;
-    background-repeat: no-repeat !important;
-    width: 13px;
-    height: 13px;
-    margin-left: 3px;
+.newStyle #closeNewStyle::after {
+    content: "\d7" !important;
+    font-size: 20px;
+    cursor: pointer;
+    height: 100%;
+    color: #757474;
+}
+.newStyle #closeNewStyle:hover::after {
+    color: #000;
+}
+.newStyle ul {
+    width: 100%;
+    list-style: none;
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+}
+.newStyle #selectColors li {
+    width: 10px;
+    height: 10px;
+    background: #000;
+    border-radius: 50%;
+    list-style: none;
+}
+.newStyle #btn-guardarEstilo:hover {
+    background-color: #B7B7B7;
+}
+.newStyle #btn-guardarEstilo {
+    background: #A4A4A4;
+    border: groove 1.4px;
+    outline: none;
+    font-size: 8px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+    padding: 1px;
+    border-radius: 0px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3px;
+}
+.configLine {
+    background: #D1D0D0;
+    padding: 5px;
+    width: 100%;
+    font-size: 11px;
+    font-weight: 900;
+    text-decoration: none;
+    list-style: none;
+    margin-top: 5px;
+}
+#optionsMenu {
+    background: #f1c40f;
+    width: auto;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    z-index: 999;
+    visibility: 'hidden';
+    opacity: 0;
+    transition: all .2s ease-in-out;
+    pointer-events: none;
+}
+#donativeButton {
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+}
+#donativeButton:hover {
+    text-decoration: underline;
+}
+#optionsMenu ul {
+    list-style: none;
+}
+#optionsMenu ul li {
+    width: 100%;
+    padding: 3px;
+    cursor: pointer;
+}
+#optionsMenu li:hover {
+    text-decoration: underline;
+}
+.configLine li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#optionButton {
+    height: 15px;
+    width: 15px;
+    background-size: contain;
+}
+#colorSave {
+    background-image: url('src/img/save.svg');
+    background-size: 12px;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 12px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: width, height .2s ease-in-out;
+}
+#colorSave:active {
+    background-color: red;
+    border: none;
+    outline: none;
+    box-shadow: none;
 }
 #barOptions {
     transition: all 1s ease-in-out !important;
     width: 100%;
     height: auto;
-    background: #353b48;
+    background: #f1c40f;
     font-stretch: expanded;
     font-size: 13px;
     color: white;
@@ -59,14 +168,27 @@ button i {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    position: absolute;
-    top: 0;
     z-index: 10;
+    border-bottom: solid 2px black;
+}
+.allPalletes {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 10%;
+}
+#noteNew {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.3cm;
 }
 #miniNote {
     width: 1.89cm;
     height: 1.84cm;
-    background: #f1c40f;
     font-family: cursive, "arial";
     display: flex;
     justify-content: center;
@@ -77,17 +199,16 @@ button i {
     transition: all .1s ease-in-out;
     list-style: none;
     cursor: pointer;
-    margin-top: 57%;
-    margin-bottom: 20%;
     flex-wrap: wrap;
+    background-color: #f1c40f;
 }
 #miniNote .tack {
     width: 0.12cm;
     height: 0.12cm;
-    background: #E50909;
     border-radius: 50%;
     position: absolute;
     top: 7%;
+    background-color: #E50909;
 }
 #miniNote .content {
     width: 100%;
@@ -101,52 +222,57 @@ button i {
 .falseLetter {
     width: 70%;
     height: 0.110cm;
-    background: #000;
+    background-color: #000;
 }
-.styleNote {
+.palletes {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     list-style: none;
-    margin-bottom: -12px;
+    width: 100%;
 }
 #miniNote:active {
     transform: scale(1.05);
 }
-.styleNote li {
+.palletes li {
     background: #000;
-}
-.prefered {
     border-radius: 50%;
     border: solid 1px black;
     width: 0.266cm;
     height: 0.266cm;
     margin: 0.056cm;
     flex-shrink: 0;
-    margin-bottom: 0.4cm;
     cursor: pointer;
 }
-.prefered:hover {
+.palletes li:hover {
     transform: scale(1.4);
     transition: all .1s ease-in-out;
 }
+#pallete-user {
+    justify-content: center;
+}
 #deleteMenu {
-    display: flex;
-    height: 0;
-    visibility: hidden;
-    font-family: "consolas", "arial";
-    font-size: 11px;
+    display: none;
+    height: 90px;
+    width: 93px;
+    opacity: 0;
+    font-family: cursive;
+    font-size: 10.5px;
+    font-weight: 700;
     justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
+    align-items: stretch;
     flex-direction: column;
     position: absolute;
-    width: 100%;
-    background: #ecf0f1;
-    bottom: 0;
+    padding: 10px;
+    padding-left: 0px;
+    background: #f1c40f;
+    top: 30px;
+    left: 0;
     z-index: 9999;
     color: black;
-    transition: all .3s ease-in-out;
+    transition: all .2s ease-in-out;
+    box-shadow: 0px 2px 5px -5px black;
 }
 #deleteMenu .opt {
     width: 100%;
@@ -156,28 +282,34 @@ button i {
     text-align: left;
     padding-left: 9%;
     padding-top: 3.5%;
+    transition: none;
 }
 #deleteMenu .opt label {
     margin: 0 4%;
 }
 #deleteConfirm {
-    font-size: 11px;
+    font-size: 9px;
     color: white;
     display: flex;
-    justify-content: center;
-    width: auto;
+    justify-content: flex-start;
+    width: 50px;
     height: auto;
-    padding: 3%;
+    padding: 5px;
+    margin-top: 5px;
+    margin-right: -10px;
+    border: none;
+    outline: none;
     background: black;
     border-radius: 3px;
-    box-shadow: 0px 5px 8px -5px black;
     transition: all .1s ease-in-out;
+    background-position: 90% 50% !important;
+    background-size: 11px;
+    background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
 }
 #deleteConfirm:hover {
-    background: red;
-}
-.mini-btn i {
-    margin: 0 2px;
+    background-color: red;
+    cursor: pointer;
 }
 #upMenu {
     background: transparent;
@@ -193,18 +325,60 @@ button i {
 }
 #barOptions #bubbleInfo {
     text-align: center;
-    width: 90%;
+    width: 92%;
     height: auto;
     background: #f1c40f;
     position: absolute;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 10px;
-    right: 3.5%;
-    color: black;
+    font-weight: 600;
     font-family: cursive, "arial";
     font-weight: 900;
     font-style: bold;
     padding: 5px 2px;
     pointer-events: none;
     opacity: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+#warningMsg {
+    width: 15px;
+    height: 15px;
+    background-position: 90% 50% !important;
+    background-size: contain;
+    background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
+    background-image: url("src/img/exclamation-triangle2.svg");
+    margin-right: 10px;
+}
+#saveNewColor {
+    background: #B7F9F2;
+    width: auto;
+    height: auto;
+    padding: 2px;
+    border-radius: 0px;
+    font-weight: 900;
+    font-size: 9px;
+}
+#saveNewColor:hover {
+    transform: scale(1.1);
+}
+.buttonIcon {
+    border: none;
+    border-radius: 50%;
+    padding: 3.5%;
+    outline: none !important;
+    outline-width: 0 !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    background: none;
+    background-position: center !important;
+    background-size: 13px;
+    background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
+    width: 28px;
+    font-size: 9px;
+    height: 25px;
+    padding: 2px;
 }

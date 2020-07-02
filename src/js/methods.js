@@ -1,7 +1,30 @@
 var $ = (sel) => {
 	let el = document.querySelectorAll(sel).length > 1 ? document.querySelectorAll(sel) : document.querySelectorAll(sel)[0];
-
 	function addMethods(el) {
+		el.css = (css, option = null)=> {
+			if (typeof css == 'object') {
+				for (let i in css) {
+					if (el.tagName) {
+						el.style[i] = css[i];
+					}
+					else {
+						for (let a in el) {
+							el[a].style[i] = css[i];
+						}
+					}
+				}
+			}
+			else {
+				if (el.tagName) {
+					el.style[css] = option;
+				}
+				else {
+					for (let a in el) {
+						el[a].style[css] = option;
+					}
+				}
+			}
+		}
 		el.on = function(evt, fn) {
 			el.addEventListener(evt, fn, false);
 		}
@@ -42,4 +65,25 @@ var $ = (sel) => {
 		return undefined;
 	}
 }
-export default $;
+function rgbToHex(color) {
+		    color = ""+ color;
+		    if (!color || color.indexOf("rgb") < 0) {
+		        return color;
+		    }
+
+		    if (color.charAt(0) == "#") {
+		        return color;
+		    }
+
+		    var nums = /(.*?)rgb\((\d+),\s*(\d+),\s*(\d+)\)/i.exec(color),
+		        r = parseInt(nums[2], 10).toString(16),
+		        g = parseInt(nums[3], 10).toString(16),
+		        b = parseInt(nums[4], 10).toString(16);
+
+		    return "#"+ (
+		        (r.length == 1 ? "0"+ r : r) +
+		        (g.length == 1 ? "0"+ g : g) +
+		        (b.length == 1 ? "0"+ b : b)
+		    );
+		}
+export { $, rgbToHex };

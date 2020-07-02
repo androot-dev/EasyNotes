@@ -9,30 +9,35 @@
     transform: skew(0.2deg) !important;
     margin: 0 !important;
 }
-.saveIconEx0A {
-    width: 15px !important;
-    height: 15px !important;
-    position: absolute !important;
-    top: 5px !important;
-    right: 5px !important;
-    background-size: cover !important;
-    background-position: center !important;
-    opacity: 0;
-    transition: all .2s ease-in-out !important;
-    margin: 0 !important;
+.configSvgEx0A {
+    bottom: 0px !important;
+    left: 0px !important;
 }
-.configEx0A {
+.disketSvgEx0A {
+    top: 0px !important;
+    right: 0px !important;
+    opacity: inherit !important;
+}
+.configEx0A, .configSvgEx0A {
     width: 13px !important;
     height: 13px !important;
-    background: none;
+    background: none !important;
     outline: none !important;
     border: none !important;
     box-shadow: none !important;
     cursor: pointer !important;
     position: absolute !important;
-    bottom: 5px !important;
-    left: 5px !important;
-    background-repeat: no-repeat !important;
+    bottom: 5px;
+    left: 5px;
+}
+.saveIconEx0A, .disketSvgEx0A {
+    width: 15px !important;
+    height: 15px !important;
+    position: absolute !important;
+    opacity: 0;
+    right: 5px;
+    top: 5px;
+    transition: all .2s ease-in-out !important;
     margin: 0 !important;
 }
 .configEx0A:active {
@@ -162,14 +167,13 @@
     margin-bottom: 2px !important;
     width: 20px !important;
     height: 20px !important;
-    background: .443556 !important;
     border-radius: 50% !important;
     z-index: 9 !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     box-shadow: 0px 5px 8px -5px black !important;
-    background: #EA2027 !important;
+    background: #EA2027;
     padding: 0 !important;
 }
 .noteEx0A .removeEx0A, .noteEx1A .removeEx1A {
@@ -188,7 +192,7 @@
     font-weight: 500 !important;
     font-family: "arial" !important;
 }
-.noteEx0A .removeEx0A:hover::after, .noteEx1A .removeEx1A:hover::after {
+.noteEx0A .removeEx0A:hover::after, .removeEx1A:hover::after {
     width: 40px !important;
     height: 30px !important;
     cursor: pointer !important;
