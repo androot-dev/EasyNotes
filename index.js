@@ -10,7 +10,7 @@ class colors extends Array {
 		super();
 		this.maxColors = max;
 	}
-	setcolor(color) {
+	pushColor(color) {
 		if (typeof color != 'object') {
 			color = {
 				note: color
@@ -22,15 +22,7 @@ class colors extends Array {
 		if (!color.tack) {
 			color.tack = '#E50909';
 		}
-		if(this.length -2 >= this.maxColors ){
-			this.shift()
-			this.splice(this.length-2, 0, color);
-
-			return 'full'; //key
-		}else{
-			this.push(color);
-			return this.length -2; //key
-		}	
+		this.push(color);
 	}
 	get[Symbol.toStringTag]() {
 		return 'colors';
@@ -39,6 +31,7 @@ class colors extends Array {
 class pallete {
 	constructor() {
 		this.palletes = [];
+		this.test = []
 		this.tempColor;
 		this.colorSelected;
 		this.popup = {
@@ -88,30 +81,20 @@ class pallete {
 		this.activeColor(activeKey, name, 'load');
 	}
 	setColor(color, namePallete, save = true) {
-		
-		let key = this.palletes[namePallete].setcolor(color);
-		if(key == 'full'){
-			console.log('full: '+key)
-			key =  this.palletes[namePallete].length -1;
-			this.palletes[namePallete][key].node = this.newColor(namePallete, key);
-		}else{
-			console.log('no es full: '+key)
-			this.palletes[namePallete][key].node = this.newColor(namePallete, key);
+		this.palletes[namePallete].pushColor(color);
+		let keys = this.palletes[namePallete].length - 1;
+		let pallete = this.popup.pallete(namePallete);
+		if (keys >= this.palletes[namePallete].maxColors && save == true) {
+			this.showBubbleMessage('<div id="warningMsg"></div>Paleta llena!')
 		}
-		
-		console.log('.--------.')
-		console.log(this.palletes[namePallete][key])
-		console.log('.--------.')
-		
-	
-		console.log('******************')
-		console.log(this.palletes[namePallete])
-		console.log('******************')
+		else if (keys < this.palletes[namePallete].maxColors) {
+			pallete.insertBefore(this.newColor(namePallete, keys), pallete.children[0])
+		}
 		if (save == true) {
 			Chrome.setStorage('pallete-' + namePallete, this.palletes[namePallete]);
 		}
 	}
-	newColor(namePallete, key){
+	newColor(namePallete, key) {
 		let newColor = document.createElement('li');
 		newColor.id = "color-" + namePallete + key;
 		newColor.classList += namePallete + 'Color colorsPallete';
@@ -179,7 +162,7 @@ class pallete {
 			pallete = colorSelect.pallete;
 			colorSelect = colorSelect.colors;
 		}
-		//this.selectedColor(pallete, color, colorSelect);
+		this.selectedColor(pallete, color, colorSelect);
 	}
 }
 class popup extends pallete {
@@ -188,11 +171,11 @@ class popup extends pallete {
 		this.setNewPallete('default', [{
 			note: '#2f3640',
 			font: 'white'
-		}, '#fd9644', '#f1c40f', '#26de81', '#2bcbba', '#9c88ff'].reverse(),6, 2);
+		}, '#fd9644', '#f1c40f', '#26de81', '#2bcbba', '#9c88ff'].reverse(), 6, 2);
 		let loadPalleteUser = async () => {
 			let userColors = await Chrome.getStorage('pallete-user');
 			userColors = userColors == 'empty' ? [] : userColors;
-			this.setNewPallete('user', userColors, 30);
+			this.setNewPallete('user', userColors, 18);
 		}
 		loadPalleteUser();
 		this.toggles = {

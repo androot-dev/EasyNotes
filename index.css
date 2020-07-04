@@ -227,10 +227,10 @@
 .palletes {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     list-style: none;
-    width: 100%;
+    width: 95%;
 }
 #miniNote:active {
     transform: scale(1.05);
@@ -248,9 +248,6 @@
 .palletes li:hover {
     transform: scale(1.4);
     transition: all .1s ease-in-out;
-}
-#pallete-user {
-    justify-content: center;
 }
 #deleteMenu {
     display: none;
