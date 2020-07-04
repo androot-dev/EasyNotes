@@ -81,10 +81,11 @@
 }
 .menuConfigEx0A .colorsEx0A {
     display: inline-flex !important;
-    justify-content: space-around !important;
+    justify-content: flex-start !important;
     align-items: center !important;
     width: 100% !important;
     margin: 0 !important;
+    flex-wrap: wrap !important;
 }
 .menuConfigEx0A .colorsEx0A div {
     width: 10px !important;
@@ -92,7 +93,8 @@
     border-radius: 50% !important;
     border: solid 1px black !important;
     cursor: pointer !important;
-    margin: 0 !important;
+    margin: 2px !important;
+    align-self: flex-end !important;
 }
 .menuConfigEx0A .colorsEx0A div:hover {
     transition: all .2s ease-in-out;

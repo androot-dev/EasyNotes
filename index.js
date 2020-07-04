@@ -6,8 +6,9 @@ from './src/js/methods.js';
 import APIchrome from './src/js/chromeAPI.js';
 let Chrome = new APIchrome();
 class colors extends Array {
-	constructor() {
+	constructor(max) {
 		super();
+		this.maxColors = max;
 	}
 	setcolor(color) {
 		if (typeof color != 'object') {
@@ -21,7 +22,15 @@ class colors extends Array {
 		if (!color.tack) {
 			color.tack = '#E50909';
 		}
-		this.push(color);
+		if(this.length -2 >= this.maxColors ){
+			this.shift()
+			this.splice(this.length-2, 0, color);
+
+			return 'full'; //key
+		}else{
+			this.push(color);
+			return this.length -2; //key
+		}	
 	}
 	get[Symbol.toStringTag]() {
 		return 'colors';
@@ -66,33 +75,51 @@ class pallete {
 			}
 		}
 	}
-	async setNewPallete(name, arrayColors, activeKey) {
+	async setNewPallete(name, arrayColors, max, activeKey = 0) {
 		let newStyle = document.createElement('ul');
 		newStyle.classList = "palletes";
 		newStyle.id = 'pallete-' + name;
 		this.popup.allPalletes.appendChild(newStyle);
-		this.palletes[name] = new colors();
+		this.palletes[name] = new colors(max);
 		for (let key in arrayColors) {
 			this.setColor(arrayColors[key], name, false);
 		}
-		Chrome.setStorage('pallete-'+name, this.palletes[name]);
+		Chrome.setStorage('pallete-' + name, this.palletes[name]);
 		this.activeColor(activeKey, name, 'load');
 	}
-	async setColor(color, namePallete, save = true) {
-		this.palletes[namePallete].setcolor(color);
+	setColor(color, namePallete, save = true) {
+		
+		let key = this.palletes[namePallete].setcolor(color);
+		if(key == 'full'){
+			console.log('full: '+key)
+			key =  this.palletes[namePallete].length -1;
+			this.palletes[namePallete][key].node = this.newColor(namePallete, key);
+		}else{
+			console.log('no es full: '+key)
+			this.palletes[namePallete][key].node = this.newColor(namePallete, key);
+		}
+		
+		console.log('.--------.')
+		console.log(this.palletes[namePallete][key])
+		console.log('.--------.')
+		
+	
+		console.log('******************')
+		console.log(this.palletes[namePallete])
+		console.log('******************')
+		if (save == true) {
+			Chrome.setStorage('pallete-' + namePallete, this.palletes[namePallete]);
+		}
+	}
+	newColor(namePallete, key){
 		let newColor = document.createElement('li');
-		let allColor = document.querySelectorAll('#pallete-' + namePallete + ' > li');
-		let key = allColor.length;
 		newColor.id = "color-" + namePallete + key;
 		newColor.classList += namePallete + 'Color colorsPallete';
 		newColor.style.backgroundColor = this.palletes[namePallete][key].note;
-		this.popup.pallete(namePallete).appendChild(newColor);
-		if(save == true){
-			Chrome.setStorage('pallete-'+namePallete, this.palletes[namePallete]);
-		}
 		newColor.onclick = () => {
 			this.activeColor(key, namePallete)
 		}
+		return newColor;
 	}
 	selectedColor(pallete, color, colorSelect) {
 		this.popup.colors('all').forEach(function(el, index) {
@@ -103,13 +130,15 @@ class pallete {
 		this.popup.color(pallete, color).css({
 			transform: 'scale(1.4)'
 		});
-
 		this.popup.mininote.note.style.backgroundColor = colorSelect.note;
 		this.popup.mininote.tack.style.backgroundColor = colorSelect.tack;
 		this.popup.mininote.font.forEach(function(element, index) {
 			element.style.backgroundColor = colorSelect.font;
 		});
-		if(this.tempColor){
+		if (this.tempColor) {
+			colorSelect.font = rgbToHex(colorSelect.font)
+			colorSelect.note = rgbToHex(colorSelect.note)
+			colorSelect.tack = rgbToHex(colorSelect.tack)
 			this.newStyleSelectColors(colorSelect.note, colorSelect.font, colorSelect.tack);
 		}
 		this.colorSelected = {
@@ -135,7 +164,7 @@ class pallete {
 		let omitir = false;
 		if (evt == 'load') {
 			colorSelect = await this.loadColors(pallete, color);
-			if (!colorSelect || !this.palletes[colorSelect.pallete][colorSelect.key]) {
+			if (!colorSelect || !this.palletes[colorSelect.pallete] || !this.palletes[colorSelect.pallete][colorSelect.key]) {
 				colorSelect = this.palletes[defaultVal.pallete][defaultVal.key];
 				pallete = defaultVal.pallete;
 				color = defaultVal.key;
@@ -150,7 +179,7 @@ class pallete {
 			pallete = colorSelect.pallete;
 			colorSelect = colorSelect.colors;
 		}
-		this.selectedColor(pallete, color,colorSelect);
+		//this.selectedColor(pallete, color, colorSelect);
 	}
 }
 class popup extends pallete {
@@ -159,12 +188,11 @@ class popup extends pallete {
 		this.setNewPallete('default', [{
 			note: '#2f3640',
 			font: 'white'
-		}, '#fd9644', '#f1c40f', '#26de81', '#2bcbba', '#9c88ff'], 2);
-
+		}, '#fd9644', '#f1c40f', '#26de81', '#2bcbba', '#9c88ff'].reverse(),6, 2);
 		let loadPalleteUser = async () => {
-			let userColors = await Chrome.getStorage('userPallete');
+			let userColors = await Chrome.getStorage('pallete-user');
 			userColors = userColors == 'empty' ? [] : userColors;
-			this.setNewPallete('user', userColors, 0);
+			this.setNewPallete('user', userColors, 30);
 		}
 		loadPalleteUser();
 		this.toggles = {
@@ -193,16 +221,16 @@ class popup extends pallete {
 			accessUrlBloked: () => {
 				this.showBubbleMessage('<div id="warningMsg"></div> Página no accesible!', 2500);
 			}
-
 		});
 		this.menuHidden('show');
 		$('#miniNote').on('click', async () => {
 			let note;
-			if(this.tempColor){
+			if (this.tempColor) {
 				note = this.tempColor;
-			}else{
+			}
+			else {
 				let config = await Chrome.getStorage('colorNoteSelect');
-		 		note= this.palletes[config.pallete][config.key];
+				note = this.palletes[config.pallete][config.key];
 			}
 			Chrome.send({
 				verifyURL: 'createNote',
@@ -229,6 +257,9 @@ class popup extends pallete {
 		});
 		$("#newStyle").on('click', () => {
 			this.newStyle();
+		});
+		$("#btn-guardarEstilo").on('click', () => {
+			this.setColor(this.tempColor, 'user');
 		});
 	}
 	closeNewStyle() {
@@ -268,27 +299,24 @@ class popup extends pallete {
 		let noteColor = rgbToHex(this.popup.mininote.note.style.backgroundColor);
 		let fontColor = rgbToHex(this.popup.mininote.font[0].style.backgroundColor);
 		let tackColor = rgbToHex(this.popup.mininote.tack.style.backgroundColor);
-
 		this.newStyleSelectColors(noteColor, fontColor, tackColor);
-
 		let note = $('#noteColor input');
 		let font = $('#fontColor input');
 		let tack = $('#tackColor input');
-
-		note.on('input', ()=> {
+		note.on('input', () => {
 			apply('#noteColor', null, null)
 			this.tempColor.note = note.value;
 		})
-		font.on('input', ()=> {
+		font.on('input', () => {
 			apply(null, '#fontColor', null)
 			this.tempColor.font = font.value;
 		})
-		tack.on('input', ()=> {
+		tack.on('input', () => {
 			apply(null, null, '#tackColor')
 			this.tempColor.tack = tack.value;
 		})
 	}
-	newStyleSelectColors(note, font, tack){
+	newStyleSelectColors(note, font, tack) {
 		this.tempColor = {
 			note: note,
 			font: font,

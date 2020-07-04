@@ -66,6 +66,11 @@ var $ = (sel) => {
 	}
 }
 function rgbToHex(color) {
+	if(color=='black'){
+		 return color="#000000";
+	}else if(color == "white"){
+		return color="#ffffff";
+	}
 		    color = ""+ color;
 		    if (!color || color.indexOf("rgb") < 0) {
 		        return color;

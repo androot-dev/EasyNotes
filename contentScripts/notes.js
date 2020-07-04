@@ -331,9 +331,14 @@ class noteText extends controllerLoad {
         this.saveTextNote(model, request, id, 50);
       }, false);
     }
-    let response = await this.getStorage('pallete-default');
-    for (let i in response) {
-      addColor(response[i], model, id);
+    let defaultPallete = await this.getStorage('pallete-default');
+    let userPallete = await this.getStorage('pallete-user');
+    for (let i in defaultPallete) {
+      addColor(defaultPallete[i], model, id);
     }
+    for (let i in userPallete) {
+      addColor(userPallete[i], model, id);
+    }
+
   }
 }
