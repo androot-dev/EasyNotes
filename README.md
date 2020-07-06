@@ -16,11 +16,7 @@ https://chrome.google.com/webstore/detail/easynotes-the-best-sticky/gdfggnbghcio
 * Elimina las notas una a una o realiza un borrado completo
 
 ## Donaciones :money_with_wings:
-Esta extensión fue creada con mucho esfuerzo y sin ánimo de lucro por un entusiasta desarrollador, aun así, puedes apoyarme invitándome un café y serás de gran ayuda!.
-
-<form id="donativesEx0A" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-	<a href="javascript:alert('hola')">hola und</a>
-</form>
+Esta extensión fue creada con mucho esfuerzo y sin ánimo de lucro por un entusiasta desarrollador, aun así, puedes apoyarme invitándome un café y serás de gran ayuda!. Para hacer una donación abre el popup de la extensión->menu de opciones->Donación.
 
 
 
