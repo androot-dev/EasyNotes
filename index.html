@@ -16,11 +16,12 @@
                     <li id="newStyle">
                         Nuevo estilo
                     </li>
-                    <!--<li>Configuración</li>
-                   <li>Ayuda</li>-->
+                    <!--<li>Configuración</li>-->
+                   
                     <li>
                         Borrar estilos
                     </li>
+                    <li><a target="_blank" href="https://github.com/andros-code/easyNotes">Github</a></li>
                     <li>
                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                             <input name="cmd" type="hidden" value="_s-xclick">
@@ -116,10 +117,12 @@
                         Agregar
                     </button>
                 </li>
-                <li id="config-domainGroup" title="Agrega las notas en todas las paginas del mismo dominio">
-                    Anclar al dominio
-                    <input type="checkbox"/>
+                <li id="config-AnchorDomain" title="Agrega las notas en todas las paginas del mismo dominio">
+                    Anclar al sub/dominio
+                    <input id="anchorDomain" type="checkbox"/>
+                    <div id="viewUrl"></div>
                 </li>
+
             </ul>
         </div>
         <script src="index.js" type="module">

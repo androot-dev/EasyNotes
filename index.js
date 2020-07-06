@@ -168,6 +168,8 @@ class pallete {
 class popup extends pallete {
 	constructor() {
 		super();
+		this.urlActive ;
+
 		this.setNewPallete('default', [{
 			note: '#2f3640',
 			font: 'white'
@@ -203,9 +205,38 @@ class popup extends pallete {
 			},
 			accessUrlBloked: () => {
 				this.showBubbleMessage('<div id="warningMsg"></div> Página no accesible!', 2500);
+			},
+			recivedUrlActive: (res)=>{
+				this.urlActive = res.url;
+				let url;
+				for(let i = res.url.length-1; i >= 0; i--){
+					if(res.url[i] == '/'){
+						this.urlActive = res.url.substring(0, i)+'/*';
+						break;
+					}
+				}
+				let view = $('#viewUrl');
+				view.textContent = this.urlActive;
+				view.css({
+					visibility: 'visible'
+				});
+				view.scrollLeft = view.scrollWidth;
 			}
 		});
 		this.menuHidden('show');
+		(async()=>{
+			let checked = await Chrome.getStorage('anchorDomainCheck');
+			if(checked == true){
+				$('#anchorDomain').checked = true;
+				this.anchorDomainActive(true);
+			}else if (checked == false){
+				$('#anchorDomain').checked = false;
+				this.anchorDomainActive(false);
+			}
+		})()
+		$('#anchorDomain').on('change', async()=>{
+			this.anchorDomainActive();
+		})
 		$('#miniNote').on('click', async () => {
 			let note;
 			if (this.tempColor) {
@@ -219,7 +250,9 @@ class popup extends pallete {
 				verifyURL: 'createNote',
 				noteColor: note.note,
 				fontColor: note.font,
-				tackColor: note.tack
+				tackColor: note.tack,
+				anchorDomain: $('#anchorDomain').checked,
+				urlAnchor: this.urlActive
 			});
 		});
 		$('#closeNewStyle').on('click', () => {
@@ -244,6 +277,31 @@ class popup extends pallete {
 		$("#btn-guardarEstilo").on('click', () => {
 			this.setColor(this.tempColor, 'user');
 		});
+	}
+	async anchorDomainActive(checkedForze = null){
+		let view = $('#viewUrl');
+		let check = $('#anchorDomain');
+		check.checked = checkedForze!=null ? checkedForze : check.checked;
+			if(check.checked == true){
+				if(this.urlActive){
+					view.textContent = this.urlActive;
+					view.css({
+						visibility:'visible'
+					});
+					view.scrollLeft = view.offsetLeft;
+				}else{
+					let tab = await Chrome.send({
+						action:'sendUrlActive'
+					});
+
+				}			
+			}else{
+				view.css({
+					visibility:'hidden'
+				})
+				view.textContent ="";
+			}
+			Chrome.setStorage('anchorDomainCheck', check.checked);
 	}
 	closeNewStyle() {
 		this.tempColor = undefined;

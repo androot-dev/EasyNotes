@@ -4,6 +4,8 @@ class extension extends noteText {
 	}
 	async removeNotesHere(rq) {
 		let countNote = 0;
+		let anchorUrl = this.getAnchorUrl(rq.url);
+
 		let notesInDOM = document.querySelectorAll('.removeEx0A');
 		notesInDOM = notesInDOM.length > 0 ? notesInDOM : notesInDOM[0];
 		let storage = await this.getStorage();
@@ -12,12 +14,15 @@ class extension extends noteText {
 				let countDeleteHere = 0;
 				for (let i in storage) {
 					await new Promise(async (resolve, reject) => {
-						if (storage[i].url && storage[i].url == rq.url) {
+						console.log(storage[i])
+						if ((storage[i].url && storage[i].url == rq.url && storage[i].anchorDomain == false) || 
+							(storage[i].anchorDomain == true && storage[i].urlAnchor && storage[i].urlAnchor != "" && storage[i].urlAnchor == anchorUrl)) {
 							resolve(fn(storage[i]));
 						}
 						else {
 							resolve(0)
 						}
+
 					}).then((res) => {
 						countDeleteHere += res;
 					});
@@ -29,13 +34,27 @@ class extension extends noteText {
 		if (rq.action == 'removeNotesHere' || rq.action == 'deleteAll' || rq.action == 'hiddenNotes') {
 			let deleteNotes = await notesHere(async (storage) => {
 				if (rq.action == 'removeNotesHere') {
-					await this.removeStorage(storage.url + storage.id);
+					if(storage.anchorDomain == false){
+						await this.removeStorage(storage.url + storage.id);
+					}else if(storage.anchorDomain == true){
+						await this.removeStorage(storage.urlAnchor + storage.id);
+					}
+					
 				}
-				let elDOM = document.querySelector('#removeEx' + storage.id);
-				if (elDOM) {
-					elDOM.delete()
+				let el = document.querySelector('#removeEx' + storage.id);
+				let elanchor = document.querySelector('#anchor-removeEx' + storage.id);
+				let count = 0;
+				if (el) {
+					console.log('esta no acnhor')
+					count += 1;
+					el.delete();
 				}
-				return 1;
+				if(elanchor){
+					console.log('esta acnhor')
+					count += 1;
+					elanchor.delete();
+				}
+				return count;
 			});
 			return {
 				action: 'notesDelete',
@@ -56,4 +75,5 @@ EasyNotes.onMessages({
 			}
 		}
 	}
+
 })

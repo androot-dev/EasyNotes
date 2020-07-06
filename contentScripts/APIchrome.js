@@ -221,7 +221,9 @@ class APIchrome extends easyMethods {
 		if (messages) {
 			chrome.runtime.onMessage.addListener(async (response, sender, sendResponse) => {
 				let defaultAction = true;
+
 				for (let key in messages) {
+
 					if (response.action) {
 						if (response.action == key) {
 							messages[key](response);

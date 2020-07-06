@@ -9,6 +9,13 @@ class notesController {
 			}
 		});
 		Chrome.onMessages({
+			sendUrlContentScript: async()=>{
+				let tab =  await Chrome.getTab('active');
+				Chrome.send({
+					action:'urlContentScript',
+					url:tab[0].url
+				}, tab[0].id)
+			},
 			hiddenNotes: () => {
 				this.hiddenNotes()
 			},
@@ -22,8 +29,13 @@ class notesController {
 			verifyURL: (res) => {
 				this.verifyURL(res)
 			},
-			cmd:(res) =>{
-				console.log(res)
+			sendUrlActive:async()=>{
+				let tab = await Chrome.getTab('active')
+	
+				Chrome.send({
+					action: 'recivedUrlActive',
+					url : tab[0].url
+				})
 			}
 		})
 		Chrome.onCommand({
@@ -99,7 +111,7 @@ class notesController {
 								});
 							}
 							catch (e) {
-								console.log('ERROR: es posible que deba cargar nuevamente la pestaña' + id + ' para usar noteEasy.(' + tab[i].url + ') ');
+								console.log('ERROR: es posible que deba cargar nuevamente la pestaña' + id + ' para usar EasyNotes.(' + tab[i].url + ') ');
 							}
 						}
 					}

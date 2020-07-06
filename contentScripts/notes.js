@@ -55,21 +55,40 @@ class controllerLoad extends dragDrop {
     });
   }
   async loadNotes(request) {
-    let marginFail = 50;
-    let count = 0;
-    for (let i = 1; i < 200; i++) {
-      const note = await this.getStorage(request.url + i);
-      count = note != "empty" ? 0 : count++;
-      if (count > marginFail) {
-        break;
-      }
-      if (note != "empty") {
-        let exist = document.getElementById('noteEx' + note.id);
-        if (!exist) {
-          this.createNote(note, i);
+    let searchStorage = async (marginFail, url, anchor = false) => {
+      let count = 0;
+      let end = false;
+      let count2 = 0;
+      for (let i = 1; i <= 300; i++) {
+        const note = await this.getStorage(url + i);
+        count = note != "empty" ? 0 : count++;
+        if (count > marginFail) {
+          break;
+        }
+        if (note != "empty") {
+          let exist;
+          if(anchor == false){
+            exist = document.getElementById('noteEx' + note.id);
+          }else{
+            exist = document.getElementById('anchor-noteEx' + note.id);
+          }
+          
+          if (!exist) {
+            count2++;
+            this.createNote(note, i, anchor);
+          }
         }
       }
+      return count2;
     }
+    // tengo que lograr que esto funcione
+   
+      
+      searchStorage(50, request.url);
+      searchStorage(50, this.getAnchorUrl(request.url), true);
+    
+    
+   
   }
 }
 class noteText extends controllerLoad {
@@ -84,7 +103,7 @@ class noteText extends controllerLoad {
       textContent: ""
     }
   }
-  async setConfigContainer(model, id, request) {
+  async setConfigContainer(model, id, request, anchor) {
     model.menu.style.backgroundColor = request.noteColor;
     this.on(model.iconConfig, 'click', () => {
       this.animate(model.menu, {
@@ -104,33 +123,95 @@ class noteText extends controllerLoad {
         model.menu.toggleAction = 'open';
       }
     });
+    let idAnchorInput, idViewUrl, idColors;
+    anchor = anchor == false ? "" : 'anchor-';
+    idAnchorInput = anchor+"anchorDomainEx" + id ;
+    idViewUrl = anchor+"viewUrlEx" + id;
+    idColors = anchor+"colorsEx" + id ;
+    
     model.menu.insertAdjacentHTML('beforeend', `
             <span>Texto</span><br>
               <input type="number" value="` + model.text.style.fontSize.replace('px', '') + `" /> px<br>
             <span>Color</span><br>
-              <div class="colorsEx0A" id="colorsEx` + id + `">
-  
+              <div class="colorsEx0A" id="`+idColors+`">
+              
               </div>
+              <span class="anchorDomainEx0A"><label>Anclar al sub/dominio</label> <input type="checkbox"  id="`+idAnchorInput+`">
+                <div class="viewUrlEx0A" id="`+idViewUrl+`"></div>
+              </span>
+
     `);
   }
-  async createNote(request, control_id = 'auto') {
+  async createNote(request, control_id = 'auto', anchor = false) {
     let id = control_id == 'auto' ? await this.getID(request) : control_id;
     this.id = id;
     this.requestFormat(request);
-    let model = this.getModelTextNote(id, request);
+    let model = this.getModelTextNote(id, request, anchor);
     this.setRequest(model, request);
-    this.setConfigContainer(model, id, request);
-    this.onDelete(model, id);
+    this.setConfigContainer(model, id, request, anchor);
+    this.onDelete(model, id, anchor);
     this.onAutoSave(model, id, request);
     this.onShowInfo(model, id);
     this.setNoteDOM(model.fusion());
-    this.onDrag("#" + model.note.id, "#" + model.area.id);
+    this.onDrag(model.note.id, model.area.id);
     this.setPosition(model, request.position);
-    this.onConfigColor(model, request, id)
+    this.onConfigColor(model, request, id, anchor)
     this.onConfigTenxSize(model, request, id);
+    this.onConfigAnchorDomain(request, id, model, anchor);
     document.querySelector("#" + model.iconConfig.id + " svg").style.fill = request.fontColor;
     document.querySelector("#" + model.save.id + " svg").style.fill = request.fontColor;
     return id;
+  }
+  getAnchorUrl(url) {
+    let newUrl;
+    for (let i = url.length - 1; i >= 0; i--) {
+      if (url[i] == '/') {
+        newUrl = url.substring(0, i) + '/*';
+        break;
+      }
+    }
+    return newUrl;
+  }
+  onConfigAnchorDomain(request, id, model, anchor) {
+    let input;
+    let view;
+    if(anchor == false){
+      input = document.querySelector('#anchorDomainEx' + id);
+      view = document.querySelector('#viewUrlEx' + id);
+    }else{
+      input = document.querySelector('#anchor-anchorDomainEx' + id);
+      view = document.querySelector('#anchor-viewUrlEx' + id);
+    }
+   
+    let idNoteAnchor = this.getAnchorUrl(request.url)
+    input.checked = request.anchorDomain;
+    model.span.idExtension = (input.checked == false) ? request.url+id : idNoteAnchor +id;
+    view.textContent = input.checked == true ? this.getAnchorUrl(request.url) : "";
+    request.urlAnchor = view.textContent;
+   
+    input.addEventListener('change', async () => {
+      request.anchorDomain = input.checked;
+      if (input.checked == false) {
+        request.urlAnchor = "";
+        view.textContent = "";
+        this.removeStorage(idNoteAnchor + id)
+        this.send({
+          action: 'sendUrlContentScript',
+          response: 'urlContentScript'
+        }, null, (res) => {
+          request.url = res.url;
+          model.span.idExtension = request.url+id;
+          this.saveTextNote(model, request, id, 50);
+        })
+      }
+      else {
+        model.span.idExtension = idNoteAnchor+id;
+        request.urlAnchor = idNoteAnchor;
+        view.textContent = request.urlAnchor;
+        this.removeStorage(request.url + id)
+        this.saveTextNote(model, request, id, 50);
+      }
+    }, false);
   }
   async saveTextNote(model, request, id, time = 10) {
     if (model.text.value != "") {
@@ -140,7 +221,8 @@ class noteText extends controllerLoad {
       this.temp[id] = setTimeout(
         () => {
           let id = model.note.idnote;
-          this.setStorage(request.url + id, {
+          let nameStorage = (request.urlAnchor && request.urlAnchor != "") ? request.urlAnchor : request.url;
+          this.setStorage(nameStorage + id, {
             fontSize: model.text.style.fontSize,
             fontColor: request.fontColor,
             noteColor: request.noteColor,
@@ -153,15 +235,21 @@ class noteText extends controllerLoad {
             },
             width: model.text.clientWidth + 'px',
             height: model.text.clientHeight + 'px',
-            tackColor: request.tackColor
+            tackColor: request.tackColor,
+            anchorDomain: request.anchorDomain,
+            urlAnchor: request.urlAnchor
           });
           model.info.show(null);
         }, time);
     }
   }
-  onDelete(model, id) {
+  onDelete(model, id, anchor) {
     model.span.delete = () => {
-      document.body.removeChild(document.getElementById('areaEx' + id));
+      if(anchor == false){
+        document.body.removeChild(document.getElementById('areaEx' + id));
+      }else{
+        document.body.removeChild(document.getElementById('anchor-areaEx' + id));
+      }
     }
     model.span.addEventListener('click', async () => {
       await this.removeStorage([
@@ -238,26 +326,27 @@ class noteText extends controllerLoad {
     model.menu.style.color = request.fontColor;
     model.tack.style.backgroundColor = request.tackColor;
   }
-  getModelTextNote(id, request) {
-    let create = (tag, name) => {
+  getModelTextNote(id, request, anchor) {
+    let create = (tag, name, anchor) => {
       let el = document.createElement(tag);
+      anchor = anchor == true ? 'anchor-' : "";
       el.classList += name + 'Ex0A notranslate';
-      el.id = name + "Ex" + id;
+      el.id = anchor+name + "Ex" + id;
       el.idnote = id;
       el.idExtension = request.url + el.idnote;
       return el;
     }
     let icons = this.svgIcons;
     return {
-      area: create('div', 'area'),
-      note: create('div', 'note'),
-      span: create('span', 'remove'),
-      tack: create('div', 'tack'),
-      info: create('span', 'message'),
-      text: create('textarea', 'paper'),
-      iconConfig: create('button', 'config'),
-      menu: create('ul', 'menuConfig'),
-      save: create('span', 'saveIcon'),
+      area: create('div', 'area', anchor),
+      note: create('div', 'note', anchor),
+      span: create('span', 'remove', anchor),
+      tack: create('div', 'tack', anchor),
+      info: create('span', 'message', anchor),
+      text: create('textarea', 'paper', anchor),
+      iconConfig: create('button', 'config', anchor),
+      menu: create('ul', 'menuConfig', anchor),
+      save: create('span', 'saveIcon', anchor),
       fusion: function() {
         this.tack.appendChild(this.span);
         this.note.appendChild(this.info);
@@ -311,11 +400,12 @@ class noteText extends controllerLoad {
       this.saveTextNote(model, request, id);
     }, );
   }
-  async onConfigColor(model, request, id) {
+  async onConfigColor(model, request, id, anchor) {
     let addColor = (response, model, id) => {
       let color = document.createElement('div');
       color.style.backgroundColor = response.note;
-      document.querySelector('#colorsEx' + id).appendChild(color);
+      anchor = anchor == false ? "" : 'anchor-';
+      document.querySelector('#'+anchor+'colorsEx' + id).appendChild(color);
       color.addEventListener('click', () => {
         this.css([model.note, model.menu], {
           backgroundColor: response.note,
@@ -333,12 +423,11 @@ class noteText extends controllerLoad {
     }
     let defaultPallete = await this.getStorage('pallete-default');
     let userPallete = await this.getStorage('pallete-user');
-    for (let i in defaultPallete) {
+    for (let i in defaultPallete.reverse()) {
       addColor(defaultPallete[i], model, id);
     }
     for (let i in userPallete) {
       addColor(userPallete[i], model, id);
     }
-
   }
 }

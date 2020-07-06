@@ -47,8 +47,8 @@
 .menuConfigEx0A {
     position: absolute !important;
     bottom: 0px !important;
-    left: -115px;
-    width: 100px;
+    left: -125px;
+    width: 112px;
     height: auto !important;
     margin: 0 !important;
     padding: 5px !important;
@@ -58,6 +58,41 @@
     font-size: 12px !important;
     font-weight: 900 !important;
     opacity: 0;
+}
+.anchorDomainEx0A input {
+    zoom: 0.5 !important;
+}
+.anchorDomainEx0A label {
+    align-self: flex-start !important;
+    text-align: left !important;
+    font-size: 8.9px !important;
+}
+.anchorDomainEx0A {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    flex-wrap: wrap !important;
+}
+.viewUrlEx0A {
+    overflow-x: auto!important;
+    white-space: pre!important;
+    padding: 2px !important;
+    font-weight: 500 !important;
+}
+.viewUrlEx0A::-webkit-scrollbar {
+    width: 2px !important;
+    height: 2px !important;
+    margin-left: -19px !important;
+}
+.viewUrlEx0A::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border-radius: 4px !important;
+    margin-left: -9px !important;
+}
+.viewUrlEx0A::-webkit-scrollbar-thumb:hover {
+    background: white !important;
+    box-shadow: 0 0 2px 1px rgba(0, 44, 33, 0) !important;
 }
 .menuConfigEx0A>span {
     font-family: cursive !important;
@@ -93,7 +128,7 @@
     border-radius: 50% !important;
     border: solid 1px black !important;
     cursor: pointer !important;
-    margin: 2px !important;
+    margin: 2px 2.5px !important;
     align-self: flex-end !important;
 }
 .menuConfigEx0A .colorsEx0A div:hover {

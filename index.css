@@ -79,13 +79,17 @@
 }
 .configLine {
     background: #D1D0D0;
-    padding: 5px;
+    padding: 5px 0px;
     width: 100%;
     font-size: 11px;
     font-weight: 900;
     text-decoration: none;
     list-style: none;
     margin-top: 5px;
+}
+#optionsMenu a {
+    text-decoration: none;
+    color: inherit;
 }
 #optionsMenu {
     background: #f1c40f;
@@ -378,4 +382,34 @@
     font-size: 9px;
     height: 25px;
     padding: 2px;
+}
+#config-AnchorDomain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 10px!important;
+}
+#anchorDomain {
+    margin-left: 10px;
+}
+#viewUrl {
+    width: 90%;
+    overflow-x: auto;
+    visibility: hidden;
+    white-space: pre;
+}
+#viewUrl::-webkit-scrollbar {
+    width: 2px !important;
+    height: 2px !important;
+    margin-left: -19px !important;
+}
+#viewUrl::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border-radius: 4px !important;
+    margin-left: -9px !important;
+}
+#viewUrl::-webkit-scrollbar-thumb:hover {
+    background: white !important;
+    box-shadow: 0 0 2px 1px rgba(0, 44, 33, 0) !important;
 }

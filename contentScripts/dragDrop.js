@@ -4,6 +4,8 @@ class dragDrop extends APIchrome {
     this.dataEvents = {};
     this.principalElement = document.body;
     this.searchPrincial = false;
+    this.idDrag ;
+    this.idDrop ;
   }
   setData(name, val) {
     this.dataEvents[name] = val;
@@ -14,12 +16,14 @@ class dragDrop extends APIchrome {
   clearData() {
     this.dataEvents = {};
   }
-  onDrag(drag$ = ".noteEx0A", drop$ = ".areaEx0A") {
-    let drag = drag$;
-    let drop = drop$;
+  onDrag(idDrag, idDrop) {
+
+    let drag = "#"+idDrag;
+    let drop = "#"+idDrop;
+    
     const $ = (sel) => {
       let el = document.querySelectorAll(sel); //selecciona lista de elementos
-      el.on = (evt) => { // añade un evento a todos los elementos de una lista 
+      el.on = (evt, props = null) => { // añade un evento a todos los elementos de una lista 
         el.forEach((element, index) => {
           if (evt == 'dragstart') {
             element.setAttribute('draggable', 'true')
@@ -32,13 +36,13 @@ class dragDrop extends APIchrome {
               let ClientRect = this.getBoundingClientRect();
               return Math.round(evt.clientY - ClientRect.top)
             }
-          element.addEventListener(evt, (e) => this[evt](e), false);
+          element.addEventListener(evt, (e) => this[evt](e, props), false);
         });
       }
       return el;
     }
     $(drag).on('dragend')
-    $(drag).on('dragstart');
+    $(drag).on('dragstart', {idDrag:idDrag, idDrop:idDrop});
     $(drop).on('dragover');
     // $(drag).on('drop');
   }
@@ -54,7 +58,7 @@ class dragDrop extends APIchrome {
     });
     return el;
   }
-  dragstart(evt) {
+  dragstart(evt, props) {
     this.clearData();
     if (evt.target.mouseX) {
       if (this.searchPrincial == false) {
@@ -64,7 +68,7 @@ class dragDrop extends APIchrome {
       let drag = {
         props_global: () => {
           this.setData('drag', evt.target);
-          this.setData('areaDrop', document.getElementById("areaEx" + evt.target.id.replace('noteEx', '')));
+          this.setData('areaDrop', document.getElementById(props.idDrop));
         },
         css_start: () => {
           this.getData('areaDrop').style.visibility = 'visible';
@@ -85,10 +89,10 @@ class dragDrop extends APIchrome {
       evt.preventDefault()
     }
   }
-  dragend(evt) {
+  dragend(evt, props) {
     this.getData('areaDrop').style.visibility = 'hidden';
   }
-  dragover(evt) {
+  dragover(evt, props) {
     let over = {
       area: this.getData('areaDrop'),
       move: (area) => {
