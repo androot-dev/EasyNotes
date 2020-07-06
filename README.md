@@ -16,7 +16,9 @@ https://chrome.google.com/webstore/detail/easynotes-the-best-sticky/gdfggnbghcio
 * Elimina las notas una a una o realiza un borrado completo
 
 ## Donaciones :money_with_wings:
-Esta extensión fue creada con mucho esfuerzo y sin ánimo de lucro por un entusiasta desarrollador, aun así, puedes apoyarme invitándome un café y serás de gran ayuda!. Para hacer una donación abre el popup de la extensión->menu de opciones->Donación.
+Esta extensión fue creada con mucho esfuerzo y sin ánimo de lucro por un entusiasta desarrollador, aun así, puedes apoyarme invitándome un café y serás de gran ayuda!. Para hacer una donación: 
+
+**Popup(Menu de la extensión)->>menu de opciones->>Donación**
 
 
 
