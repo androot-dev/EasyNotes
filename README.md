@@ -16,7 +16,7 @@ https://chrome.google.com/webstore/detail/easynotes-the-best-sticky/gdfggnbghcio
 * Elimina las notas una a una o realiza un borrado completo
 
 ## Comandos del teclado :zap:
-Una vez instalada la extensión podras establecer los comandos desde la configuración del navegador, en Chrome por ejemplos la encuentra aquí: chrome://extensions/shortcuts, si no utilizas Chrome entonces solo busca la pantalla de extensiones y accede a el apartado relacionado a los comandos del teclado.Podras configurar las siguientes acciones:
+Una vez instalada la extensión podras establecer los comandos desde la configuración del navegador, en Chrome por ejemplo la encuentras aquí: chrome://extensions/shortcuts, si no utilizas Chrome entonces solo busca la pantalla de extensiones y accede a el apartado relacionado a los comandos del teclado.Podras configurar las siguientes acciones:
 
 * Creación de una nota nueva
 * Ocultar / Mostrar notas
