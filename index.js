@@ -24,6 +24,11 @@ class colors extends Array {
 		}
 		this.push(color);
 	}
+	reset() {
+		while (this.length > 0) {
+			this.pop();
+		}
+	}
 	get[Symbol.toStringTag]() {
 		return 'colors';
 	}
@@ -168,8 +173,7 @@ class pallete {
 class popup extends pallete {
 	constructor() {
 		super();
-		this.urlActive ;
-
+		this.urlActive;
 		this.setNewPallete('default', [{
 			note: '#2f3640',
 			font: 'white'
@@ -206,12 +210,12 @@ class popup extends pallete {
 			accessUrlBloked: () => {
 				this.showBubbleMessage('<div id="warningMsg"></div> Página no accesible!', 2500);
 			},
-			recivedUrlActive: (res)=>{
+			recivedUrlActive: (res) => {
 				this.urlActive = res.url;
 				let url;
-				for(let i = res.url.length-1; i >= 0; i--){
-					if(res.url[i] == '/'){
-						this.urlActive = res.url.substring(0, i)+'/*';
+				for (let i = res.url.length - 1; i >= 0; i--) {
+					if (res.url[i] == '/') {
+						this.urlActive = res.url.substring(0, i) + '/*';
 						break;
 					}
 				}
@@ -224,17 +228,18 @@ class popup extends pallete {
 			}
 		});
 		this.menuHidden('show');
-		(async()=>{
+		(async () => {
 			let checked = await Chrome.getStorage('anchorDomainCheck');
-			if(checked == true){
+			if (checked == true) {
 				$('#anchorDomain').checked = true;
 				this.anchorDomainActive(true);
-			}else if (checked == false){
+			}
+			else if (checked == false) {
 				$('#anchorDomain').checked = false;
 				this.anchorDomainActive(false);
 			}
 		})()
-		$('#anchorDomain').on('change', async()=>{
+		$('#anchorDomain').on('change', async () => {
 			this.anchorDomainActive();
 		})
 		$('#miniNote').on('click', async () => {
@@ -255,6 +260,7 @@ class popup extends pallete {
 				urlAnchor: this.urlActive
 			});
 		});
+		this.popup.colors('user')
 		$('#closeNewStyle').on('click', () => {
 			this.closeNewStyle();
 		});
@@ -277,31 +283,63 @@ class popup extends pallete {
 		$("#btn-guardarEstilo").on('click', () => {
 			this.setColor(this.tempColor, 'user');
 		});
+		$('#deleteStyle').on('click', () => {
+			this.menuDeleteStyle(true);
+		});
+		$('#deleteCancel').on('click', () => {
+			this.menuDeleteStyle(false);
+		})
+		$('#deleteAllColor').on('click', () => {
+			this.menuDeleteStyle(false);
+			Chrome.removeStorage('pallete-user');
+			let colors = document.querySelectorAll('.userColor');
+			colors.forEach(function(el, index) {
+				el.style.display = "none";
+			});
+			this.palletes['user'].reset();
+		})
 	}
-	async anchorDomainActive(checkedForze = null){
+	menuDeleteStyle(toggle = 'auto') {
+		if (toggle == false) {
+			$('#config-deleteColor').css({
+				visibility: 'hidden',
+				height: '0px',
+				paddingBottom: '0px'
+			});
+		}
+		else {
+			$('#config-deleteColor').css({
+				visibility: 'visible',
+				height: '20px',
+				paddingBottom: '3px'
+			})
+		}
+	}
+	async anchorDomainActive(checkedForze = null) {
 		let view = $('#viewUrl');
 		let check = $('#anchorDomain');
-		check.checked = checkedForze!=null ? checkedForze : check.checked;
-			if(check.checked == true){
-				if(this.urlActive){
-					view.textContent = this.urlActive;
-					view.css({
-						visibility:'visible'
-					});
-					view.scrollLeft = view.offsetLeft;
-				}else{
-					let tab = await Chrome.send({
-						action:'sendUrlActive'
-					});
-
-				}			
-			}else{
+		check.checked = checkedForze != null ? checkedForze : check.checked;
+		if (check.checked == true) {
+			if (this.urlActive) {
+				view.textContent = this.urlActive;
 				view.css({
-					visibility:'hidden'
-				})
-				view.textContent ="";
+					visibility: 'visible'
+				});
+				view.scrollLeft = view.offsetLeft;
 			}
-			Chrome.setStorage('anchorDomainCheck', check.checked);
+			else {
+				let tab = await Chrome.send({
+					action: 'sendUrlActive'
+				});
+			}
+		}
+		else {
+			view.css({
+				visibility: 'hidden'
+			})
+			view.textContent = "";
+		}
+		Chrome.setStorage('anchorDomainCheck', check.checked);
 	}
 	closeNewStyle() {
 		this.tempColor = undefined;

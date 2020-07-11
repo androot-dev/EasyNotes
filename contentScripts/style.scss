@@ -1,0 +1,226 @@
+$shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
+@mixin flex($jc, $wrap:nowrap, $row:row, $align:center) {
+    display: flex !important;
+    flex-direction: $row !important;
+    flex-wrap: $wrap !important;
+    align-items: $align !important;
+    justify-content: $jc !important;
+}
+@mixin formatter($bg:none) {
+    background: $bg;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+@mixin font($size:12px, $weight:900, $style:normal, $family:cursive) {
+    font-size: $size !important;
+    line-height: $size !important;
+    font-weight: $weight !important;
+    font-style: $style !important;
+    font-family: $family;
+}
+@mixin afterX(){
+    &::after{
+        content: "\d7" !important;
+        font-size: 20px;
+        cursor: pointer;
+        height: 100%;
+        font-family: arial;
+        color:white;
+     }
+}
+.areaEx0A {
+    @include flex(center);
+    position: absolute !important;
+    width: 100%;
+    background: transparent !important;
+    z-index: 9999 !important;
+    top: 0;
+    left: 0;
+    margin: 0 !important;
+    .noteEx0A {
+        @include flex(center, nowrap, column);
+        position: relative;
+        padding: 5px 15px 15px 15px !important;
+        box-shadow: $shadow;
+        transform: skew(0.2deg) !important;
+        margin: 0 !important;
+        .paperEx0A {
+            @include font(29px, 900);
+            @include formatter();
+            position: relative !important;
+            border: none !important;
+            width: 4.3cm;
+            height: 4.3cm;
+            min-height: 100px !important;
+            min-width: 100px !important;
+            overflow: auto !important;
+            overflow-x: hidden !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            cursor: pointer !important;
+            resize: both !important;
+
+            &::-webkit-scrollbar {
+                width: 2px !important;
+                height: 2px !important;
+                margin-left: -19px !important;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.5) !important;
+                border-radius: 4px !important;
+                margin-left: -9px !important;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+                background: white !important;
+                box-shadow: 0 0 2px 1px rgba(0, 44, 33, 0) !important;
+            }
+            &::-webkit-scrollbar-thumb:active {
+                background-color: #333 !important;
+            }
+        }
+        .tackEx0A {
+            @include flex(center);
+            margin: 0 !important;
+            margin-bottom: 2px !important;
+            width: 20px !important;
+            height: 20px !important;
+            border-radius: 50% !important;
+            z-index: 9 !important;
+            box-shadow: 0px 5px 8px -5px black !important;
+            background: #EA2027;
+            padding: 0 !important;
+        }
+        .removeEx0A {
+            width: 40px !important;
+            height: 30px !important;
+            text-align: center !important;
+            cursor: pointer !important;
+            background: transparent !important;
+            @include flex(center);
+            margin: 0 !important;
+            padding: 0 !important;
+            @include font(20px, 500);
+            &:hover{
+                @include afterX();
+            }
+            
+        }
+        .configSvgEx0A {
+            bottom: 0px !important;
+            left: 0px !important;
+        }
+        .disketSvgEx0A {
+            top: 0px !important;
+            right: 0px !important;
+            opacity: inherit !important;
+        }
+    }
+}
+.configEx0A, .configSvgEx0A {
+    @include formatter();
+    width: 13px !important;
+    height: 13px !important;
+    cursor: pointer !important;
+    position: absolute !important;
+    bottom: 5px;
+    left: 5px;
+}
+.saveIconEx0A, .disketSvgEx0A {
+    width: 15px !important;
+    height: 15px !important;
+    position: absolute !important;
+    opacity: 0;
+    right: 5px;
+    top: 5px;
+    transition: all .2s ease-in-out !important;
+    margin: 0 !important;
+}
+.configEx0A:active {
+    transition: all .2s ease-in-out;
+    transform: rotate(60deg);
+}
+.menuConfigEx0A {
+    @include font(13px, 900);
+    position: absolute !important;
+    bottom: 0px !important;
+    left: -130px;
+    width: 117px;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 5px !important;
+    transition: all .1s ease-in-out;
+    visibility: visible;
+    opacity: 0;
+    .anchorDomainEx0A {
+        @include flex(space-between, wrap);
+        width: 100% !important;
+        input {
+            zoom: 0.5 !important;
+        }
+        label {
+            align-self: flex-start !important;
+            text-align: left !important;
+            font-size: 8.9px !important;
+        }
+        .viewUrlEx0A {
+            overflow-x: auto!important;
+            white-space: pre!important;
+            padding: 2px !important;
+            font-weight: 500 !important;
+            &::-webkit-scrollbar {
+                width: 2px !important;
+                height: 2px !important;
+                margin-left: -19px !important;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.5) !important;
+                border-radius: 4px !important;
+                margin-left: -9px !important;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+                background: white !important;
+                box-shadow: 0 0 2px 1px rgba(0, 44, 33, 0) !important;
+            }
+        }
+    }
+    span {
+        @include font(11px, 900);
+        width: 100% !important;
+        text-align: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: relative !important;
+    }
+    input {
+        width: 40px !important;
+        height: 20px !important;
+        color: black !important;
+        font-family: inherit;
+        font-weight: 900 !important;
+        border: none !important;
+        outline: none !important;
+        margin: 0 !important;
+    }
+    .colorsEx0A {
+        display: inline-flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        width: 100% !important;
+        margin: 0 !important;
+        flex-wrap: wrap !important;
+        div {
+            width: 10px !important;
+            height: 10px !important;
+            border-radius: 50% !important;
+            border: solid 1px black !important;
+            cursor: pointer !important;
+            margin: 2px 2.5px !important;
+            align-self: flex-end !important;
+            transition: all .2s ease-in-out;
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+    }
+}

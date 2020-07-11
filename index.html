@@ -17,8 +17,7 @@
                         Nuevo estilo
                     </li>
                     <!--<li>Configuración</li>-->
-                   
-                    <li>
+                    <li id="deleteStyle">
                         Borrar estilos
                     </li>
                     <li><a target="_blank" href="https://github.com/andros-code/easyNotes">Github</a></li>
@@ -97,27 +96,33 @@
             </div>
             <ul class="configLine">
                 <li class="newStyle" style="visibility: 'hidden';">
-                    <button id="closeNewStyle">
-                    </button>
+                    
                     <ul id="selectColors">
-                        <li id="noteColor">
+                        <li><button id="closeNewStyle">
+                    </button></li>
+                        <li class="selColor" id="noteColor">
                             <input class="icolor" id="colorInputNote" name="" style="opacity:0; cursor: pointer; " type="color">
                             </input>
                         </li>
-                        <li id="fontColor">
+                        <li class="selColor" id="fontColor">
                             <input class="icolor" id="colorInputFont" name="" style="opacity:0; cursor: pointer; " type="color">
                             </input>
                         </li>
-                        <li id="tackColor">
+                        <li class="selColor" id="tackColor">
                             <input class="icolor" id="colorInputTack" name="" style="opacity:0; cursor: pointer; " type="color">
                             </input>
                         </li>
-                    </ul>
-                    <button id="btn-guardarEstilo">
+                        <li><button id="btn-guardarEstilo">
                         Agregar
-                    </button>
+                    </button></li>
+                    </ul>
+                    
                 </li>
-                <li id="config-AnchorDomain" title="Agrega las notas en todas las paginas del mismo dominio">
+                <li id="config-deleteColor" >
+					<button title="Borrar todos los colores nuevos" style="background:#E78525; " id="deleteAllColor"><div id="warningMsg" style="background-size: 10px;"></div> Limpiar</button>
+					<button style="padding:3px;background:#E72F2F;" id="deleteCancel">Cancelar</button>
+				</li>
+                <li id="config-AnchorDomain" title="Ancla tus notas al sub/dominio en el que te encuentres">
                     Anclar al sub/dominio
                     <input id="anchorDomain" type="checkbox"/>
                     <div id="viewUrl"></div>

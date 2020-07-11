@@ -1,0 +1,383 @@
+$white:#f5f6fa;
+$buttonColor:#B7B7B7;
+$primaryColor:#f1c40f;
+$secundaryColor:#000;
+$tertiaryColor:#D1D0D0;
+$shadowSimple:0px 5px 8px -5px black ;
+
+@mixin flex($jc, $wrap:nowrap, $row:row, $align:center) {
+    display: flex;
+    flex-direction: $row;
+    flex-wrap: $wrap;
+    align-items: $align;
+    justify-content: $jc;
+}
+@mixin buttonStyle($color:$buttonColor){
+    cursor: pointer;
+    border: none;
+    outline: none;
+    color: black;
+    opacity: 0.9;
+    text-align: center;
+    padding: 0px;
+    font-size: 8px;
+    font-weight: 700;
+    font-family: inherit;
+    background: $color;
+    transition: all .2s ease-in-out;
+    padding: 1px;
+    border-radius: 0px;
+    width: auto;
+    &:hover{
+        opacity:1;
+    }
+}
+@mixin afterX(){
+    &::after{
+        content: "\d7" !important;
+        font-size: 20px;
+        cursor: pointer;
+        height: 100%;
+        color: #757474;
+    }
+    &:hover::after{
+         color: #000;
+    }
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+ul {
+    list-style: none;
+}
+#toolbar {
+    background: $white;
+    @include flex(space-around, wrap, row, flex-start);
+    font-family: cursive, "arial";
+    overflow: hidden;
+    width: 3.5cm;
+    height: auto;
+
+    #optionsMenu {
+        background: $primaryColor;
+        width: auto;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 5px;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        z-index: 999;
+        visibility: 'hidden';
+        opacity: 0;
+        transition: all .2s ease-in-out;
+        pointer-events: none;
+        ul{
+            li{
+                width: 100%;
+                padding: 3px;
+                cursor: pointer;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+        }
+        #donativeButton {
+            @include buttonStyle(none);
+            font-family: inherit;
+            font-weight: inherit;
+            font-size: inherit;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+
+.configLine {
+    background: $tertiaryColor;
+    padding: 5px 0px;
+    width: 100%;
+    font-size: 11px;
+    font-weight: 900;
+    text-decoration: none;
+    list-style: none;
+    margin-top: 5px;
+    
+    #config-AnchorDomain {
+        @include flex(center, wrap);
+        font-size: 10px!important;
+        #anchorDomain {
+            margin-left: 10px;
+        }
+        #viewUrl {
+            width: 90%;
+            overflow-x: auto;
+            visibility: hidden;
+            white-space: pre;
+            &::-webkit-scrollbar {
+                width: 2px !important;
+                height: 2px !important;
+                margin-left: -19px !important;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.5) !important;
+                border-radius: 4px !important;
+                margin-left: -9px !important;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+                background: white !important;
+                box-shadow: 0 0 2px 1px rgba(0, 44, 33, 0) !important;
+            }
+        }
+    }
+    #config-deleteColor {
+        padding: 0px 5px;
+        @include flex(space-between);
+        visibility: hidden;
+        height: 0;
+        transition: all .2s ease-in-out;
+        button{
+            @include flex(space-around);
+            @include buttonStyle();
+            padding-right: 5px;
+            #warningMsg{
+                 @include flex(center);
+            }
+        }
+    }
+    .newStyle {
+        @include flex(center);
+        width: 100%;
+        padding: 0 4px;
+        height: 0;
+        visibility: hidden;
+        transition: all .2s ease-in-out;
+        #closeNewStyle{
+            height: 100%;
+            margin-bottom: 4px;
+            border: none;
+            background: none;
+            outline: none;
+            font-family: inherit;
+            font-size: inherit;
+            @include afterX();
+        }
+        ul{
+            @include flex(space-around);
+            cursor: pointer;
+            width: 100%;
+            list-style: none;
+        }
+        #btn-guardarEstilo {
+            @include buttonStyle();
+            @include flex(center);
+            margin-bottom: 3px;
+            margin-right: 4px;
+        }
+        .selColor {
+            width: 10px;
+            height: 10px;
+            background: #000;
+            border-radius: 50%;
+            list-style: none;
+        }
+    }
+    li {
+        @include flex(space-between);
+    }
+}
+#barOptions {
+    transition: all 1s ease-in-out !important;
+    width: 100%;
+    height: auto;
+    background: $primaryColor;
+    font-stretch: expanded;
+    font-size: 13px;
+    color: white;
+    padding: 2%;
+    @include flex(space-around);
+    z-index: 10;
+    border-bottom: solid 2px $secundaryColor;
+    .buttonIcon {
+        @include buttonStyle(none);
+        border-radius: 50%;
+        padding: 3.5%;
+        background-position: center !important;
+        background-size: 13px;
+        background-attachment: scroll !important;
+        background-repeat: no-repeat !important;
+        width: 28px;
+        font-size: 9px;
+        height: 25px;
+        padding: 2px;
+    }
+    #optionButton {
+        height: 15px;
+        width: 15px;
+        background-size: contain;
+    }
+    #hiddenButton {
+        transition: all .1s ease-in-out;
+        background-color: transparent;
+        background-size: 18px;
+    }
+    #bubbleInfo {
+        text-align: center;
+        width: 92%;
+        height: auto;
+        background: #f1c40f;
+        position: absolute;
+        border-radius: 10px;
+        font-size: 10px;
+        font-family: cursive, "arial";
+        font-weight: 900;
+        font-style: bold;
+        padding: 5px 2px;
+        pointer-events: none;
+        opacity: 0;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+.allPalletes {
+    width: 100%;
+    @include flex(center, nowrap, column);
+    padding: 0px 10%;
+}
+#noteNew {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.3cm;
+
+    #miniNote {
+        width: 1.89cm;
+        height: 1.84cm;
+        font-family: cursive, "arial";
+        @include flex(center, wrap);
+        position: relative;
+        box-shadow: $shadowSimple;
+        transition: all .1s ease-in-out;
+        list-style: none;
+        cursor: pointer;
+        background-color: $primaryColor;
+        .tack {
+            width: 0.12cm;
+            height: 0.12cm;
+            border-radius: 50%;
+            position: absolute;
+            top: 7%;
+            background-color: #E50909;
+        }
+        .content {
+            width: 100%;
+            height: 65%;
+            margin-top: 3%;
+            @include flex(center, wrap);
+        }
+        .falseLetter {
+            width: 70%;
+            height: 0.110cm;
+            background-color: #000;
+        }
+        &:active{
+            transform: scale(1.05);
+        }
+    }
+}
+.palletes {
+    @include flex(flex-start, wrap);
+    list-style: none;
+    width: 95%;
+    li {
+        background: #000;
+        border-radius: 50%;
+        border: solid 1px black;
+        width: 0.266cm;
+        height: 0.266cm;
+        margin: 0.056cm;
+        flex-shrink: 0;
+        cursor: pointer;
+        transition: all .1s ease-in-out;
+        &:hover{
+            transform: scale(1.4);
+        }
+    }
+}
+#deleteMenu {
+    height: 90px;
+    width: 93px;
+    opacity: 0;
+    font-family: cursive;
+    font-size: 10.5px;
+    font-weight: 700;
+    @include flex(space-around, nowrap, column, stretch);
+    display: none;
+    position: absolute;
+    padding: 10px;
+    padding-left: 0px;
+    background: #f1c40f;
+    top: 30px;
+    left: 0;
+    z-index: 9999;
+    color: black;
+    transition: all .2s ease-in-out;
+    box-shadow: $shadowSimple;
+    .opt {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+        padding-left: 9%;
+        padding-top: 3.5%;
+        transition: none;
+        label {
+            margin: 0 4%;
+        }
+    }
+    #contentDeleteButtons {
+        width: 100%;
+        @include flex(center);
+        padding: 3%;
+        margin-left: -4%;
+        #deleteConfirm {
+            font-size: 9px;
+            color: white;
+            @include flex(flex-start);
+            width: 50px;
+            height: auto;
+            padding: 5px;
+            margin-top: 5px;
+            margin-right: -10px;
+            border: none;
+            outline: none;
+            background: black;
+            border-radius: 3px;
+            transition: all .1s ease-in-out;
+            background-position: 90% 50% !important;
+            background-size: 11px;
+            background-attachment: scroll !important;
+            background-repeat: no-repeat !important;
+            &:hover {
+                background-color: red;
+                cursor: pointer;
+            }
+        }
+    }
+}
+#warningMsg {
+    width: 15px;
+    height: 15px;
+    background-position: 90% 50% !important;
+    background-size: contain;
+    background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
+    background-image: url("src/img/exclamation-triangle2.svg");
+    margin-right: 10px;
+}
