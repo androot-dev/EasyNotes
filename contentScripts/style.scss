@@ -19,21 +19,22 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
     font-style: $style !important;
     font-family: $family;
 }
-@mixin afterX(){
-    &::after{
+@mixin afterX() {
+    &::after {
         content: "\d7" !important;
         font-size: 20px;
         cursor: pointer;
         height: 100%;
         font-family: arial;
-        color:white;
-     }
+        color: white;
+        line-height: 30px;
+    }
 }
 .areaEx0A {
     @include flex(center);
     position: absolute !important;
     width: 100%;
-    background: transparent !important;
+    background: black !important;
     z-index: 9999 !important;
     top: 0;
     left: 0;
@@ -46,7 +47,11 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
         transform: skew(0.2deg) !important;
         margin: 0 !important;
         .paperEx0A {
-            @include font(29px, 900);
+            font-size: 29px;
+            line-height: 29px;
+            font-weight: 900 !important;
+            font-style: normal !important;
+            font-family: cursive;
             @include formatter();
             position: relative !important;
             border: none !important;
@@ -60,7 +65,6 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
             padding: 0 !important;
             cursor: pointer !important;
             resize: both !important;
-
             &::-webkit-scrollbar {
                 width: 2px !important;
                 height: 2px !important;
@@ -101,10 +105,9 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
             margin: 0 !important;
             padding: 0 !important;
             @include font(20px, 500);
-            &:hover{
+            &:hover {
                 @include afterX();
             }
-            
         }
         .configSvgEx0A {
             bottom: 0px !important;
@@ -144,11 +147,11 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
     @include font(13px, 900);
     position: absolute !important;
     bottom: 0px !important;
-    left: -130px;
-    width: 117px;
+    left: -133px;
+    width: 120px;
     height: auto !important;
     margin: 0 !important;
-    padding: 5px !important;
+    padding: 4px !important;
     transition: all .1s ease-in-out;
     visibility: visible;
     opacity: 0;
@@ -156,7 +159,7 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
         @include flex(space-between, wrap);
         width: 100% !important;
         input {
-            zoom: 0.5 !important;
+            zoom: 0.4 !important;
         }
         label {
             align-self: flex-start !important;
@@ -164,10 +167,15 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
             font-size: 8.9px !important;
         }
         .viewUrlEx0A {
-            overflow-x: auto!important;
-            white-space: pre!important;
+            overflow: auto !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            width: inherit !important;
+            display: flex !important;
+            white-space: pre !important;
             padding: 2px !important;
             font-weight: 500 !important;
+            word-break: break-all !important;
             &::-webkit-scrollbar {
                 width: 2px !important;
                 height: 2px !important;
@@ -185,10 +193,10 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
         }
     }
     span {
-        @include font(11px, 900);
+        @include font(12px, 900);
         width: 100% !important;
         text-align: center !important;
-        margin: 0 !important;
+        margin: 3px 0 !important;
         padding: 0 !important;
         position: relative !important;
     }
@@ -200,22 +208,23 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
         font-weight: 900 !important;
         border: none !important;
         outline: none !important;
-        margin: 0 !important;
+        margin: 3px 0 !important;
     }
     .colorsEx0A {
         display: inline-flex !important;
         justify-content: flex-start !important;
         align-items: center !important;
+        flex-direction: row !important;
         width: 100% !important;
         margin: 0 !important;
         flex-wrap: wrap !important;
         div {
-            width: 10px !important;
-            height: 10px !important;
+            width: 12px !important;
+            height: 12px !important;
             border-radius: 50% !important;
             border: solid 1px black !important;
             cursor: pointer !important;
-            margin: 2px 2.5px !important;
+            margin: 1.5px 2.8px !important;
             align-self: flex-end !important;
             transition: all .2s ease-in-out;
             &:hover {

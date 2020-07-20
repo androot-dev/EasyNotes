@@ -17,7 +17,6 @@ $shadowSimple:0px 5px 8px -5px black ;
     border: none;
     outline: none;
     color: black;
-    opacity: 0.9;
     text-align: center;
     padding: 0px;
     font-size: 8px;
@@ -28,9 +27,6 @@ $shadowSimple:0px 5px 8px -5px black ;
     padding: 1px;
     border-radius: 0px;
     width: auto;
-    &:hover{
-        opacity:1;
-    }
 }
 @mixin afterX(){
     &::after{
@@ -51,6 +47,14 @@ a {
 ul {
     list-style: none;
 }
+#github-icon{
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 #toolbar {
     background: $white;
     @include flex(space-around, wrap, row, flex-start);
@@ -61,10 +65,10 @@ ul {
 
     #optionsMenu {
         background: $primaryColor;
-        width: auto;
+        width: 85%;
         font-size: 12px;
         font-weight: 700;
-        padding: 5px;
+        padding: 5.5px;
         position: absolute;
         top: 30px;
         right: 0;
@@ -73,11 +77,19 @@ ul {
         opacity: 0;
         transition: all .2s ease-in-out;
         pointer-events: none;
+        box-shadow: $shadowSimple;
         ul{
             li{
                 width: 100%;
                 padding: 3px;
                 cursor: pointer;
+                a{
+                    width: 100%;
+                    display: inline-flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    flex-wrap: nowrap;
+                }
                 &:hover{
                     text-decoration: underline;
                 }
@@ -139,7 +151,7 @@ ul {
         visibility: hidden;
         height: 0;
         transition: all .2s ease-in-out;
-        button{
+        #deleteAllColor{
             @include flex(space-around);
             @include buttonStyle();
             padding-right: 5px;
@@ -175,6 +187,7 @@ ul {
             @include buttonStyle();
             @include flex(center);
             margin-bottom: 3px;
+            padding: 3px;
             margin-right: 4px;
         }
         .selColor {
@@ -228,7 +241,7 @@ ul {
         text-align: center;
         width: 92%;
         height: auto;
-        background: #f1c40f;
+        background: $primaryColor;
         position: absolute;
         border-radius: 10px;
         font-size: 10px;
@@ -272,7 +285,6 @@ ul {
             border-radius: 50%;
             position: absolute;
             top: 7%;
-            background-color: #E50909;
         }
         .content {
             width: 100%;
@@ -309,6 +321,17 @@ ul {
         }
     }
 }
+#deleteCancel{
+    height: 100%;
+    margin-bottom: 15px !important;
+    margin-left: 1px !important;
+    border: none;
+    background: none;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    @include afterX();
+}
 #deleteMenu {
     height: 90px;
     width: 93px;
@@ -321,7 +344,7 @@ ul {
     position: absolute;
     padding: 10px;
     padding-left: 0px;
-    background: #f1c40f;
+    background: $primaryColor;
     top: 30px;
     left: 0;
     z-index: 9999;
@@ -380,4 +403,13 @@ ul {
     background-repeat: no-repeat !important;
     background-image: url("src/img/exclamation-triangle2.svg");
     margin-right: 10px;
+}
+.objetiveDelete{
+    border:red solid 1px !important;
+    &:hover{
+        @include afterX();
+        font-family: arial;
+        font-size: 1px;
+        line-height: 10px;
+    }
 }

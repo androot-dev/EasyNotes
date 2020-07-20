@@ -49,12 +49,19 @@ class controllerLoad extends dragDrop {
   cleanNotesPageDynamic() {
     document.querySelectorAll('.removeEx0A').forEach(function(element, index) {
       let text = document.querySelector('#paperEx' + element.id.replace('removeEx', ""))
-      if (text.value != "") {
+      if (text && text.value != "") {
+        element.delete();
+      }
+    });
+    document.querySelectorAll('.removeEx0A').forEach(function(element, index) {
+      let text = document.querySelector('#anchor-paperEx' + element.id.replace('anchor-removeEx', ""))
+      if (text && text.value != "") {
         element.delete();
       }
     });
   }
   async loadNotes(request) {
+
     let searchStorage = async (marginFail, url, anchor = false) => {
       let count = 0;
       let end = false;
@@ -80,15 +87,9 @@ class controllerLoad extends dragDrop {
         }
       }
       return count2;
-    }
-    // tengo que lograr que esto funcione
-   
-      
+    }      
       searchStorage(50, request.url);
       searchStorage(50, this.getAnchorUrl(request.url), true);
-    
-    
-   
   }
 }
 class noteText extends controllerLoad {
@@ -106,6 +107,7 @@ class noteText extends controllerLoad {
   async setConfigContainer(model, id, request, anchor) {
     model.menu.style.backgroundColor = request.noteColor;
     this.on(model.iconConfig, 'click', () => {
+      this.onConfigColor(model, request, id, anchor);
       this.animate(model.menu, {
         opacity: '0',
         visibility: 'hidden'
@@ -145,6 +147,9 @@ class noteText extends controllerLoad {
   async createNote(request, control_id = 'auto', anchor = false) {
     let id = control_id == 'auto' ? await this.getID(request) : control_id;
     this.id = id;
+    if(request.anchorDomain == true){
+      anchor = true;
+    }
     this.requestFormat(request);
     let model = this.getModelTextNote(id, request, anchor);
     this.setRequest(model, request);
@@ -401,11 +406,20 @@ class noteText extends controllerLoad {
     }, );
   }
   async onConfigColor(model, request, id, anchor) {
+      let restart = ()=>{
+        let els = document.querySelectorAll('.colorSelectEx0A');
+        els.forEach( function(el, index) {
+          el.parentNode.removeChild(el);
+        });
+      }
+      restart();
     let addColor = (response, model, id) => {
       let color = document.createElement('div');
+      color.classList+= ' colorSelectEx0A'
       color.style.backgroundColor = response.note;
       anchor = anchor == false ? "" : 'anchor-';
       document.querySelector('#'+anchor+'colorsEx' + id).appendChild(color);
+      
       color.addEventListener('click', () => {
         this.css([model.note, model.menu], {
           backgroundColor: response.note,

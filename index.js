@@ -5,40 +5,11 @@ import {
 from './src/js/methods.js';
 import APIchrome from './src/js/chromeAPI.js';
 let Chrome = new APIchrome();
-class colors extends Array {
-	constructor(max) {
-		super();
-		this.maxColors = max;
-	}
-	pushColor(color) {
-		if (typeof color != 'object') {
-			color = {
-				note: color
-			}
-		}
-		if (!color.font) {
-			color.font = 'black';
-		}
-		if (!color.tack) {
-			color.tack = '#E50909';
-		}
-		this.push(color);
-	}
-	reset() {
-		while (this.length > 0) {
-			this.pop();
-		}
-	}
-	get[Symbol.toStringTag]() {
-		return 'colors';
-	}
-}
 class pallete {
 	constructor() {
-		this.palletes = [];
-		this.test = []
+		this.maxColors = 18;
 		this.tempColor;
-		this.colorSelected;
+		this.selectionColor;
 		this.popup = {
 			toolbar: $('#toolbar'),
 			options: $('#optionsMenu'),
@@ -73,117 +44,114 @@ class pallete {
 			}
 		}
 	}
-	async setNewPallete(name, arrayColors, max, activeKey = 0) {
-		let newStyle = document.createElement('ul');
-		newStyle.classList = "palletes";
-		newStyle.id = 'pallete-' + name;
-		this.popup.allPalletes.appendChild(newStyle);
-		this.palletes[name] = new colors(max);
-		for (let key in arrayColors) {
-			this.setColor(arrayColors[key], name, false);
+	selectColor(color, colorDefault = '#color-default2') {
+		let id = (color == 'empty') ? colorDefault : color;
+		let el = $(id);
+		if (!el) {
+			el = $(colorDefault)
 		}
-		Chrome.setStorage('pallete-' + name, this.palletes[name]);
-		this.activeColor(activeKey, name, 'load');
-	}
-	setColor(color, namePallete, save = true) {
-		this.palletes[namePallete].pushColor(color);
-		let keys = this.palletes[namePallete].length - 1;
-		let pallete = this.popup.pallete(namePallete);
-		if (keys >= this.palletes[namePallete].maxColors && save == true) {
-			this.showBubbleMessage('<div id="warningMsg"></div>Paleta llena!')
-		}
-		else if (keys < this.palletes[namePallete].maxColors) {
-			pallete.insertBefore(this.newColor(namePallete, keys), pallete.children[0])
-		}
-		if (save == true) {
-			Chrome.setStorage('pallete-' + namePallete, this.palletes[namePallete]);
-		}
-	}
-	newColor(namePallete, key) {
-		let newColor = document.createElement('li');
-		newColor.id = "color-" + namePallete + key;
-		newColor.classList += namePallete + 'Color colorsPallete';
-		newColor.style.backgroundColor = this.palletes[namePallete][key].note;
-		newColor.onclick = () => {
-			this.activeColor(key, namePallete)
-		}
-		return newColor;
-	}
-	selectedColor(pallete, color, colorSelect) {
-		this.popup.colors('all').forEach(function(el, index) {
-			el.css({
-				transform: 'scale(1)'
-			});
+		this.popup.colors('all').forEach((element, key) => {
+			element.style.transform = 'scale(1)';
 		});
-		this.popup.color(pallete, color).css({
+		el.css({
 			transform: 'scale(1.4)'
 		});
-		this.popup.mininote.note.style.backgroundColor = colorSelect.note;
-		this.popup.mininote.tack.style.backgroundColor = colorSelect.tack;
-		this.popup.mininote.font.forEach(function(element, index) {
-			element.style.backgroundColor = colorSelect.font;
-		});
-		if (this.tempColor) {
-			colorSelect.font = rgbToHex(colorSelect.font)
-			colorSelect.note = rgbToHex(colorSelect.note)
-			colorSelect.tack = rgbToHex(colorSelect.tack)
-			this.newStyleSelectColors(colorSelect.note, colorSelect.font, colorSelect.tack);
+		let mini = this.popup.mininote;
+		mini.note.style.backgroundColor = el.note;
+		mini.font.forEach((element, key) => {
+			element.style.backgroundColor = el.font;
+		})
+		mini.tack.style.backgroundColor = el.tack;
+		this.selectionColor = {
+			note:el.note,
+			tack:el.tack,
+			font:el.font
 		}
-		this.colorSelected = {
-			pallete: pallete,
-			key: color,
-			colors: this.palletes[pallete][color]
-		}
-		Chrome.setStorage('colorNoteSelect', {
-			pallete: pallete,
-			key: color,
-			colors: this.palletes[pallete][color]
-		});
 	}
-	async loadColors(pallete, color) {
-		let storage = await Chrome.getStorage('colorNoteSelect')
-		return storage != 'empty' ? storage : this.palletes[pallete][color];
-	}
-	async activeColor(color, pallete, evt = 'click', defaultVal = {
-		pallete: 'default',
-		key: 0
-	}) {
-		let colorSelect;
-		let omitir = false;
-		if (evt == 'load') {
-			colorSelect = await this.loadColors(pallete, color);
-			if (!colorSelect || !this.palletes[colorSelect.pallete] || !this.palletes[colorSelect.pallete][colorSelect.key]) {
-				colorSelect = this.palletes[defaultVal.pallete][defaultVal.key];
-				pallete = defaultVal.pallete;
-				color = defaultVal.key;
-				omitir = true;
+	async addColors(name, colors) {
+		function serialize(color) {
+			if (typeof color != 'object') {
+				color = {
+					note: color
+				}
 			}
+			if (!color.font) {
+				color.font = 'black';
+			}
+			if (!color.tack) {
+				color.tack = '#E50909';
+			}
+			return color;
+		}
+		let createColor = (name, key, color) => {
+			let newColor = document.createElement('li');
+			let exist = document.querySelector("#color-" + name + key);
+			if (exist) {
+				exist.note = color.note;
+				exist.font = color.font;
+				exist.tack = color.tack;
+				exist.style.backgroundColor = color.note;
+				return false;
+			}
+			newColor.id = "color-" + name + key;
+			newColor.classList += name + 'Color colorsPallete';
+			newColor.note = color.note;
+			newColor.font = color.font;
+			newColor.tack = color.tack;
+			newColor.style.backgroundColor = color.note;
+			newColor.onclick = () => {
+				this.selectColor('#' + newColor.id);
+				Chrome.setStorage('colorNoteSelect', '#color-' + name + key);
+			}
+			return newColor;
+		}
+		let pallete = document.querySelector('#pallete-' + name);
+		if (pallete.lengthColor < pallete.maxColors) {
+			pallete.lengthColor = 0;
+			let saveColors = [];
+			for (let i in colors) {
+				let color = serialize(colors[i]);
+				saveColors.push(color);
+				let colorNode = createColor(name, i, color);
+				if (colorNode != false) {
+					pallete.appendChild(colorNode);
+				}
+				pallete.lengthColor++;
+			}
+			Chrome.setStorage('pallete-' + name, saveColors);
+			return true;
 		}
 		else {
-			colorSelect = this.palletes[pallete][color];
+			this.showBubbleMessage('<div id="warningMsg"></div> Paleta llena!')
+			return false;
 		}
-		if (colorSelect.colors && omitir == false) {
-			color = colorSelect.key;
-			pallete = colorSelect.pallete;
-			colorSelect = colorSelect.colors;
+	}
+	async setPalletes(palletes, selectColor) {
+		let methods = {
+			createPallete: (name, max) => {
+				let pallete = document.createElement('ul');
+				pallete.maxColors = max;
+				pallete.classList = "palletes";
+				pallete.id = 'pallete-' + name;
+				pallete.lengthColor = 0;
+				this.popup.allPalletes.appendChild(pallete);
+			}
 		}
-		this.selectedColor(pallete, color, colorSelect);
+		for (let name in palletes) {
+			let max = palletes[name].max;
+			let status = palletes[name].status;
+			let colors = (status == 'dinamyc' && palletes[name].colors == 'empty') ? [] : palletes[name].colors;
+			methods.createPallete(name, max);
+			this.addColors(name, colors);
+		}
+		this.selectColor(selectColor);
 	}
 }
 class popup extends pallete {
 	constructor() {
 		super();
 		this.urlActive;
-		this.setNewPallete('default', [{
-			note: '#2f3640',
-			font: 'white'
-		}, '#fd9644', '#f1c40f', '#26de81', '#2bcbba', '#9c88ff'].reverse(), 6, 2);
-		let loadPalleteUser = async () => {
-			let userColors = await Chrome.getStorage('pallete-user');
-			userColors = userColors == 'empty' ? [] : userColors;
-			this.setNewPallete('user', userColors, 18);
-		}
-		loadPalleteUser();
+		this.palletesON();
 		this.toggles = {
 			menuDelete: false,
 			menuHidden: async () => {
@@ -243,13 +211,13 @@ class popup extends pallete {
 			this.anchorDomainActive();
 		})
 		$('#miniNote').on('click', async () => {
-			let note;
+			let note ;
 			if (this.tempColor) {
 				note = this.tempColor;
 			}
 			else {
-				let config = await Chrome.getStorage('colorNoteSelect');
-				note = this.palletes[config.pallete][config.key];
+				let id = await Chrome.getStorage('colorNoteSelect');
+				note = id == 'empty' ? this.selectionColor : $(id);
 			}
 			Chrome.send({
 				verifyURL: 'createNote',
@@ -260,7 +228,6 @@ class popup extends pallete {
 				urlAnchor: this.urlActive
 			});
 		});
-		this.popup.colors('user')
 		$('#closeNewStyle').on('click', () => {
 			this.closeNewStyle();
 		});
@@ -279,40 +246,88 @@ class popup extends pallete {
 		});
 		$("#newStyle").on('click', () => {
 			this.newStyle();
+			this.menuDeleteStyle('close');
 		});
-		$("#btn-guardarEstilo").on('click', () => {
-			this.setColor(this.tempColor, 'user');
+		$("#btn-guardarEstilo").on('click', async () => {
+			let user = await Chrome.getStorage('pallete-user');
+			if (user == 'empty') {
+				user = []
+			}
+			user.push(this.tempColor);
+			this.addColors('user', user);
 		});
 		$('#deleteStyle').on('click', () => {
-			this.menuDeleteStyle(true);
+			this.menuDeleteStyle('open');
+			this.closeNewStyle();
 		});
 		$('#deleteCancel').on('click', () => {
-			this.menuDeleteStyle(false);
+			this.menuDeleteStyle('close');
 		})
 		$('#deleteAllColor').on('click', () => {
-			this.menuDeleteStyle(false);
+			this.menuDeleteStyle('close');
+			if(this.popup.pallete('user')){
+				this.popup.pallete('user').lengthColor = 0 ;
+			}
 			Chrome.removeStorage('pallete-user');
 			let colors = document.querySelectorAll('.userColor');
 			colors.forEach(function(el, index) {
-				el.style.display = "none";
+				el.parentNode.removeChild(el);
 			});
-			this.palletes['user'].reset();
 		})
 	}
-	menuDeleteStyle(toggle = 'auto') {
-		if (toggle == false) {
+	async palletesON() {
+		let defaultPallete = [{
+			note: '#2f3640',
+			font: 'white'
+		}, '#fd9644', '#f1c40f', '#26de81', '#2bcbba', '#9c88ff'];
+		let userPallete = await Chrome.getStorage('pallete-user');
+		let selectColor = await Chrome.getStorage('colorNoteSelect');
+		selectColor = selectColor == 'empty' ? '#color-default2' : selectColor;
+		this.setPalletes({
+			default: {
+				colors: defaultPallete,
+				max: 6,
+				status: 'static'
+			},
+			user: {
+				colors: userPallete,
+				max: 18,
+				status: 'dinamyc'
+			}
+		}, selectColor);
+	}
+	menuDeleteStyle(toggle) {
+		if (toggle == 'close') {
 			$('#config-deleteColor').css({
 				visibility: 'hidden',
 				height: '0px',
 				paddingBottom: '0px'
 			});
+			let colors = document.querySelectorAll('#pallete-user li');
+			colors.forEach((el, index) => {
+				el.onclick = this.tempSave;
+				el.classList.remove('objetiveDelete');
+			});
 		}
-		else {
+		else if (toggle == 'open') {
 			$('#config-deleteColor').css({
 				visibility: 'visible',
 				height: '20px',
 				paddingBottom: '3px'
 			})
+			let colors = document.querySelectorAll('#pallete-user li');
+			colors.forEach((el, index) => {
+				this.tempSave = el.onclick;
+				el.onclick = async() => {
+					let key = el.id.replace('color-user', "");
+					let colors = await Chrome.getStorage('pallete-user');
+					colors.splice(key, 1);
+					Chrome.setStorage('pallete-user', colors);
+					el.parentNode.removeChild(el);
+
+				}
+				el.classList.add('objetiveDelete');
+			});
 		}
 	}
 	async anchorDomainActive(checkedForze = null) {
@@ -345,18 +360,22 @@ class popup extends pallete {
 		this.tempColor = undefined;
 		this.popup.newStyle.animate({
 			height: '20px',
-			visibility: 'visible'
+			visibility: 'visible',
+			opacity:'1'
 		}, {
 			visibility: 'hidden',
-			height: '0px',
+			opacity:'0',
+			height: '0px'
 		}, 10);
 	}
 	newStyle() {
 		let colors;
 		this.popup.newStyle.animate({
-			height: '0'
+			height: '0',
+			opacity:'0'
 		}, {
 			height: '20px',
+			opacity:'1',
 			visibility: 'visible'
 		}, 200);
 		let apply = (note, font, tack) => {
@@ -416,14 +435,19 @@ class popup extends pallete {
 			else if (visibility == 0 || visibility == 1) {
 				return visibility == 1 ? 0 : 1;
 			}
+			else if (visibility == '20px' || visibility == '0px') {
+				return visibility == '20px' ? '0px' : '20px';
+			}
 		}
 		this.popup.options.style.pointerEvents = 'all';
 		this.popup.options.animate({
 			opacity: inverse(this.popup.options.style.opacity),
-			visibility: inverse(this.popup.options.style.visibility)
+			visibility: inverse(this.popup.options.style.visibility),
+			height: inverse(this.popup.options.style.height)
 		}, {
 			opacity: inverse(this.popup.options.style.opacity),
-			visibility: inverse(this.popup.options.style.visibility)
+			visibility: inverse(this.popup.options.style.visibility),
+			height: inverse(this.popup.options.style.height)
 		}, 200);
 	}
 	showBubbleMessage(msg, time = 2500, colors = {
