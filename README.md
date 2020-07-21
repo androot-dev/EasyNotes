@@ -20,7 +20,6 @@ Una vez instalada la extensión podras establecer los comandos desde la configur
 
 * Creación de una nota nueva
 * Ocultar / Mostrar notas
-* Crear nota anclada al sub/dominio
 
 ## Donaciones :money_with_wings:
 Esta extensión fue creada con mucho esfuerzo y sin ánimo de lucro por un entusiasta desarrollador, aun así, puedes apoyarme invitándome un café y serás de gran ayuda!. Para hacer una donación: 
