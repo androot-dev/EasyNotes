@@ -167,7 +167,7 @@ class noteText extends controllerLoad {
     this.onConfigColor(model, request, id, anchor)
     this.onConfigTenxSize(model, request, id);
     this.onConfigAnchorDomain(request, id, model, anchor);
-    document.querySelector(".anchorDomainEx0A label").style.color = request.fontColor;
+    document.querySelector("#anchorDomainEx"+id+" label").style.color = request.fontColor;
     document.querySelector("#" + model.iconConfig.id + " svg").style.fill = request.fontColor;
     document.querySelector("#" + model.save.id + " svg").style.fill = request.fontColor;
     return id;
@@ -431,6 +431,7 @@ class noteText extends controllerLoad {
       document.querySelector('#'+anchor+'colorsEx' + id).appendChild(color);
       
       color.addEventListener('click', () => {
+        document.querySelector("#anchorDomainEx"+id+" label").style.color = response.font;
         this.css([model.note, model.menu], {
           backgroundColor: response.note,
           color: response.font
