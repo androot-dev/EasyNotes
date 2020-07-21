@@ -28,6 +28,7 @@ class notesController {
 			},
 			verifyURL: (res) => {
 				this.verifyURL(res)
+
 			},
 			sendUrlActive:async()=>{
 				let tab = await Chrome.getTab('active')
@@ -40,11 +41,41 @@ class notesController {
 		})
 		Chrome.onCommand({
 			createNote: async () => {
-				let colorDefault = await Chrome.getStorage('defaultConfigNote');
+				let pallete = {
+					default: await Chrome.getStorage('pallete-default'),
+					user: await Chrome.getStorage('pallete-user')
+				}
+				let id = await Chrome.getStorage('colorNoteSelect');
+				let anchor = await Chrome.getStorage('anchorDomainCheck');
+				anchor = anchor == 'empty' ? false : anchor;
+				let getKey = (id)=>{
+					let get =  {
+						key: (id)=>{
+							id = id.replace('#color-default', '');
+							id = id.replace('#color-user', '');
+							return id
+						},
+						pallete: (id)=>{
+							id = id.replace('#color-', '');
+							id = id[0] == 'u' ? 'user' : 'default';
+							return id;
+						}
+					}
+					return {
+						key: get.key(id),
+						pallete: get.pallete(id)
+					}
+				}
+				let note = id == 'empty' ? getKey('#color-default2') : getKey(id);
+				note = pallete[note.pallete][note.key];
+	
 				this.verifyURL({
 					verifyURL: 'createNote',
-					noteColor: colorDefault.colors.color,
-					fontColor: colorDefault.colors.font
+					noteColor: note.note,
+					fontColor: note.font,
+					tackColor: note.tack,
+					anchorDomain: anchor,
+					urlAnchor: 'verifyURL'
 				});
 			},
 			showHidden: async () => {
@@ -62,6 +93,9 @@ class notesController {
 	}
 	async verifyURL(response) {
 		let tab = await Chrome.getTab('active');
+		if(response.urlAnchor == 'verifyURL'){
+			response.urlAnchor = tab[0].url;
+		}
 		if (tab == 'empty' || Chrome.filter(tab[0]) == false) {
 			delete(response.verifyURL)
 			Chrome.send({

@@ -447,6 +447,7 @@ class noteText extends controllerLoad {
     }
     let defaultPallete = await this.getStorage('pallete-default');
     let userPallete = await this.getStorage('pallete-user');
+    
     for (let i in defaultPallete.reverse()) {
       addColor(defaultPallete[i], model, id);
     }
