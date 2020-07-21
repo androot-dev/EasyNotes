@@ -41,7 +41,13 @@ class notesController {
 		})
 		Chrome.onCommand({
 			createNote: async () => {
+	
 				let pallete = {
+					colorDefault:{
+						note:'#f1c40f',
+						tack: '#E50909',
+						font:'black'
+					},
 					default: await Chrome.getStorage('pallete-default'),
 					user: await Chrome.getStorage('pallete-user')
 				}
@@ -67,8 +73,11 @@ class notesController {
 					}
 				}
 				let note = id == 'empty' ? getKey('#color-default2') : getKey(id);
-				note = pallete[note.pallete][note.key];
-	
+				if(pallete[note.pallete] && pallete[note.pallete] != 'empty'){
+					note = pallete[note.pallete][note.key];
+				}else{
+					note = pallete.colorDefault;
+				}
 				this.verifyURL({
 					verifyURL: 'createNote',
 					noteColor: note.note,

@@ -9,6 +9,32 @@ class controllerLoad extends dragDrop {
   <path d="m432.82 121.05c-3.806-9.132-8.377-16.367-13.709-21.695l-79.941-79.942c-5.325-5.325-12.56-9.895-21.696-13.704-9.131-3.805-17.508-5.708-25.12-5.708h-264.95c-7.611 0-14.084 2.663-19.414 7.993-5.33 5.327-7.992 11.799-7.992 19.414v383.72c0 7.617 2.662 14.089 7.992 19.417 5.33 5.325 11.803 7.991 19.414 7.991h383.72c7.618 0 14.089-2.666 19.417-7.991 5.325-5.328 7.987-11.8 7.987-19.417v-264.95c0-7.616-1.902-15.99-5.708-25.129zm-250.1-75.372c0-2.474 0.905-4.611 2.714-6.423 1.807-1.804 3.949-2.708 6.423-2.708h54.819c2.468 0 4.609 0.902 6.417 2.708 1.813 1.812 2.717 3.949 2.717 6.423v91.362c0 2.478-0.91 4.618-2.717 6.427-1.808 1.803-3.949 2.708-6.417 2.708h-54.819c-2.474 0-4.617-0.902-6.423-2.708-1.809-1.812-2.714-3.949-2.714-6.427v-91.362zm146.18 356.31h-219.27v-109.64h219.27v109.64zm73.094 0h-36.559v-118.77c0-7.617-2.663-14.085-7.991-19.417-5.328-5.328-11.8-7.994-19.41-7.994h-237.54c-7.614 0-14.087 2.666-19.417 7.994-5.327 5.328-7.992 11.8-7.992 19.417v118.77h-36.545v-365.45h36.544v118.77c0 7.615 2.662 14.084 7.992 19.414 5.33 5.327 11.803 7.993 19.417 7.993h164.46c7.61 0 14.089-2.666 19.41-7.993 5.325-5.327 7.994-11.799 7.994-19.414v-118.77c2.854 0 6.563 0.95 11.136 2.853 4.572 1.902 7.806 3.805 9.709 5.708l80.232 80.23c1.902 1.903 3.806 5.19 5.708 9.851 1.909 4.665 2.857 8.33 2.857 10.994v255.81z"/>
 </svg>`
     }
+    this.palleteDefault = [{
+      note: '#2f3640',
+      font: 'white',
+      tack: '#E50909'
+    }, {
+      note:'#fd9644',
+      font:'black',
+      tack:'#E50909'
+    }, {
+      note:'#f1c40f',
+      font:'black',
+      tack:'#E50909'
+    }, {
+      note:'#26de81',
+      font:'black',
+      tack:'#E50909'
+    }, {
+      note:'#2bcbba',
+      font:'black',
+      tack:'#E50909'
+    }, {
+      note:'#9c88ff',
+      font:'black',
+      tack:'#E50909'
+    }]
+    
   }
   async getID(request) {
     let notes = document.querySelectorAll('.noteEx0A');
@@ -167,7 +193,7 @@ class noteText extends controllerLoad {
     this.onConfigColor(model, request, id, anchor)
     this.onConfigTenxSize(model, request, id);
     this.onConfigAnchorDomain(request, id, model, anchor);
-    document.querySelector("#anchorDomainEx"+id+" label").style.color = request.fontColor;
+    document.querySelector("#"+model.area.id+" .anchorDomainEx0A label").style.color = request.fontColor;
     document.querySelector("#" + model.iconConfig.id + " svg").style.fill = request.fontColor;
     document.querySelector("#" + model.save.id + " svg").style.fill = request.fontColor;
     return id;
@@ -431,7 +457,7 @@ class noteText extends controllerLoad {
       document.querySelector('#'+anchor+'colorsEx' + id).appendChild(color);
       
       color.addEventListener('click', () => {
-        document.querySelector("#anchorDomainEx"+id+" label").style.color = response.font;
+        document.querySelector("#"+model.area.id+" .anchorDomainEx0A label").style.color = response.font;
         this.css([model.note, model.menu], {
           backgroundColor: response.note,
           color: response.font
@@ -448,12 +474,17 @@ class noteText extends controllerLoad {
     }
     let defaultPallete = await this.getStorage('pallete-default');
     let userPallete = await this.getStorage('pallete-user');
-    
+
+    if(!defaultPallete || defaultPallete=='empty'){
+      defaultPallete = this.palleteDefault;
+    }
     for (let i in defaultPallete.reverse()) {
       addColor(defaultPallete[i], model, id);
     }
-    for (let i in userPallete) {
-      addColor(userPallete[i], model, id);
+    if (userPallete && userPallete!='empty') {
+      for (let i in userPallete) {
+        addColor(userPallete[i], model, id);
+      }
     }
   }
 }
