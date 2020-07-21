@@ -4,7 +4,7 @@
   "short_name":"EasyNotes",
   "description": "Crea notas en las webs que visitas.",
   "version": "3",
-  "version_name": "3.Covid"
+  "version_name": "quarantine",
   "browser_action": {
     "default_popup": "index.html",
     "default_title": "NoteEasy",
