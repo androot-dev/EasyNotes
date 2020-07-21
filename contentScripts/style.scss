@@ -34,7 +34,7 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
     @include flex(center);
     position: absolute !important;
     width: 100%;
-    background: black !important;
+    background: transparent !important;
     z-index: 9999 !important;
     top: 0;
     left: 0;

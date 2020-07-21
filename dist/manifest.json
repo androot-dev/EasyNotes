@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "EasyNotes: The best sticky notes!",
   "description": "Crea notas en las webs que visitas.",
-  "version": "2.1",
+  "version": "3",
   "browser_action": {
     "default_popup": "index.html",
     "default_title": "NoteEasy",
@@ -13,11 +13,9 @@
       "128": "src/img/logo128.png"
     }
   },
-  "web_accessible_resources": ["src/img/facebook.svg", 
-    "src/img/instagram.svg", 
+  "web_accessible_resources": [ 
     "src/img/github.svg", 
     "src/img/logo128.png", 
-    "src/img/envelope.svg", 
     "src/img/coins.svg", 
     "src/img/eye-slash.svg", 
     "src/img/trash.svg", 

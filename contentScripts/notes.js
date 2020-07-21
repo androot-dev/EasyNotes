@@ -66,6 +66,7 @@ class controllerLoad extends dragDrop {
       let count = 0;
       let end = false;
       let count2 = 0;
+
       for (let i = 1; i <= 300; i++) {
         const note = await this.getStorage(url + i);
         count = note != "empty" ? 0 : count++;
@@ -89,7 +90,10 @@ class controllerLoad extends dragDrop {
       return count2;
     }      
       searchStorage(50, request.url);
-      searchStorage(50, this.getAnchorUrl(request.url), true);
+      let urls = this.getAnchorUrl(request.url, false);
+      for(let i in  urls){
+        searchStorage(50, urls[i], true);
+      } 
   }
 }
 class noteText extends controllerLoad {
@@ -163,19 +167,24 @@ class noteText extends controllerLoad {
     this.onConfigColor(model, request, id, anchor)
     this.onConfigTenxSize(model, request, id);
     this.onConfigAnchorDomain(request, id, model, anchor);
+    document.querySelector(".anchorDomainEx0A label").style.color = request.fontColor;
     document.querySelector("#" + model.iconConfig.id + " svg").style.fill = request.fontColor;
     document.querySelector("#" + model.save.id + " svg").style.fill = request.fontColor;
     return id;
   }
-  getAnchorUrl(url) {
-    let newUrl;
+  getAnchorUrl(url, first = true) {
+    let urls = [];
     for (let i = url.length - 1; i >= 0; i--) {
       if (url[i] == '/') {
-        newUrl = url.substring(0, i) + '/*';
-        break;
+        if(first == true){
+          return url.substring(0, i) + '/*';
+          break;
+        }
+        urls.push(url.substring(0, i) + '/*');
       }
     }
-    return newUrl;
+
+    return urls;
   }
   onConfigAnchorDomain(request, id, model, anchor) {
     let input;
@@ -321,8 +330,9 @@ class noteText extends controllerLoad {
   setRequest(model, request) {
     model.note.style.background = request.noteColor;
     model.text.value = request.text;
+    
     this.css(model.text, {
-      color: request.fontColor,
+      color:request.fontColor,
       width: request.width,
       height: request.height,
       fontSize: request.fontSize,
