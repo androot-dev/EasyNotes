@@ -3,6 +3,7 @@
   "name": "EasyNotes: The best sticky notes!",
   "description": "Crea notas en las webs que visitas.",
   "version": "3",
+  "version_name": "3.Covid"
   "browser_action": {
     "default_popup": "index.html",
     "default_title": "NoteEasy",
