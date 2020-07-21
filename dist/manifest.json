@@ -1,6 +1,7 @@
 {
   "manifest_version": 2,
   "name": "EasyNotes: The best sticky notes!",
+  "short_name":"EasyNotes",
   "description": "Crea notas en las webs que visitas.",
   "version": "3",
   "version_name": "3.Covid"
