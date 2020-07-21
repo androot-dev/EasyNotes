@@ -4,10 +4,10 @@
   "short_name":"EasyNotes",
   "description": "Crea notas en las webs que visitas.",
   "version": "3",
-  "version_name": "quarantine",
+  "version_name": "3.2",
   "browser_action": {
     "default_popup": "index.html",
-    "default_title": "NoteEasy",
+    "default_title": "EasyNotes",
     "default-icon": {
       "16": "src/img/logo16.png",
       "24": "src/img/logo24.png",

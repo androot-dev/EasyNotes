@@ -478,7 +478,7 @@ class noteText extends controllerLoad {
     if(!defaultPallete || defaultPallete=='empty'){
       defaultPallete = this.palleteDefault;
     }
-    for (let i in defaultPallete.reverse()) {
+    for (let i in defaultPallete) {
       addColor(defaultPallete[i], model, id);
     }
     if (userPallete && userPallete!='empty') {

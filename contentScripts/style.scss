@@ -120,6 +120,9 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
         }
     }
 }
+.configEx0A{
+    background: transparent !important;
+}
 .configEx0A, .configSvgEx0A {
     @include formatter();
     width: 13px !important;
@@ -201,6 +204,7 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
         position: relative !important;
     }
     input {
+        font-size: 12px !important;
         width: 40px !important;
         height: 20px !important;
         color: black !important;
@@ -209,6 +213,7 @@ $shadow:3px 6px 9px -5px rgba(0, 0, 0, 0.75) !important;
         border: none !important;
         outline: none !important;
         margin: 3px 0 !important;
+        padding: 0 !important;
     }
     .colorsEx0A {
         display: inline-flex !important;
